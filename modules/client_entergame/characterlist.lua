@@ -792,6 +792,12 @@ function CharacterList.create(characters, account, otui)
     end
 end
 
+-- the world of the selected character (NewCharacter puts the new one on the same world)
+function CharacterList.getFocusedWorld()
+    local focused = characterList and characterList:getFocusedChild()
+    return focused and focused.worldName or nil
+end
+
 function CharacterList.rebuildCharactersList()
     if not characterList then
         return
@@ -922,6 +928,9 @@ end
 
 function CharacterList.hide(showLogin)
     removeAutoReconnectEvent()
+    if NewCharacter then
+        NewCharacter.hide()
+    end
     charactersWindow:hide()
 
     if showLogin and EnterGame and not g_game.isOnline() then

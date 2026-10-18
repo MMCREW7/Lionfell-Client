@@ -362,6 +362,14 @@ UIWindow
     $on:
       color: #a8c3a3
 
+  LfButton
+    id: newCharacterButton
+    !text: tr('New character')
+    anchors.top: buttonCancel.top
+    anchors.left: autoReconnect.right
+    margin-left: 8
+    @onClick: NewCharacter.show()
+
   LfPrimaryButton
     id: buttonOk
     !text: tr('Enter')

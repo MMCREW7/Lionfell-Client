@@ -1,0 +1,103 @@
+NewCharacterSegment < LfSegment
+  height: 30
+  ttf-font-size: 13
+
+UIWidget
+  id: newCharacterScrim
+  anchors.fill: parent
+  background-color: #000000b4
+  focusable: true
+  @onEnter: NewCharacter.submit()
+  @onEscape: NewCharacter.hide()
+
+  LfWindow
+    id: newCharacterWindow
+    size: 460 432
+    anchors.centerIn: parent
+    padding: 28
+    draggable: false
+
+    LfTitle
+      id: title
+      !text: tr('New character')
+      anchors.top: parent.top
+      anchors.left: parent.left
+      ttf-font-size: 20
+
+    LfMuted
+      id: subtitle
+      !text: tr('It starts in Rhyves at level 8 with its vocation\'s gear.')
+      anchors.top: title.bottom
+      anchors.left: parent.left
+      margin-top: 6
+
+    LfField
+      id: nameCaption
+      !text: tr('NAME')
+      anchors.top: subtitle.bottom
+      anchors.left: parent.left
+      margin-top: 22
+
+    LfTextEdit
+      id: name
+      anchors.top: nameCaption.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 6
+      max-length: 24
+
+    LfField
+      id: vocationCaption
+      !text: tr('VOCATION')
+      anchors.top: name.bottom
+      anchors.left: parent.left
+      margin-top: 18
+
+    LfSegmentBar
+      id: vocations
+      anchors.top: vocationCaption.bottom
+      anchors.left: parent.left
+      margin-top: 6
+      height: 36
+
+    LfField
+      id: sexCaption
+      !text: tr('SEX')
+      anchors.top: vocations.bottom
+      anchors.left: parent.left
+      margin-top: 18
+
+    LfSegmentBar
+      id: sexes
+      anchors.top: sexCaption.bottom
+      anchors.left: parent.left
+      margin-top: 6
+      height: 36
+
+    LfLabel
+      id: message
+      anchors.top: sexes.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 16
+      height: 34
+      ttf-font-size: 12
+      color: #d9a29b
+      text-wrap: true
+      text-auto-resize: false
+
+    LfButton
+      id: cancelButton
+      !text: tr('Cancel')
+      anchors.bottom: parent.bottom
+      anchors.left: parent.left
+      @onClick: NewCharacter.hide()
+
+    LfPrimaryButton
+      id: createButton
+      !text: tr('Create')
+      anchors.bottom: parent.bottom
+      anchors.right: parent.right
+      padding: 0 32 0 32
+      text-horizontal-auto-resize: true
+      @onClick: NewCharacter.submit()
