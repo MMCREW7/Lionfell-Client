@@ -8,6 +8,8 @@ local LINE_COLORS = { prefix = '#e7e5e2', suffix = '#cfccc7', legendary = '#ff8c
 local CACHE_MS = 4000
 
 local tip = nil
+local card = nil      -- the detailed view (hold Alt)
+local cardShown = false
 local pollEvent = nil
 local cache = {}      -- key -> { at, data }
 local requested = {}  -- key -> ms of the last request
@@ -25,11 +27,15 @@ local function hide()
     if tip and tip:isVisible() then
         tip:hide()
     end
+    if card and card:isVisible() then
+        card:hide()
+    end
     showing = nil
 end
 
 local function place()
     local mouse = g_window.getMousePosition()
+    local tip = cardShown and card or tip
     local size = tip:getSize()
     local screen = rootWidget:getSize()
     local x, y = mouse.x + 18, mouse.y + 18
@@ -42,8 +48,97 @@ local function place()
     tip:setPosition({ x = math.max(4, x), y = math.max(4, y) })
 end
 
-local function show(key, data)
+local function hexAlpha(color, alpha)
+    return color .. string.format('%02x', math.floor(alpha * 255))
+end
+
+-- the detailed card: name and base item in a header band, centred properties, the modifiers,
+-- the quality; border, band and dividers in the quality's colour
+local function showCard(key, data)
     local quality = data.quality or 1
+    local color = QUALITY_COLORS[quality] or '#cfccc7'
+    card:setBorderColor(color)
+    card.header:setBorderColor(hexAlpha(color, 0.55))
+    card.header:setBackgroundColor(hexAlpha(color, 0.14))
+    card.header.name:setText(data.name or '')
+    card.header.name:setColor(color)
+    local base = data.base or ''
+    base = base:gsub('(%a)([%w]*)', function(first, rest) return first:upper() .. rest end)
+    card.header.base:setText(base)
+    card.header.base:setColor(hexAlpha(color, 0.8))
+
+    local body = card.body
+    body:destroyChildren()
+    local widest = math.max(card.header.name:getTextSize().width, card.header.base:getTextSize().width)
+    local function text(content, colored)
+        local label = g_ui.createWidget('LfItemCardText', body)
+        if colored then
+            label:setColoredText(content)
+        else
+            label:setText(content)
+        end
+        widest = math.max(widest, label:getTextSize().width)
+        return label
+    end
+    local function divider()
+        local line = g_ui.createWidget('LfItemCardDivider', body)
+        line:setBackgroundColor(hexAlpha(color, 0.45))
+    end
+    local function property(name, value)
+        text(string.format('{%s: , #8d8a86}{%s, #a9b8ff}', name, value), true)
+    end
+
+    -- properties
+    local any = false
+    if (data.attack or 0) > 0 then property('Attack', data.attack) any = true end
+    if (data.defense or 0) > 0 then property('Defense', data.defense) any = true end
+    if (data.armor or 0) > 0 then property('Armour', data.armor) any = true end
+    if (data.speed or 0) > 0 then property('Attack speed', string.format('%.2fs', data.speed / 1000)) any = true end
+    if (data.durability or 0) > 0 then property('Durability', data.durability) any = true end
+    if (data.level or 0) > 0 then
+        text(string.format('{Requires Level , #8d8a86}{%d, #e7e5e2}', data.level), true)
+        any = true
+    end
+    if any then
+        divider()
+    end
+
+    -- modifiers
+    if data.identified then
+        for _, line in ipairs(data.lines or {}) do
+            local label = text(line.text)
+            label:setColor(line.kind == 'legendary' and QUALITY_COLORS[4] or '#8fa0ff')
+            if line.tier and line.tier > 0 then
+                label:setColoredText(string.format('{%s, %s}{  T%d, #6f6c68}', line.text,
+                    line.kind == 'legendary' and QUALITY_COLORS[4] or '#8fa0ff', line.tier))
+                widest = math.max(widest, label:getTextSize().width)
+            end
+        end
+    else
+        text('Unidentified'):setColor('#c7453c')
+        text('Use an identification rune to reveal its properties.'):setColor('#8d8a86')
+    end
+    divider()
+    text(QUALITY_NAMES[quality] or ''):setColor(color)
+
+    card:setWidth(math.max(260, widest + 48))
+    hide()
+    card:show()
+    card:raise()
+    cardShown = true
+    showing = key
+    place()
+end
+
+local function show(key, data)
+    if g_keyboard.isAltPressed() then
+        return showCard(key, data)
+    end
+    cardShown = false
+    local quality = data.quality or 1
+    -- the frame takes the quality's colour too
+    tip:setBorderWidth(1)
+    tip:setBorderColor(QUALITY_COLORS[quality] or '#cfccc7')
     tip.name:setText(data.name or '')
     tip.name:setColor(QUALITY_COLORS[quality] or '#cfccc7')
     tip.quality:setText((QUALITY_NAMES[quality] or '') .. (data.identified and '' or '  -  UNIDENTIFIED'))
@@ -71,6 +166,9 @@ local function show(key, data)
         width = math.max(width, label:getTextSize().width)
     end
     tip:setWidth(width + tip:getPaddingLeft() + tip:getPaddingRight())
+    if card:isVisible() then
+        card:hide()
+    end
     tip:show()
     tip:raise()
     showing = key
@@ -122,7 +220,7 @@ local function poll()
     end
     local cached = cache[key]
     if cached and now() - cached.at < CACHE_MS then
-        if showing ~= key then
+        if showing ~= key or cardShown ~= g_keyboard.isAltPressed() then
             show(key, cached.data)
         else
             place()
@@ -157,6 +255,8 @@ function init()
     g_ui.importStyle('items')
     tip = g_ui.createWidget('LfItemTip', rootWidget)
     tip:hide()
+    card = g_ui.createWidget('LfItemCard', rootWidget)
+    card:hide()
     ProtocolGame.registerExtendedOpcode(OPCODE, onTip)
     pollEvent = cycleEvent(poll, 120)
     connect(g_game, { onGameEnd = function() cache = {} hide() end })
@@ -171,6 +271,10 @@ function terminate()
     if tip then
         tip:destroy()
         tip = nil
+    end
+    if card then
+        card:destroy()
+        card = nil
     end
 end
 

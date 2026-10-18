@@ -50,3 +50,66 @@ LfItemTip < UIWidget
     layout:
       type: verticalBox
       fit-children: true
+
+// Detailed item card (hold Alt over a quality item): a centred, Path of Exile style view. The
+// border, header band and divider take the quality's colour (items.lua).
+LfItemCardText < UILabel
+  ttf-font: Geist-Regular
+  ttf-font-size: 13
+  color: #cfccc7
+  text-align: center
+  height: 19
+  phantom: true
+
+LfItemCardDivider < UIWidget
+  height: 1
+  margin: 7 18 7 18
+  phantom: true
+
+LfItemCard < UIWidget
+  background-color: #0b0b0cf2
+  border-width: 1
+  padding: 0 0 10 0
+  phantom: true
+  focusable: false
+  layout:
+    type: verticalBox
+    fit-children: true
+
+  UIWidget
+    id: header
+    height: 50
+    border-width: 1
+    phantom: true
+
+    UILabel
+      id: name
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 7
+      height: 20
+      ttf-font: Geist-SemiBold
+      ttf-font-size: 15
+      text-align: center
+      phantom: true
+
+    UILabel
+      id: base
+      anchors.top: name.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 1
+      height: 18
+      ttf-font: Geist-Medium
+      ttf-font-size: 13
+      text-align: center
+      phantom: true
+
+  UIWidget
+    id: body
+    margin-top: 8
+    phantom: true
+    layout:
+      type: verticalBox
+      fit-children: true
