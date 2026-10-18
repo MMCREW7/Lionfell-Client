@@ -3,6 +3,10 @@
   "checksum": "b4e0dd89",
   "file": "otclient"
  },
+ "binary_windows": {
+  "checksum": "9f90ce0a",
+  "file": "otclient.exe"
+ },
  "files": {
   "LICENSE": "6b3886ed",
   "cacert.pem": "a9ddc3a9",
@@ -1883,7 +1887,7 @@
   "modules/client_lionfell/styles/game.otui": "ddf6de9f",
   "modules/client_lionfell/styles/lionfell.otui": "8d54a190",
   "modules/client_lionfell/styles/miniwindow.otui": "8e302455",
-  "modules/client_locales/locales.lua": "701abdf6",
+  "modules/client_locales/locales.lua": "47d07ae8",
   "modules/client_locales/locales.otmod": "76cdc769",
   "modules/client_locales/locales.otui": "5273da71",
   "modules/client_locales/neededtranslations.lua": "53193a0b",
@@ -2932,6 +2936,6 @@
   "modules/updater/updater.otui": "517debaf",
   "otclientrc.lua": "176c66ea"
  },
- "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/ff8b62dc8e275fc3c01d28a252cd2e613e48ef7f/",
- "version": "2026-10-17 22:26:52"
+ "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/d78c9d481ecf967d0ce07ca16cbaada80190094d/",
+ "version": "2026-10-17 22:38:29"
 }
