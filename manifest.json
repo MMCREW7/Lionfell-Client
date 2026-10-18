@@ -2467,7 +2467,7 @@
   "modules/game_lionfell_purse/purse.lua": "f9061d9",
   "modules/game_lionfell_purse/purse.otmod": "7200bc39",
   "modules/game_lionfell_purse/purse.otui": "27f09603",
-  "modules/game_lionfell_restart/restart.lua": "791bae9e",
+  "modules/game_lionfell_restart/restart.lua": "382600a3",
   "modules/game_lionfell_restart/restart.otmod": "a62ff7fe",
   "modules/game_lionfell_restart/restart.otui": "eb720e38",
   "modules/game_lionfell_talents/talents.lua": "3c1f148f",
@@ -2938,11 +2938,11 @@
   "modules/modulelib/watchlist.lua": "2b2637b1",
   "modules/startup/startup.lua": "ce798daa",
   "modules/startup/startup.otmod": "de6a601f",
-  "modules/updater/updater.lua": "45ef40ca",
+  "modules/updater/updater.lua": "30ae06f8",
   "modules/updater/updater.otmod": "8df5882b",
   "modules/updater/updater.otui": "517debaf",
   "otclientrc.lua": "176c66ea"
  },
- "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/b0ddb3852a16a62d1d250600a9f7af3942a300a4/",
- "version": "2026-10-18 10:21:05"
+ "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/ea5381c8e58b0eb6d2ab96525c27a97581320ab8/",
+ "version": "2026-10-18 10:33:29"
 }
