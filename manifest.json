@@ -2451,9 +2451,9 @@
   "modules/game_joystick/joystick.lua": "58f714fd",
   "modules/game_joystick/joystick.otmod": "d05c0fe3",
   "modules/game_joystick/joystick.otui": "664e5212",
-  "modules/game_lionfell_auction/auction.lua": "f2316a02",
+  "modules/game_lionfell_auction/auction.lua": "cc44476b",
   "modules/game_lionfell_auction/auction.otmod": "47031038",
-  "modules/game_lionfell_auction/auction.otui": "838a513",
+  "modules/game_lionfell_auction/auction.otui": "501f9b49",
   "modules/game_lionfell_bags/bags.lua": "fc195358",
   "modules/game_lionfell_bags/bags.otmod": "f8177282",
   "modules/game_lionfell_bags/bags.otui": "4777073c",
@@ -2468,7 +2468,7 @@
   "modules/game_lionfell_loot/loot.otui": "e5655141",
   "modules/game_lionfell_purse/purse.lua": "f9061d9",
   "modules/game_lionfell_purse/purse.otmod": "7200bc39",
-  "modules/game_lionfell_purse/purse.otui": "27f09603",
+  "modules/game_lionfell_purse/purse.otui": "da02b5ed",
   "modules/game_lionfell_restart/restart.lua": "ef122af2",
   "modules/game_lionfell_restart/restart.otmod": "a62ff7fe",
   "modules/game_lionfell_restart/restart.otui": "eb720e38",
@@ -2945,6 +2945,6 @@
   "modules/updater/updater.otui": "517debaf",
   "otclientrc.lua": "176c66ea"
  },
- "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/8cf8071bdf671b42ae517549767c98ce2d8775eb/",
- "version": "2026-10-18 11:52:17"
+ "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/5eee35ae37f527ae09ed615f2fbabb3b22bf6d18/",
+ "version": "2026-10-18 12:31:21"
 }
