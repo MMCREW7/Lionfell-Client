@@ -452,6 +452,15 @@ LfWindow
       width: 200
       @onClick: modules.game_lionfell_auction.sell()
 
+    LfButton
+      id: resetSellButton
+      text: Reset
+      anchors.top: listButton.top
+      anchors.left: listButton.right
+      margin-left: 8
+      height: 48
+      @onClick: modules.game_lionfell_auction.resetSell()
+
   // typing suggestions (auction.lua suggest): moved under the field being typed in; last child, so
   // it draws over the listings
   LfPanel

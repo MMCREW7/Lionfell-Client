@@ -427,6 +427,12 @@ function clearSell()
     updateFee()
 end
 
+-- Reset button on the sell tab
+function resetSell()
+    clearSell()
+    setStatus('')
+end
+
 function sell()
     if not sellPosition then
         setStatus('Drag an item from your backpack into the slot first.', false)
@@ -485,6 +491,7 @@ end
 function hide()
     hideSuggestions()
     if window then
+        clearSell() -- closing gives the item back: nothing stays in the sell slot
         window:hide()
     end
 end
