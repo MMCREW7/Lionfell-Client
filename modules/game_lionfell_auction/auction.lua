@@ -405,8 +405,13 @@ function showTab(tab)
     end
 end
 
+-- the sell form's price box (listing rows have "price" labels too, so not a recursive lookup)
+local function sellPriceField()
+    return window:recursiveGetChildById('sellPanel'):getChildById('price')
+end
+
 function updateFee()
-    local price = tonumber(window:recursiveGetChildById('price'):getText()) or 0
+    local price = tonumber(sellPriceField():getText()) or 0
     local fee = math.max(state.minFee, math.floor(price * state.feePercent / 100))
     window:recursiveGetChildById('fee'):setText(price > 0 and string.format('Listing fee: %s (%d%%)', formatGold(fee),
         state.feePercent) or '')
@@ -418,7 +423,7 @@ function clearSell()
     slot:setItem(nil)
     window:recursiveGetChildById('sellName'):setText('')
     window:recursiveGetChildById('sellDescription'):setText('')
-    window:recursiveGetChildById('price'):setText('')
+    sellPriceField():setText('')
     updateFee()
 end
 
@@ -427,7 +432,7 @@ function sell()
         setStatus('Drag an item from your backpack into the slot first.', false)
         return
     end
-    local price = tonumber(window:recursiveGetChildById('price'):getText())
+    local price = tonumber(sellPriceField():getText())
     if not price or price < 1 then
         setStatus('Enter a price.', false)
         return

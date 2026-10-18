@@ -23,6 +23,8 @@ LfPurseGrid < UIWidget
 
 LfWindow
   id: purseWindow
+  // takes keyboard focus, so the amount can be typed (not into the chat)
+  focusable: true
   width: 300
   height: 290
   anchors.centerIn: parent

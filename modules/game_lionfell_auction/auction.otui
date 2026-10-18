@@ -108,6 +108,8 @@ AuctionSuggestion < UIWidget
 LfWindow
   id: auctionWindow
   size: 880 600
+  // takes keyboard focus, so typing goes to its fields and not to the chat
+  focusable: true
   anchors.centerIn: parent
   padding: 18
   visible: false
