@@ -84,8 +84,8 @@ local function styleSocket(widget, number, bag)
     widget:setTooltip(bag == nil and tr('Bag slot %d: drop a bag or backpack here', number) or nil)
 end
 
--- The coin purse socket, after the bag sockets: always there, can't be moved; it shows a pile of
--- gold and opens the purse (game_lionfell_purse: the money in the bank).
+-- The coin purse socket, after the bag sockets: always there, can't be moved; it shows a gold
+-- pouch and opens the purse (game_lionfell_purse: the money in the bank).
 local function purse()
     return modules.game_lionfell_purse
 end
@@ -102,11 +102,10 @@ local function purseSocket(parent)
     widget:setId('purseSocket')
     widget:setVirtual(true)
     widget:setDraggable(false)
-    local coins = Item.create(3031) -- a pile of gold
-    if coins then
-        coins:setCount(100)
-        widget:setItem(coins)
-        widget:setShowCount(false) -- the pile is a picture, not an amount
+    local pouch = Item.create(23721) -- Tibia's red gold pouch: unlike any bag
+    if pouch then
+        widget:setItem(pouch)
+        widget:setShowCount(false)
     end
     widget.onMouseRelease = function(self, mousePos, button)
         if button == MouseLeftButton and self:containsPoint(mousePos) then
