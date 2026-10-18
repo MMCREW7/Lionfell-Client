@@ -63,7 +63,10 @@ end
 local function finish()
   if finished then return end
   finished = true
-  HTTP.cancel(httpOperationId)
+  if httpOperationId then
+    HTTP.cancel(httpOperationId)
+    httpOperationId = nil
+  end
   removeEvent(scheduledEvent)
   if updaterWindow then
     updaterWindow:destroy()
@@ -216,7 +219,10 @@ function Updater.fail(message)
   if not updaterWindow then
     return finish()
   end
-  HTTP.cancel(httpOperationId)
+  if httpOperationId then
+    HTTP.cancel(httpOperationId)
+    httpOperationId = nil
+  end
   removeEvent(scheduledEvent)
   setStatus(message .. "\n" .. tr("Starting without the update."))
   scheduledEvent = scheduleEvent(finish, 2000)
@@ -234,12 +240,18 @@ function Updater.check()
 
   httpOperationId = HTTP.getJSON(baseUrl() .. "manifest.json", function(data, err)
     if finished then return end
+    httpOperationId = nil -- answered: nothing left to cancel
     removeEvent(scheduledEvent)
-    if err then
-      -- no update server (offline, or none set up): start right away
-      g_logger.warning("Lionfell update skipped, update server not reachable: " .. tostring(err))
-      return finish()
-    end
-    onManifest(data)
+    -- carry on in a frame of our own, not inside the HTTP answer: starting the game (every module
+    -- loads) from within it crashed Windows clients with heap corruption when there was no update
+    scheduleEvent(function()
+      if finished then return end
+      if err then
+        -- no update server (offline, or none set up): start right away
+        g_logger.warning("Lionfell update skipped, update server not reachable: " .. tostring(err))
+        return finish()
+      end
+      onManifest(data)
+    end, 10)
   end)
 end
