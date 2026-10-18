@@ -66,10 +66,10 @@ local function fillSegments(bar, list, key)
     refreshSegments(bar, key)
 end
 
--- "aldric   vane" -> "Aldric Vane" (the site does the same; this only gives faster feedback)
+-- "  DarkWolf   of  Rhyves " -> "DarkWolf of Rhyves": only spaces are tidied, capitals stay as typed
+-- (the site does the same; this only gives faster feedback)
 local function tidyName(text)
-    text = (text or ''):gsub('^%s+', ''):gsub('%s+$', ''):gsub('%s+', ' ')
-    return (text:lower():gsub("(%a)([%a]*)", function(first, rest) return first:upper() .. rest end))
+    return ((text or ''):gsub('^%s+', ''):gsub('%s+$', ''):gsub('%s+', ' '))
 end
 
 local function checkLocally(name)
