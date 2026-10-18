@@ -1,6 +1,6 @@
 {
  "binary": {
-  "checksum": "566badcc",
+  "checksum": "b4e0dd89",
   "file": "otclient"
  },
  "files": {
@@ -1834,6 +1834,7 @@
   "data/styles/global_alias_test.otui": "330aee5e",
   "data/styles/html.css": "edf91b7d",
   "init.lua": "1ce5364d",
+  "lionfell.bat": "bb4c8df6",
   "lionfell.sh": "cc6499d6",
   "mods/README.txt": "d0847694",
   "mods/client_mods/mods.otmod": "166f143e",
@@ -2443,9 +2444,9 @@
   "modules/game_joystick/joystick.lua": "58f714fd",
   "modules/game_joystick/joystick.otmod": "d05c0fe3",
   "modules/game_joystick/joystick.otui": "664e5212",
-  "modules/game_lionfell_auction/auction.lua": "e6f9e0e5",
+  "modules/game_lionfell_auction/auction.lua": "2b521b66",
   "modules/game_lionfell_auction/auction.otmod": "47031038",
-  "modules/game_lionfell_auction/auction.otui": "a77de25c",
+  "modules/game_lionfell_auction/auction.otui": "9a135c8b",
   "modules/game_lionfell_bags/bags.lua": "70931973",
   "modules/game_lionfell_bags/bags.otmod": "f8177282",
   "modules/game_lionfell_bags/bags.otui": "4777073c",
@@ -2926,11 +2927,11 @@
   "modules/modulelib/watchlist.lua": "2b2637b1",
   "modules/startup/startup.lua": "ce798daa",
   "modules/startup/startup.otmod": "de6a601f",
-  "modules/updater/updater.lua": "c424d7a8",
+  "modules/updater/updater.lua": "78f9f5b5",
   "modules/updater/updater.otmod": "8df5882b",
   "modules/updater/updater.otui": "517debaf",
   "otclientrc.lua": "176c66ea"
  },
- "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/9c55da5188cee3fac8c64684ea1fd4d11e6f8c2a/",
- "version": "2026-10-17 20:38:38"
+ "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/ff8b62dc8e275fc3c01d28a252cd2e613e48ef7f/",
+ "version": "2026-10-17 22:26:52"
 }
