@@ -4,7 +4,18 @@
 local OPCODE = 121
 local QUALITY_NAMES = { 'UNCOMMON', 'RARE', 'EPIC', 'LEGENDARY' }
 local QUALITY_COLORS = { '#4cc94c', '#4a90ff', '#b65cff', '#ff8c1a' }
-local LINE_COLORS = { prefix = '#e7e5e2', suffix = '#cfccc7', legendary = '#ff8c1a' }
+local LINE_COLORS = { prefix = '#e7e5e2', suffix = '#cfccc7', legendary = '#ff8c1a', open = '#6f6c68', socket = '#8d8a86' }
+-- open line slots, sockets and gems (the server sends them after the lines; gems bring a colour)
+local EXTRA_KINDS = { open = true, socket = true, gem = true }
+local function lineColor(line, default)
+    if line.kind == 'gem' then
+        return line.color or '#cfccc7'
+    end
+    if line.kind == 'open' or line.kind == 'socket' then
+        return LINE_COLORS[line.kind]
+    end
+    return default
+end
 local CACHE_MS = 4000
 
 local tip = nil
@@ -105,9 +116,14 @@ local function showCard(key, data)
 
     -- modifiers
     if data.identified then
+        local extraDivider = false
         for _, line in ipairs(data.lines or {}) do
+            if EXTRA_KINDS[line.kind] and not extraDivider then
+                divider()
+                extraDivider = true
+            end
             local label = text(line.text)
-            label:setColor(line.kind == 'legendary' and QUALITY_COLORS[4] or '#8fa0ff')
+            label:setColor(lineColor(line, line.kind == 'legendary' and QUALITY_COLORS[4] or '#8fa0ff'))
             if line.tier and line.tier > 0 then
                 label:setColoredText(string.format('{%s, %s}{  T%d, #6f6c68}', line.text,
                     line.kind == 'legendary' and QUALITY_COLORS[4] or '#8fa0ff', line.tier))
@@ -117,6 +133,9 @@ local function showCard(key, data)
     else
         text('Unidentified'):setColor('#c7453c')
         text('Use an identification rune to reveal its properties.'):setColor('#8d8a86')
+        for _, line in ipairs(data.lines or {}) do
+            text(line.text):setColor(lineColor(line, '#8d8a86'))
+        end
     end
     divider()
     text(QUALITY_NAMES[quality] or ''):setColor(color)
@@ -150,12 +169,17 @@ local function show(key, data)
             local label = g_ui.createWidget('LfItemTipLine', tip.lines)
             local tier = line.tier and line.tier > 0 and ('  T' .. line.tier) or ''
             label:setText(line.text .. tier)
-            label:setColor(LINE_COLORS[line.kind] or '#cfccc7')
+            label:setColor(lineColor(line, LINE_COLORS[line.kind] or '#cfccc7'))
         end
     else
         local label = g_ui.createWidget('LfItemTipLine', tip.lines)
         label:setText('Use an identification rune to reveal its properties.')
         label:setColor('#8d8a86')
+        for _, line in ipairs(data.lines or {}) do
+            local extra = g_ui.createWidget('LfItemTipLine', tip.lines)
+            extra:setText(line.text)
+            extra:setColor(lineColor(line, '#8d8a86'))
+        end
     end
     -- the layout fits the height; the width follows the widest line
     local width = 180
@@ -251,6 +275,11 @@ local function onTip(protocol, opcode, buffer)
     end
 end
 
+local function forget()
+    cache = {}
+    requested = {}
+end
+
 function init()
     g_ui.importStyle('items')
     tip = g_ui.createWidget('LfItemTip', rootWidget)
@@ -260,6 +289,9 @@ function init()
     ProtocolGame.registerExtendedOpcode(OPCODE, onTip)
     pollEvent = cycleEvent(poll, 120)
     connect(g_game, { onGameEnd = function() cache = {} hide() end })
+    -- an item the server sends again may have changed (a gem, a new line, a quality): ask afresh
+    connect(Container, { onUpdateItem = forget, onAddItem = forget, onRemoveItem = forget })
+    connect(LocalPlayer, { onInventoryChange = forget })
 end
 
 function terminate()
@@ -268,6 +300,8 @@ function terminate()
         pollEvent = nil
     end
     ProtocolGame.unregisterExtendedOpcode(OPCODE)
+    disconnect(Container, { onUpdateItem = forget, onAddItem = forget, onRemoveItem = forget })
+    disconnect(LocalPlayer, { onInventoryChange = forget })
     if tip then
         tip:destroy()
         tip = nil
