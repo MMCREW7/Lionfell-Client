@@ -149,6 +149,16 @@ local function onGameStart()
     send('open') -- the socket's tooltip shows the balance from the start
 end
 
+-- a session ended: forget its balance, so another character never shows it before the server's
+-- first update arrives
+local function onGameEnd()
+    hide()
+    balance = 0
+    for _, callback in ipairs(listeners) do
+        pcall(callback, balance)
+    end
+end
+
 function init()
     window = g_ui.loadUI('purse', modules.game_interface.getRootPanel())
     window:hide()
@@ -161,14 +171,14 @@ function init()
         return false
     end
     ProtocolGame.registerExtendedOpcode(OPCODE, onMessage)
-    connect(g_game, { onGameStart = onGameStart, onGameEnd = hide })
+    connect(g_game, { onGameStart = onGameStart, onGameEnd = onGameEnd })
     if g_game.isOnline() then
         onGameStart()
     end
 end
 
 function terminate()
-    disconnect(g_game, { onGameStart = onGameStart, onGameEnd = hide })
+    disconnect(g_game, { onGameStart = onGameStart, onGameEnd = onGameEnd })
     ProtocolGame.unregisterExtendedOpcode(OPCODE)
     if window then
         window:destroy()
