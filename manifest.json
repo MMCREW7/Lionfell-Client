@@ -1837,7 +1837,7 @@
   "data/styles/custom.css": "768c35f0",
   "data/styles/global_alias_test.otui": "330aee5e",
   "data/styles/html.css": "edf91b7d",
-  "init.lua": "86304511",
+  "init.lua": "f7b63b97",
   "lionfell-debug.bat": "b5e64247",
   "lionfell.bat": "bb4c8df6",
   "lionfell.sh": "cc6499d6",
@@ -2940,6 +2940,6 @@
   "modules/updater/updater.otui": "517debaf",
   "otclientrc.lua": "176c66ea"
  },
- "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/a8e0f6cd582c6b6afdb4570bfda64018a597370c/",
- "version": "2026-10-18 00:02:07"
+ "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/10e84920a36d292acbcb9498ec4ec18c205a22ef/",
+ "version": "2026-10-18 00:18:22"
 }
