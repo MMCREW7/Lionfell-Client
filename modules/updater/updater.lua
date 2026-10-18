@@ -99,7 +99,12 @@ local function restart()
       started = g_platform.spawnProcess(cmd, { "/c", workDir .. "lionfell.bat", "--updated" })
     end
   elseif g_resources.fileExistsInWorkDir("lionfell.sh") then
-    started = g_platform.spawnProcess("/bin/sh", { workDir .. "lionfell.sh", "--updated" })
+    -- the client starts again with the options it was started with (e.g. --user-dir)
+    local args = { workDir .. "lionfell.sh", "--updated" }
+    for option in (g_app.getStartupOptions() or ""):gmatch("%S+") do
+      table.insert(args, option)
+    end
+    started = g_platform.spawnProcess("/bin/sh", args)
   end
   if started then
     g_app.exit()
