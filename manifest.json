@@ -2452,7 +2452,7 @@
   "modules/game_lionfell_auction/auction.lua": "f2316a02",
   "modules/game_lionfell_auction/auction.otmod": "47031038",
   "modules/game_lionfell_auction/auction.otui": "838a513",
-  "modules/game_lionfell_bags/bags.lua": "9d0fc809",
+  "modules/game_lionfell_bags/bags.lua": "da1685bd",
   "modules/game_lionfell_bags/bags.otmod": "f8177282",
   "modules/game_lionfell_bags/bags.otui": "4777073c",
   "modules/game_lionfell_hud/hud.lua": "bf7f4458",
@@ -2940,6 +2940,6 @@
   "modules/updater/updater.otui": "517debaf",
   "otclientrc.lua": "176c66ea"
  },
- "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/10e84920a36d292acbcb9498ec4ec18c205a22ef/",
- "version": "2026-10-18 00:18:22"
+ "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/ae45aeced428c4d6dac53cd025a4611a91330313/",
+ "version": "2026-10-18 00:21:47"
 }
