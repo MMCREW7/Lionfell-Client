@@ -2460,7 +2460,7 @@
   "modules/game_lionfell_hud/hud.lua": "bf7f4458",
   "modules/game_lionfell_hud/hud.otmod": "4902fbde",
   "modules/game_lionfell_hud/hud.otui": "6050cdfd",
-  "modules/game_lionfell_items/items.lua": "2390aea1",
+  "modules/game_lionfell_items/items.lua": "55a0ccc9",
   "modules/game_lionfell_items/items.otmod": "5a8042f6",
   "modules/game_lionfell_items/items.otui": "c13c31ce",
   "modules/game_lionfell_loot/loot.lua": "fd8c9b7b",
@@ -2945,6 +2945,6 @@
   "modules/updater/updater.otui": "517debaf",
   "otclientrc.lua": "176c66ea"
  },
- "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/f04e25298870adf742b6880bbcb3c1e76db1418d/",
- "version": "2026-10-18 11:03:34"
+ "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/8cf8071bdf671b42ae517549767c98ce2d8775eb/",
+ "version": "2026-10-18 11:52:17"
 }
