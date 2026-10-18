@@ -23,6 +23,7 @@ local loadModulesFunction
 local scheduledEvent
 local httpOperationId = 0
 local finished = false
+local sessionCallback = nil -- set by Updater.checkDuringSession
 
 local function baseUrl()
   local url = Services.updater or ""
@@ -76,6 +77,14 @@ local function finish()
     local load = loadModulesFunction
     loadModulesFunction = nil
     load()
+  end
+  -- a check during a session (server update) reports back to its caller only: the startup
+  -- listeners of onUpdateFinished (game interface, client) must not run a second time
+  if sessionCallback then
+    local callback = sessionCallback
+    sessionCallback = nil
+    callback()
+    return
   end
   signalcall(g_app.onUpdateFinished, g_app)
 end
@@ -199,6 +208,21 @@ local function onManifest(data)
 end
 
 -- public functions
+
+-- Checks for a client update while the game is running (game_lionfell_restart: a server update is
+-- under way and the player is disconnected). With an update it downloads it and restarts the client
+-- as at startup; with none it calls onDone. Returns false when no check can run.
+function Updater.checkDuringSession(onDone)
+  if updaterWindow or not g_app.hasUpdater() then
+    return false
+  end
+  finished = false
+  loadModulesFunction = nil
+  sessionCallback = onDone
+  Updater.check()
+  return true
+end
+
 function Updater.init(loadModulesFunc)
   loadModulesFunction = loadModulesFunc
   Updater.check()

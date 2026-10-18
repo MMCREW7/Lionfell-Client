@@ -2,12 +2,21 @@
 -- {"type":"restart","seconds":N}: data/globalevents/scripts/lionfell_hotreload.lua) and restarts.
 -- This shows the countdown and, when the connection drops, logs the same character back in by
 -- itself (retrying while the server starts up) instead of leaving the player at the login screen.
+--
+-- A server update often comes with a client update: once disconnected, the client first runs its
+-- updater (Updater.checkDuringSession). With nothing new it reconnects; with an update it downloads
+-- it and restarts, and the new client picks the login up again. For that one restart the login is
+-- kept in the settings encrypted (as "remember password" keeps it), for at most RELOGIN_SECONDS.
 
 local OPCODE = 125
 local RETRY_MS = 4000
 local GIVE_UP_MS = 180000 -- after the countdown: how long the server may take to come back
 
+local RELOGIN_KEY = 'lionfell-relogin'
+local RELOGIN_SECONDS = 300
+
 local banner = nil
+local account, password = nil, nil -- the login to use (this session's, or kept across a client restart)
 local pending = false     -- an update was announced and we're not back in yet
 local restartAt = 0       -- g_clock.millis() when the server goes down
 local giveUpAt = 0
@@ -67,6 +76,33 @@ local function clearMessageBoxes()
     end
 end
 
+local function keepLogin()
+    if not account or account == '' then
+        return
+    end
+    g_settings.set(RELOGIN_KEY, table.concat({ tostring(os.time() + RELOGIN_SECONDS), g_crypt.encrypt(account),
+        g_crypt.encrypt(password or '') }, '|'))
+    g_settings.save()
+end
+
+local function forgetLogin()
+    g_settings.remove(RELOGIN_KEY)
+    g_settings.save()
+end
+
+-- one try: from the character list when this client has one, else through the login screen
+local function login()
+    if CharacterList and CharacterList.doLogin and pcall(CharacterList.doLogin) then
+        return
+    end
+    local enterGame = rootWidget:recursiveGetChildById('enterGame')
+    if enterGame and account and EnterGame and EnterGame.doLogin then
+        enterGame:getChildById('accountNameTextEdit'):setText(account)
+        enterGame:getChildById('accountPasswordTextEdit'):setText(password or '')
+        EnterGame.doLogin()
+    end
+end
+
 local function attempt()
     retryEvent = nil
     if not pending or g_game.isOnline() then
@@ -85,9 +121,7 @@ local function attempt()
     attempts = attempts + 1
     clearMessageBoxes()
     showBanner(tr('Lionfell is updating'), tr('Reconnecting... (attempt %d)', attempts))
-    if CharacterList and CharacterList.doLogin then
-        CharacterList.doLogin()
-    end
+    login()
     retryEvent = scheduleEvent(attempt, RETRY_MS)
 end
 
@@ -112,15 +146,49 @@ local function onGameEnd()
         hideBanner()
         return
     end
+    account, password = G and G.account, G and G.password
+    removeEvent(retryEvent)
+    -- a client update first, if there is one: it restarts the client, which logs in again by itself
+    if Updater and Updater.checkDuringSession then
+        keepLogin()
+        showBanner(tr('Lionfell is updating'), tr('Checking for a client update...'))
+        if Updater.checkDuringSession(function()
+                forgetLogin() -- no client update: this client reconnects
+                showBanner(tr('Lionfell is updating'), tr('Reconnecting in a moment...'))
+                retryEvent = scheduleEvent(attempt, 4000)
+            end) then
+            return
+        end
+        forgetLogin()
+    end
     -- give the server a moment to go down and start again before the first try
     showBanner(tr('Lionfell is updating'), tr('Reconnecting in a moment...'))
-    removeEvent(retryEvent)
     retryEvent = scheduleEvent(attempt, 6000)
+end
+
+-- a client that just restarted for an update during a server update: log in with the kept login
+local function resumeAfterClientUpdate()
+    local kept = g_settings.getString(RELOGIN_KEY)
+    if not kept or kept == '' then
+        return
+    end
+    forgetLogin() -- used once, whatever happens
+    local expires, encryptedAccount, encryptedPassword = kept:match('^(%d+)|([^|]*)|([^|]*)$')
+    if not expires or tonumber(expires) < os.time() then
+        return
+    end
+    account, password = g_crypt.decrypt(encryptedAccount), g_crypt.decrypt(encryptedPassword)
+    pending = true
+    attempts = 0
+    giveUpAt = now() + GIVE_UP_MS
+    showBanner(tr('Lionfell has been updated'), tr('Logging you back in...'))
+    retryEvent = scheduleEvent(attempt, 2000)
 end
 
 local function onGameStart()
     if pending or (banner and banner:isVisible()) then
         stop()
+        account, password = nil, nil
         clearMessageBoxes()
         showBanner(tr('Welcome back'), tr('Lionfell has been updated.'))
         scheduleEvent(hideBanner, 3000)
@@ -133,6 +201,7 @@ function init()
     banner:hide()
     ProtocolGame.registerExtendedOpcode(OPCODE, onMessage)
     connect(g_game, { onGameEnd = onGameEnd, onGameStart = onGameStart })
+    resumeAfterClientUpdate()
 end
 
 function terminate()
