@@ -1883,7 +1883,7 @@
   "modules/client_entergame/entergame.otui": "56f98911",
   "modules/client_entergame/entergame_classic.otui": "9182552c",
   "modules/client_entergame/waitinglist.otui": "257c8f60",
-  "modules/client_lionfell/lionfell.lua": "17b80cd",
+  "modules/client_lionfell/lionfell.lua": "ae60d6d2",
   "modules/client_lionfell/lionfell.otmod": "bfbdc980",
   "modules/client_lionfell/styles/game.otui": "ddf6de9f",
   "modules/client_lionfell/styles/lionfell.otui": "8d54a190",
@@ -2452,7 +2452,7 @@
   "modules/game_lionfell_auction/auction.lua": "f2316a02",
   "modules/game_lionfell_auction/auction.otmod": "47031038",
   "modules/game_lionfell_auction/auction.otui": "838a513",
-  "modules/game_lionfell_bags/bags.lua": "da1685bd",
+  "modules/game_lionfell_bags/bags.lua": "fc195358",
   "modules/game_lionfell_bags/bags.otmod": "f8177282",
   "modules/game_lionfell_bags/bags.otui": "4777073c",
   "modules/game_lionfell_hud/hud.lua": "bf7f4458",
@@ -2940,6 +2940,6 @@
   "modules/updater/updater.otui": "517debaf",
   "otclientrc.lua": "176c66ea"
  },
- "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/ae45aeced428c4d6dac53cd025a4611a91330313/",
- "version": "2026-10-18 00:21:47"
+ "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/2205f3fbf87078c27972c0c846e637731bf5792e/",
+ "version": "2026-10-18 00:37:10"
 }
