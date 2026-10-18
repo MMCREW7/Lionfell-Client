@@ -1786,7 +1786,7 @@
   "data/images/ui/window_new.png": "93c4ae91",
   "data/json/SkillwheelStringsJsonLibrary.json": "413b768c",
   "data/lionfell/ammo.txt": "59e13155",
-  "data/lionfell/classified.txt": "1de38fd5",
+  "data/lionfell/classified.txt": "49ecf37e",
   "data/lionfell/replacements.otml": "8b42b9bf",
   "data/locales/de.lua": "536d0c54",
   "data/locales/en.lua": "aae1bd92",
@@ -2458,9 +2458,9 @@
   "modules/game_lionfell_hud/hud.lua": "bf7f4458",
   "modules/game_lionfell_hud/hud.otmod": "4902fbde",
   "modules/game_lionfell_hud/hud.otui": "6050cdfd",
-  "modules/game_lionfell_items/items.lua": "603047e2",
+  "modules/game_lionfell_items/items.lua": "2390aea1",
   "modules/game_lionfell_items/items.otmod": "5a8042f6",
-  "modules/game_lionfell_items/items.otui": "ca923c80",
+  "modules/game_lionfell_items/items.otui": "c13c31ce",
   "modules/game_lionfell_loot/loot.lua": "fd8c9b7b",
   "modules/game_lionfell_loot/loot.otmod": "136f892",
   "modules/game_lionfell_loot/loot.otui": "e5655141",
@@ -2940,6 +2940,6 @@
   "modules/updater/updater.otui": "517debaf",
   "otclientrc.lua": "176c66ea"
  },
- "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/9fce66d55c1af759a3316a59176d58a8828d5e2f/",
- "version": "2026-10-18 02:19:51"
+ "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/6af337fdcdedd3b6d19812ef3d092a17d1ccf2be/",
+ "version": "2026-10-18 09:42:22"
 }
