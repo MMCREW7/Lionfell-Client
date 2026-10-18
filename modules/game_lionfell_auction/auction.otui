@@ -72,6 +72,34 @@ AuctionField < UITextEdit
 AuctionCombo < ComboBox
   height: 32
 
+// one line of the typing suggestions under a search field
+AuctionSuggestion < UIWidget
+  height: 28
+  padding: 0 10 0 10
+  focusable: false
+  background-color: #00000000
+
+  $hover:
+    background-color: #ffffff14
+
+  $checked:
+    background-color: #ffffff24
+
+  LfLabel
+    id: name
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    phantom: true
+    ttf-font: Geist-Medium
+    ttf-font-size: 12
+
+  LfMuted
+    id: effect
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    phantom: true
+    ttf-font-size: 11
+
 LfWindow
   id: auctionWindow
   size: 880 600
@@ -153,8 +181,8 @@ LfWindow
       anchors.top: parent.top
       anchors.left: parent.left
       width: 230
-      placeholder: Search items...
-      @onEnter: modules.game_lionfell_auction.browse(0)
+      placeholder: Item or modifier...
+      @onTextChange: modules.game_lionfell_auction.suggest(self)
 
     AuctionCombo
       id: category
@@ -187,6 +215,16 @@ LfWindow
       ttf-font-size: 13
       @onClick: modules.game_lionfell_auction.browse(0)
 
+    LfButton
+      id: resetButton
+      text: Reset
+      anchors.top: parent.top
+      anchors.left: searchButton.right
+      margin-left: 6
+      height: 32
+      ttf-font-size: 13
+      @onClick: modules.game_lionfell_auction.reset()
+
     UIWidget
       id: statRow
       anchors.top: search.bottom
@@ -201,12 +239,14 @@ LfWindow
         anchors.left: parent.left
         anchors.verticalCenter: parent.verticalCenter
 
-      AuctionCombo
+      AuctionField
         id: stat1
         anchors.left: statLabel.right
         anchors.verticalCenter: parent.verticalCenter
         margin-left: 10
         width: 160
+        placeholder: e.g. attack
+        @onTextChange: modules.game_lionfell_auction.suggest(self)
 
       AuctionField
         id: min1
@@ -216,12 +256,14 @@ LfWindow
         width: 56
         placeholder: min
 
-      AuctionCombo
+      AuctionField
         id: stat2
         anchors.left: min1.right
         anchors.verticalCenter: parent.verticalCenter
         margin-left: 12
         width: 160
+        placeholder: e.g. attack
+        @onTextChange: modules.game_lionfell_auction.suggest(self)
 
       AuctionField
         id: min2
@@ -231,12 +273,14 @@ LfWindow
         width: 56
         placeholder: min
 
-      AuctionCombo
+      AuctionField
         id: stat3
         anchors.left: min2.right
         anchors.verticalCenter: parent.verticalCenter
         margin-left: 12
         width: 160
+        placeholder: e.g. attack
+        @onTextChange: modules.game_lionfell_auction.suggest(self)
 
       AuctionField
         id: min3
@@ -400,3 +444,15 @@ LfWindow
       margin-top: 18
       width: 200
       @onClick: modules.game_lionfell_auction.sell()
+
+  // typing suggestions (auction.lua suggest): moved under the field being typed in; last child, so
+  // it draws over the listings
+  LfPanel
+    id: suggestions
+    width: 380
+    background-color: #101112
+    padding: 4
+    visible: false
+    layout:
+      type: verticalBox
+      fit-children: true

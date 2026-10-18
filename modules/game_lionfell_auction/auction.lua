@@ -15,7 +15,11 @@ local SORTS = { { 'Cheapest first', 'price_asc' }, { 'Priciest first', 'price_de
 
 window = nil
 local state = { page = 0, pages = 1, feePercent = 2, minFee = 10, tab = 'browse' }
-local statOptions = { { 'Any modifier', '' } } -- filled from the server's line catalogue
+local modifiers = nil -- the server's modifier catalogue: { name, effect, legendary }, for suggestions
+local MAX_SUGGESTIONS = 7
+local suggestFor = nil -- the field the suggestions belong to
+local suggestPick = 0 -- the highlighted suggestion (arrow keys), 0 = none
+local applying = false
 local sellPosition = nil -- { pos, stackpos, clientId } of the item in the sell slot
 
 local function send(...)
@@ -92,7 +96,26 @@ end
 -- ---------------------------------------------------------------------------------------------
 -- Server messages
 
+-- a long message comes in parts: "S..." starts it, "P..." continues, "E..." ends (the server's
+-- LionfellSendOpcode); anything else is a whole message
+local pending = nil
+
 local function onMessage(protocol, opcode, buffer)
+    local mark = buffer:sub(1, 1)
+    if mark == 'S' then
+        pending = { buffer:sub(2) }
+        return
+    elseif mark == 'P' or mark == 'E' then
+        if not pending then
+            return
+        end
+        pending[#pending + 1] = buffer:sub(2)
+        if mark == 'P' then
+            return
+        end
+        buffer = table.concat(pending)
+        pending = nil
+    end
     local ok, message = pcall(json.decode, buffer)
     if not ok or type(message) ~= 'table' or not window then
         return
@@ -101,15 +124,17 @@ local function onMessage(protocol, opcode, buffer)
         show()
     elseif message.type == 'state' then
         state.feePercent, state.minFee = message.feePercent or 2, message.minFee or 10
-        if message.lines and #statOptions == 1 then
+        if message.lines and not modifiers then
+            modifiers = {}
+            local names = {}
             for _, line in ipairs(message.lines) do
-                local label = line.kind == 'legendary' and (line.name .. ' (legendary)') or line.name
-                statOptions[#statOptions + 1] = { label, line.id, line.text }
+                modifiers[#modifiers + 1] = { name = line.name, effect = line.text or '', legendary = line.kind == 'legendary',
+                    id = line.id or '' }
+                names[#names + 1] = string.format('%s%s: %s', line.name, line.kind == 'legendary' and ' (legendary)' or '',
+                    line.text or '')
             end
-            local row = window:recursiveGetChildById('statRow')
-            for i = 1, 3 do
-                fillCombo(row:getChildById('stat' .. i), statOptions)
-            end
+            window:recursiveGetChildById('statLabel'):setTooltip('Type part of a name or effect, e.g. "attack", "fire", ' ..
+                '"Sharp", and pick from the list. Min is the lowest value.\n\n' .. table.concat(names, '\n'))
         end
         window:recursiveGetChildById('balance'):setText(string.format('%s  -  %d/%d listed', formatGold(message.balance),
             message.listings or 0, message.maxListings or 20))
@@ -150,25 +175,213 @@ end
 -- ---------------------------------------------------------------------------------------------
 -- Actions (called from the .otui)
 
--- "line:min,line:min" from the three modifier pickers
+local function trim(text)
+    return (text:gsub('^%s+', ''):gsub('%s+$', ''))
+end
+
+-- "words:min,words:min" from the three modifier fields (words as typed: "attack", "fire", ...)
 local function statFilter()
     local row = window:recursiveGetChildById('statRow')
     local parts = {}
     for i = 1, 3 do
-        local line = comboValue(row:getChildById('stat' .. i), statOptions)
-        if line ~= '' then
+        local words = trim(row:getChildById('stat' .. i):getText():gsub('[|:,]', ' '))
+        if words ~= '' then
             local min = tonumber(row:getChildById('min' .. i):getText()) or 0
-            parts[#parts + 1] = line .. ':' .. math.floor(min)
+            parts[#parts + 1] = words .. ':' .. math.floor(min)
         end
     end
     return table.concat(parts, ',')
 end
 
+-- ---------------------------------------------------------------------------------------------
+-- Typing suggestions: the modifiers matching what's typed so far, under the field
+
+local function hideSuggestions()
+    suggestFor, suggestPick = nil, 0
+    if window then
+        local box = window:getChildById('suggestions')
+        box:destroyChildren()
+        box:hide()
+    end
+end
+
+local function highlight(index)
+    local box = window:getChildById('suggestions')
+    suggestPick = index
+    for i, row in ipairs(box:getChildren()) do
+        row:setChecked(i == index)
+    end
+end
+
+-- the modifier's name goes in the field; a modifier field moves on to its "min" box
+local function applySuggestion(entry)
+    local field = suggestFor
+    hideSuggestions()
+    if not field or not entry then
+        return
+    end
+    applying = true
+    field:setText(entry.name)
+    field:setCursorPos(#entry.name)
+    applying = false
+    local index = field:getId():match('^stat(%d)$')
+    if index then
+        window:recursiveGetChildById('min' .. index):focus()
+    else
+        browse(0)
+    end
+end
+
+-- filler words in effect texts that shouldn't match ("fro" isn't looking for "from")
+local FILLER = { from = true, of = true, the = true, on = true, as = true, to = true, a = true, an = true, ['and'] = true,
+    when = true, with = true, you = true, your = true, by = true, ['in'] = true, is = true, ['for'] = true, at = true,
+    x = true, chance = true, taken = true, drawn = true }
+
+local function effectMatches(effect, words)
+    effect = effect:lower()
+    if words:find(' ', 1, true) then
+        return effect:find(words, 1, true) ~= nil -- several words: as a phrase
+    end
+    for word in effect:gmatch('%a+') do
+        if not FILLER[word] and word:sub(1, #words) == words then
+            return true
+        end
+    end
+    return false
+end
+
+-- names starting with the words first, then names containing them or effects with a word that
+-- starts with them
+local function matches(words)
+    local first, rest = {}, {}
+    for _, entry in ipairs(modifiers or {}) do
+        local name = entry.name:lower()
+        if name:sub(1, #words) == words or name:find(' ' .. words, 1, true) then
+            first[#first + 1] = entry
+        elseif name:find(words, 1, true) or effectMatches(entry.effect, words) then
+            rest[#rest + 1] = entry
+        end
+    end
+    local list = {}
+    for _, group in ipairs({ first, rest }) do
+        for _, entry in ipairs(group) do
+            if #list < MAX_SUGGESTIONS then
+                list[#list + 1] = entry
+            end
+        end
+    end
+    return list, #first + #rest
+end
+
+function suggest(field)
+    if applying or not window or not field:isFocused() then
+        return
+    end
+    local words = trim(field:getText()):lower()
+    if words == '' or not modifiers then
+        hideSuggestions()
+        return
+    end
+    local list, total = matches(words)
+    if #list == 0 then
+        hideSuggestions()
+        return
+    end
+    local box = window:getChildById('suggestions')
+    box:destroyChildren()
+    for _, entry in ipairs(list) do
+        local row = g_ui.createWidget('AuctionSuggestion', box)
+        row.name:setText(entry.name .. (entry.legendary and '  (legendary)' or ''))
+        row.name:setColor(entry.legendary and QUALITY_COLORS[4] or '#e7e5e2')
+        local effect = entry.effect
+        row.effect:setText(#effect > 34 and (effect:sub(1, 33) .. '...') or effect)
+        row.onMousePress = function()
+            applySuggestion(entry)
+            return true
+        end
+    end
+    if total > #list then
+        local more = g_ui.createWidget('LfMuted', box)
+        more:setText(string.format('  %d more - keep typing', total - #list))
+        more:setHeight(22)
+    end
+    suggestFor, suggestPick = field, 0
+    local pos = field:getPosition()
+    box:setWidth(math.max(380, field:getWidth()))
+    box:setPosition({ x = pos.x, y = pos.y + field:getHeight() + 2 })
+    box:show()
+    box:raise()
+end
+
+-- Enter searches (or takes the highlighted suggestion), arrow keys walk the suggestions, Escape
+-- closes them. (Text fields have no Enter event of their own.)
+local function onFieldKey(field, keyCode)
+    if keyCode == KeyEnter then
+        onFieldEnter(field)
+        return true
+    end
+    if suggestFor ~= field then
+        return false
+    end
+    local box = window:getChildById('suggestions')
+    local count = 0
+    for _, row in ipairs(box:getChildren()) do
+        if row.name then
+            count = count + 1
+        end
+    end
+    if keyCode == KeyDown then
+        highlight(suggestPick % count + 1)
+        return true
+    elseif keyCode == KeyUp then
+        highlight(suggestPick <= 1 and count or suggestPick - 1)
+        return true
+    elseif keyCode == KeyEscape then
+        hideSuggestions()
+        return true
+    end
+    return false
+end
+
+-- Enter: takes the highlighted suggestion, otherwise searches with what's typed
+function onFieldEnter(field)
+    if not field then
+        return
+    end
+    if suggestFor == field and suggestPick > 0 then
+        local row = window:getChildById('suggestions'):getChildByIndex(suggestPick)
+        if row and row.onMousePress then
+            row.onMousePress()
+            return
+        end
+    end
+    hideSuggestions()
+    browse(0)
+end
+
 function browse(page)
     local panel = window:recursiveGetChildById('browsePanel')
-    local search = panel:getChildById('search'):getText():gsub('|', '')
+    hideSuggestions()
+    local search = trim(panel:getChildById('search'):getText():gsub('|', ''))
     send('browse', comboValue(panel:getChildById('category'), CATEGORIES), comboValue(panel:getChildById('quality'), QUALITIES),
         search, comboValue(panel:getChildById('sort'), SORTS), page or 0, statFilter())
+end
+
+-- back to every listing: clears the search, filters and modifiers
+function reset()
+    hideSuggestions()
+    local panel = window:recursiveGetChildById('browsePanel')
+    panel:getChildById('search'):setText('')
+    panel:getChildById('category'):setCurrentOption(CATEGORIES[1][1])
+    panel:getChildById('quality'):setCurrentOption(QUALITIES[1][1])
+    panel:getChildById('sort'):setCurrentOption(SORTS[1][1])
+    local row = panel:getChildById('statRow')
+    for i = 1, 3 do
+        row:getChildById('stat' .. i):setText('')
+        row:getChildById('min' .. i):setText('')
+    end
+    setStatus('')
+    browse(0)
 end
 
 function page(delta)
@@ -262,6 +475,7 @@ function show()
 end
 
 function hide()
+    hideSuggestions()
     if window then
         window:hide()
     end
@@ -287,6 +501,28 @@ function init()
     fillCombo(browsePanel:getChildById('quality'), QUALITIES)
     fillCombo(browsePanel:getChildById('sort'), SORTS)
     window:recursiveGetChildById('sellItem').onDrop = onSellDrop
+    -- arrow keys / Escape for the suggestions; leaving a field closes them
+    local fields = { browsePanel:getChildById('search') }
+    for i = 1, 3 do
+        fields[#fields + 1] = browsePanel:recursiveGetChildById('stat' .. i)
+    end
+    for i = 1, 3 do
+        browsePanel:recursiveGetChildById('min' .. i).onKeyDown = function(self, keyCode)
+            if keyCode == KeyEnter then
+                browse(0)
+                return true
+            end
+            return false
+        end
+    end
+    for _, field in ipairs(fields) do
+        field.onKeyDown = onFieldKey
+        field.onFocusChange = function(self, focused)
+            if not focused and suggestFor == self then
+                hideSuggestions()
+            end
+        end
+    end
     ProtocolGame.registerExtendedOpcode(OPCODE, onMessage)
     connect(g_game, { onGameEnd = hide })
 end

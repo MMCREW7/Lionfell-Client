@@ -5,9 +5,10 @@
 -- Server side: tools/lionfell_release.py builds a release (manifest.json + files/) from the client
 -- folder and tools/lionfell_update_server.py serves it. Manifest:
 --   { version = "...", url = "files/", files = { ["modules/x/x.lua"] = "<crc32 hex>", ... },
---     binary = { file = "otclient", checksum = "<crc32 hex>" } }
--- Paths are real paths inside the client folder. A new binary is saved as otclient.new and
--- swapped in by the launcher (lionfell.sh) when the client restarts.
+--     binary = { file = "otclient", checksum = "<crc32 hex>" },
+--     binary_windows = { file = "otclient.exe", checksum = "<crc32 hex>" } }
+-- Paths are real paths inside the client folder. A new client program is saved as <file>.new and
+-- swapped in by the launcher (lionfell.sh, or lionfell.bat on Windows) when the client restarts.
 --
 -- The updater never blocks play: if the server can't be reached or a download fails, the client
 -- starts with the files it has.
@@ -78,13 +79,21 @@ end
 
 -- start again through the launcher, which swaps in a downloaded binary
 local function restart()
-  local launcher = g_resources.getWorkDir() .. "lionfell.sh"
-  if g_app.getOs() ~= "windows" and g_resources.fileExistsInWorkDir("lionfell.sh") and
-      g_platform.spawnProcess("/bin/sh", { launcher, "--updated" }) then
-    g_app.exit()
-    return
+  local workDir = g_resources.getWorkDir()
+  local started = false
+  if g_app.getOs() == "windows" then
+    if g_resources.fileExistsInWorkDir("lionfell.bat") then
+      local cmd = os.getenv("COMSPEC") or "C:\\Windows\\System32\\cmd.exe"
+      started = g_platform.spawnProcess(cmd, { "/c", workDir .. "lionfell.bat", "--updated" })
+    end
+  elseif g_resources.fileExistsInWorkDir("lionfell.sh") then
+    started = g_platform.spawnProcess("/bin/sh", { workDir .. "lionfell.sh", "--updated" })
   end
-  g_app.restart()
+  if started then
+    g_app.exit()
+  else
+    g_app.restart()
+  end
 end
 
 local function install(toUpdate, version)
@@ -162,8 +171,10 @@ local function onManifest(data)
   end
   table.sort(toUpdate, function(a, b) return a.path < b.path end)
 
-  local binary = data.binary
-  if type(binary) == "table" and type(binary.file) == "string" and g_app.getOs() == "linux" then
+  -- the client program for this system: "binary" (Linux) or "binary_windows"
+  local system = g_app.getOs()
+  local binary = (system == "linux" and data.binary) or (system == "windows" and data.binary_windows) or nil
+  if type(binary) == "table" and type(binary.file) == "string" then
     local current = g_resources.selfChecksum()
     if current ~= "" and current ~= binary.checksum and localChecksum(binary.file .. ".new") ~= binary.checksum then
       table.insert(toUpdate, { path = binary.file, checksum = binary.checksum, binary = true })
