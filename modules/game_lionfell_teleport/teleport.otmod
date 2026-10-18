@@ -1,0 +1,9 @@
+Module
+  name: game_lionfell_teleport
+  description: Lionfell teleport rock - pick a city to travel to (data/scripts/lionfell/items/teleport_rock.lua)
+  author: Lionfell
+  sandboxed: true
+  scripts: [ teleport ]
+  dependencies: [ game_interface, client_lionfell ]
+  @onLoad: init()
+  @onUnload: terminate()

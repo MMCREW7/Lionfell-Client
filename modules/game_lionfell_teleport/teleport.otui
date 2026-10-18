@@ -1,0 +1,50 @@
+// Teleport rock: one button per city (filled from the server's list)
+LfTeleportCity < LfButton
+  height: 38
+  text-horizontal-auto-resize: false
+  text-align: left
+  padding: 0 14 0 14
+
+LfWindow
+  id: teleportWindow
+  focusable: true
+  width: 280
+  anchors.centerIn: parent
+  padding: 14 16 16 16
+  draggable: true
+  visible: false
+  @onEscape: modules.game_lionfell_teleport.hide()
+
+  LfTitle
+    id: title
+    !text: tr('Teleport rock')
+    anchors.top: parent.top
+    anchors.left: parent.left
+
+  LfMuted
+    id: subtitle
+    !text: tr('Where do you want to go?')
+    anchors.top: title.bottom
+    anchors.left: parent.left
+    margin-top: 4
+
+  UIWidget
+    id: cities
+    anchors.top: subtitle.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 12
+    phantom: true
+    layout:
+      type: verticalBox
+      spacing: 6
+      fit-children: true
+
+  LfButton
+    id: cancel
+    !text: tr('Cancel')
+    anchors.top: cities.bottom
+    anchors.right: parent.right
+    margin-top: 12
+    height: 34
+    @onClick: modules.game_lionfell_teleport.hide()

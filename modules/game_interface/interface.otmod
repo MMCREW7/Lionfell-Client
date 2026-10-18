@@ -67,6 +67,7 @@ Module
     - game_lionfell_bags
     - game_lionfell_loot
     - game_lionfell_marks
+    - game_lionfell_teleport
 
   @onLoad: init()
   @onUnload: terminate()
