@@ -981,14 +981,13 @@ local function findContainerPanel(window)
     return roomiest or interface.getRightPanel(), mostRoom
 end
 
+-- Makes room for the window in its panel (the other windows shrink). Never minimizes it: a
+-- container opened minimized (a tall depot chest in a full panel) showed only its title bar, so
+-- nothing could be put into it; a window too tall for the room it gets scrolls instead.
 local function fitContainerWindow(window)
     local panel = window:getParent()
     if not panel or panel:getClassName() ~= 'UIMiniWindowContainer' then
         return
-    end
-    local visibleHeight = panel:getHeight() - panel:getPaddingTop() - panel:getPaddingBottom()
-    if not window:isOn() and window:getMinimumHeight() > visibleHeight then
-        window:minimize(true)
     end
     panel:fitAll(window)
 end
@@ -1195,10 +1194,7 @@ function onContainerOpen(container, previousContainer)
     end
 
     if not previousContainer then
-        local panel, free = findContainerPanel(containerWindow)
-        if free < containerWindow:getMinimumHeight() then
-            containerWindow:minimize(true)
-        end
+        local panel = findContainerPanel(containerWindow)
         panel:addChild(containerWindow)
         fitContainerWindow(containerWindow)
     end
