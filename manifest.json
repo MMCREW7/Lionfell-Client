@@ -2466,9 +2466,9 @@
   "modules/game_lionfell_loot/loot.lua": "fd8c9b7b",
   "modules/game_lionfell_loot/loot.otmod": "136f892",
   "modules/game_lionfell_loot/loot.otui": "e5655141",
-  "modules/game_lionfell_marks/marks.lua": "7bbec9",
+  "modules/game_lionfell_marks/marks.lua": "9ba7214b",
   "modules/game_lionfell_marks/marks.otmod": "7074f593",
-  "modules/game_lionfell_marks/marks.otui": "75e3cd6f",
+  "modules/game_lionfell_marks/marks.otui": "a2a704b0",
   "modules/game_lionfell_purse/purse.lua": "b6521ddd",
   "modules/game_lionfell_purse/purse.otmod": "7200bc39",
   "modules/game_lionfell_purse/purse.otui": "da02b5ed",
@@ -2951,6 +2951,6 @@
   "modules/updater/updater.otui": "517debaf",
   "otclientrc.lua": "176c66ea"
  },
- "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/4bbbd3ec9225f119ccd0e97f8e8e091a76354f22/",
- "version": "2026-10-18 16:39:43"
+ "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/554ddeba5fe48d40e98d8798bdc96ae1663a974e/",
+ "version": "2026-10-18 16:58:33"
 }
