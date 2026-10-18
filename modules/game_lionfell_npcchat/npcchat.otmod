@@ -1,0 +1,9 @@
+Module
+  name: game_lionfell_npcchat
+  description: Lionfell NPC buttons - the keywords an NPC offers, as buttons above its head
+  author: Lionfell
+  sandboxed: true
+  scripts: [ npcchat ]
+  dependencies: [ game_interface, client_lionfell ]
+  @onLoad: init()
+  @onUnload: terminate()

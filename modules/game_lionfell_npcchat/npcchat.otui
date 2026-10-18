@@ -1,0 +1,35 @@
+// NPC keyword buttons: a small panel above the NPC the player is talking to
+LfNpcKeyword < UIButton
+  ttf-font: Geist-Medium
+  ttf-font-size: 12
+  color: #e7e5e2
+  height: 24
+  padding: 0 10 0 10
+  text-horizontal-auto-resize: true
+  image-source: /images/lionfell/chip
+  image-border: 3
+  image-color: #25272a
+  change-cursor-image: true
+  cursor: pointer
+
+  $hover:
+    image-color: #3a3c3f
+    color: #ffffff
+
+  $pressed:
+    text-offset: 0 1
+
+LfNpcKeywordBye < LfNpcKeyword
+  color: #8d8a86
+  image-color: #1d1f20
+
+LfPanel
+  id: npcChatBox
+  padding: 5
+  height: 34
+  focusable: false
+  visible: false
+  layout:
+    type: horizontalBox
+    spacing: 4
+    fit-children: true
