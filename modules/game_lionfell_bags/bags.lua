@@ -366,6 +366,15 @@ end
 
 local function onContainerOpen(container)
     if not window:isVisible() then
+        -- the pack opened from the equipment slot (right click / use): show the whole bags view,
+        -- not the pack's own 24-slot window
+        if isPack(container) then
+            packCid = container:getId()
+            addEvent(function()
+                hideStockWindow(container)
+                show()
+            end)
+        end
         return
     end
     local pack = packItem()
@@ -448,10 +457,12 @@ function hide()
     end
     adopted = {}
     bagCids, pendingOpen = {}, nil
+    -- the pack closes with this window (its own 24-slot window would stay behind otherwise)
     local pack = packContainer()
-    if pack and pack.window and not pack.window:isDestroyed() then
-        pack.window:show()
+    if pack then
+        g_game.close(pack)
     end
+    packCid = nil
 end
 
 function toggle()

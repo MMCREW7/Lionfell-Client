@@ -20,6 +20,14 @@ local function keepClear(window)
     if right and right:isVisible() and right:getWidth() > 0 then
         limit = math.min(limit, right:getX() - MARGIN)
     end
+    -- bigger than the free space (small screens): shrink it to fit
+    local maxWidth, maxHeight = limit - area.x - 2 * MARGIN, area.height - 2 * MARGIN
+    if window:getWidth() > maxWidth and maxWidth > 200 then
+        window:setWidth(maxWidth)
+    end
+    if window:getHeight() > maxHeight and maxHeight > 200 then
+        window:setHeight(maxHeight)
+    end
     local rect = window:getRect()
     local x, y = rect.x, rect.y
     if rect.x + rect.width > limit then
@@ -34,6 +42,31 @@ local function keepClear(window)
 end
 
 local baseVisibilityChange
+local scanEvent
+
+-- top-level windows (and message / input boxes, which are windows too)
+local WINDOW_CLASSES = { UIWindow = true, UIMessageBox = true, UIInputBox = true }
+
+-- Windows that open already visible never change visibility, so the hook below misses them:
+-- every half second, each window not placed yet is placed once (never while being dragged).
+local function scan()
+    if not g_game.isOnline() then
+        return
+    end
+    local gameInterface = modules.game_interface
+    local root = gameInterface and gameInterface.getRootPanel and gameInterface.getRootPanel()
+    for _, parent in ipairs({ root, rootWidget }) do
+        if parent then
+            for _, child in ipairs(parent:getChildren()) do
+                if not child.lfPlaced and child:isVisible() and WINDOW_CLASSES[child:getClassName()]
+                    and g_ui.getDraggingWidget() ~= child then
+                    child.lfPlaced = true
+                    keepClear(child)
+                end
+            end
+        end
+    end
+end
 
 function init()
     g_ui.importStyle('styles/lionfell')
@@ -48,12 +81,17 @@ function init()
         if visible then
             -- after the layout has placed it (anchored windows get their spot on the next frame)
             addEvent(function()
+                self.lfPlaced = true
                 keepClear(self)
             end)
+        else
+            self.lfPlaced = nil -- placed again the next time it opens
         end
     end
+    scanEvent = cycleEvent(scan, 500)
 end
 
 function terminate()
+    removeEvent(scanEvent)
     UIWindow.onVisibilityChange = baseVisibilityChange
 end
