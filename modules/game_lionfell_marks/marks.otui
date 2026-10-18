@@ -8,8 +8,6 @@ LfWindow
   padding: 14 16 14 16
   draggable: true
   visible: false
-  @onEnter: modules.game_lionfell_marks.save()
-  @onEscape: modules.game_lionfell_marks.hide()
 
   LfTitle
     id: title

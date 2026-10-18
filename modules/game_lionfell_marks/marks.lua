@@ -6,6 +6,7 @@ local OPCODE = 126
 local KEY = 'Ctrl+Shift+K'
 local window
 local marked -- the position being marked
+local hotkeyBlock -- while the box is open, the game's hotkeys stay quiet (game_hotkeys)
 
 local function message(text)
     if modules.game_textmessage and modules.game_textmessage.displayMessage then
@@ -45,12 +46,23 @@ function show()
     window:getChildById('note'):setText('')
     window:show()
     window:raise()
+    -- the box takes all input while it is open: nothing else can be clicked or focused, and keys
+    -- never reach the game's bindings (walking, action bar, windows)
+    rootWidget:lockChild(window)
     window:focus()
     window:getChildById('note'):focus()
+    if not hotkeyBlock and modules.game_hotkeys and modules.game_hotkeys.createHotkeyBlock then
+        hotkeyBlock = modules.game_hotkeys.createHotkeyBlock('lionfell_mark')
+    end
 end
 
 function hide()
+    if hotkeyBlock then
+        hotkeyBlock.release()
+        hotkeyBlock = nil
+    end
     if window then
+        rootWidget:unlockChild(window)
         window:hide()
     end
 end
@@ -74,15 +86,34 @@ local function onMessage(protocol, opcode, buffer)
     end
 end
 
+-- every key stops at the box: Enter saves, Escape cancels, the rest is typing (the text field
+-- handles it before the box sees it)
+local function swallowKeyDown(self, keyCode)
+    if keyCode == KeyEnter then
+        save()
+    elseif keyCode == KeyEscape then
+        hide()
+    end
+    return true
+end
+
+local function swallow()
+    return true
+end
+
 function init()
-    window = g_ui.loadUI('marks', modules.game_interface.getRootPanel())
+    window = g_ui.loadUI('marks', rootWidget)
     window:hide()
+    window.onKeyDown = swallowKeyDown
+    window.onKeyPress = swallow
+    window.onKeyUp = swallow
     g_keyboard.bindKeyDown(KEY, show, modules.game_interface.getRootPanel())
     ProtocolGame.registerExtendedOpcode(OPCODE, onMessage)
     connect(g_game, { onGameEnd = hide })
 end
 
 function terminate()
+    hide()
     g_keyboard.unbindKeyDown(KEY, show, modules.game_interface.getRootPanel())
     ProtocolGame.unregisterExtendedOpcode(OPCODE)
     disconnect(g_game, { onGameEnd = hide })
