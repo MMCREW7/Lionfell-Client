@@ -84,6 +84,44 @@ local function styleSocket(widget, number, bag)
     widget:setTooltip(bag == nil and tr('Bag slot %d: drop a bag or backpack here', number) or nil)
 end
 
+-- The coin purse socket, after the bag sockets: always there, can't be moved; it shows a pile of
+-- gold and opens the purse (game_lionfell_purse: the money in the bank).
+local function purse()
+    return modules.game_lionfell_purse
+end
+
+local function updatePurseSocket(widget)
+    local module = purse()
+    local balance = module and module.getBalance and module.getBalance() or 0
+    widget:setTooltip(tr('Coin purse: %s gp\nLooted gold goes here and is safe when you die. Click to open.',
+        module and module.formatGold and module.formatGold(balance) or tostring(balance)))
+end
+
+local function purseSocket(parent)
+    local widget = g_ui.createWidget('LfContainerItem', parent)
+    widget:setId('purseSocket')
+    widget:setVirtual(true)
+    widget:setDraggable(false)
+    local coins = Item.create(3031) -- a pile of gold
+    if coins then
+        coins:setCount(100)
+        widget:setItem(coins)
+        widget:setShowCount(false) -- the pile is a picture, not an amount
+    end
+    widget.onMouseRelease = function(self, mousePos, button)
+        if button == MouseLeftButton and self:containsPoint(mousePos) then
+            local module = purse()
+            if module then
+                module.toggle()
+            end
+            return true
+        end
+        return false
+    end
+    updatePurseSocket(widget)
+    return widget
+end
+
 local function clearSocket(widget)
     if widget.socketLabel then
         widget.socketLabel:destroy()
@@ -125,7 +163,15 @@ function layoutPack(container)
     -- the window is
     local layout = panel:getLayout()
     local columns = layout and layout.getNumColumns and layout:getNumColumns() or BAG_SOCKETS
-    local wanted = math.max(0, columns - BAG_SOCKETS)
+    local withPurse = columns > BAG_SOCKETS -- room for the purse in the socket row
+    local wanted = math.max(0, columns - BAG_SOCKETS - (withPurse and 1 or 0))
+    if withPurse and not panel.lfPurse then
+        panel.lfPurse = purseSocket(nil)
+        panel:insertChild(BAG_SOCKETS + 1, panel.lfPurse)
+    elseif not withPurse and panel.lfPurse then
+        panel.lfPurse:destroy()
+        panel.lfPurse = nil
+    end
     panel.lfSpacers = panel.lfSpacers or {}
     while #panel.lfSpacers > wanted do
         table.remove(panel.lfSpacers):destroy()
@@ -133,7 +179,7 @@ function layoutPack(container)
     while #panel.lfSpacers < wanted do
         local spacer = g_ui.createWidget('UIWidget')
         spacer:setPhantom(true)
-        panel:insertChild(BAG_SOCKETS + 1, spacer)
+        panel:insertChild(BAG_SOCKETS + (panel.lfPurse and 2 or 1), spacer)
         table.insert(panel.lfSpacers, spacer)
     end
     if not panel.lfResizeHooked then
@@ -279,6 +325,7 @@ local function rebuild()
         local widget = cell(sockets, entry and entry.item, entry and pack:getSlotPosition(entry.slot) or append)
         styleSocket(widget, i, entry and entry.item)
     end
+    purseSocket(sockets)
 
     local slots = section(tr('PACK  %d / %d', #items, PACK_SLOTS))
     for i = 1, PACK_SLOTS do
@@ -439,6 +486,21 @@ function init()
         onSizeChange = onContainerChange,
     })
     connect(g_game, { onGameEnd = onGameEnd })
+    -- the purse sockets' tooltips follow the balance
+    if purse() and purse().onBalance then
+        purse().onBalance(function()
+            for _, container in pairs(g_game.getContainers()) do
+                local panel = container.itemsPanel
+                if panel and panel.lfPurse and not panel.lfPurse:isDestroyed() then
+                    updatePurseSocket(panel.lfPurse)
+                end
+            end
+            local socket = content and content:recursiveGetChildById('purseSocket')
+            if socket then
+                updatePurseSocket(socket)
+            end
+        end)
+    end
     -- B opens the bags (only while the chat input is closed: then B types instead)
     Keybind.new("UI", "Open bags", { [CHAT_MODE.ON] = "", [CHAT_MODE.OFF] = "B" }, "")
     Keybind.bind("UI", "Open bags", { { type = KEY_DOWN, callback = toggle } })

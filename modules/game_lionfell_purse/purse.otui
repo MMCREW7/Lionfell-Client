@@ -1,0 +1,108 @@
+// Lionfell coin purse: the money in the bank, shown as the coin stacks it would make. The coins
+// can't be moved (they aren't items); "Take out" puts real coins in the backpack.
+
+LfPurseCoin < UIItem
+  size: 40 40
+  padding: 4
+  image-source: /images/lionfell/slot
+  image-border: 4
+  font: verdana-11px-rounded
+  color: #e7e5e2
+  virtual: true
+  draggable: false
+  focusable: false
+
+LfPurseGrid < UIWidget
+  phantom: true
+  layout:
+    type: grid
+    cell-size: 40 40
+    cell-spacing: 4
+    flow: true
+    fit-children: true
+
+LfWindow
+  id: purseWindow
+  width: 300
+  height: 290
+  anchors.centerIn: parent
+  padding: 14 14 14 16
+  draggable: true
+  visible: false
+
+  LfTitle
+    id: title
+    !text: tr('Coin purse')
+    anchors.top: parent.top
+    anchors.left: parent.left
+
+  LfPillButton
+    id: close
+    !text: tr('Close')
+    height: 26
+    padding: 0 10 0 10
+    ttf-font-size: 11
+    anchors.top: parent.top
+    anchors.right: parent.right
+    @onClick: modules.game_lionfell_purse.hide()
+
+  LfMono
+    id: total
+    anchors.top: title.bottom
+    anchors.left: parent.left
+    margin-top: 4
+    color: #c9a56b
+    ttf-font-size: 14
+
+  LfMuted
+    id: hint
+    !text: tr('Looted gold goes here. It stays safe when you die.')
+    anchors.top: total.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 4
+    ttf-font-size: 11
+    text-wrap: true
+    text-auto-resize: true
+
+  LfPurseGrid
+    id: coins
+    anchors.top: hint.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 10
+
+  LfField
+    id: takeLabel
+    !text: tr('TAKE OUT (GOLD)')
+    anchors.left: parent.left
+    anchors.bottom: amount.top
+    margin-bottom: 6
+
+  LfTextEdit
+    id: amount
+    anchors.left: parent.left
+    anchors.right: takeButton.left
+    anchors.bottom: status.top
+    margin-right: 8
+    margin-bottom: 8
+    height: 32
+
+  LfButton
+    id: takeButton
+    !text: tr('Take out')
+    anchors.right: parent.right
+    anchors.bottom: status.top
+    margin-bottom: 8
+    height: 32
+    padding: 0 14 0 14
+    ttf-font-size: 13
+    @onClick: modules.game_lionfell_purse.take()
+
+  LfMuted
+    id: status
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    height: 16
+    ttf-font-size: 11

@@ -62,6 +62,7 @@ Module
     - game_lionfell_auction
     - game_lionfell_items
     - game_lionfell_talents
+    - game_lionfell_purse
     - game_lionfell_bags
     - game_lionfell_loot
 

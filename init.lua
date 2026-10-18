@@ -100,6 +100,11 @@ g_app.setCompactName("otclient");  -- kept: it names the settings folder and log
 g_app.setOrganizationName("otcr");  -- kept: settings folder
 
 g_app.hasUpdater = function()
+    -- a ".lionfell-dev" file marks the folder releases are built from: it never updates itself
+    -- (it would overwrite work that isn't released yet); players' copies never have it
+    if g_resources.fileExistsInWorkDir and g_resources.fileExistsInWorkDir(".lionfell-dev") then
+        return false
+    end
     return (Services.updater and Services.updater ~= "" and g_modules.getModule("updater"))
 end
 

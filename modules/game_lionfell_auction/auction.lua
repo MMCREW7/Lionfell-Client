@@ -20,6 +20,7 @@ local MAX_SUGGESTIONS = 7
 local suggestFor = nil -- the field the suggestions belong to
 local suggestPick = 0 -- the highlighted suggestion (arrow keys), 0 = none
 local applying = false
+local quietCombos = false -- set while the code itself changes the dropdowns (no search per change)
 local sellPosition = nil -- { pos, stackpos, clientId } of the item in the sell slot
 
 local function send(...)
@@ -370,6 +371,7 @@ end
 -- back to every listing: clears the search, filters and modifiers
 function reset()
     hideSuggestions()
+    quietCombos = true
     local panel = window:recursiveGetChildById('browsePanel')
     panel:getChildById('search'):setText('')
     panel:getChildById('category'):setCurrentOption(CATEGORIES[1][1])
@@ -380,6 +382,7 @@ function reset()
         row:getChildById('stat' .. i):setText('')
         row:getChildById('min' .. i):setText('')
     end
+    quietCombos = false
     setStatus('')
     browse(0)
 end
@@ -500,6 +503,14 @@ function init()
     fillCombo(browsePanel:getChildById('category'), CATEGORIES)
     fillCombo(browsePanel:getChildById('quality'), QUALITIES)
     fillCombo(browsePanel:getChildById('sort'), SORTS)
+    -- picking a category, quality or order searches right away
+    for _, id in ipairs({ 'category', 'quality', 'sort' }) do
+        browsePanel:getChildById(id).onOptionChange = function()
+            if not quietCombos and window:isVisible() then
+                browse(0)
+            end
+        end
+    end
     window:recursiveGetChildById('sellItem').onDrop = onSellDrop
     -- arrow keys / Escape for the suggestions; leaving a field closes them
     local fields = { browsePanel:getChildById('search') }

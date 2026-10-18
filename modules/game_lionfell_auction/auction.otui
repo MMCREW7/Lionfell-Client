@@ -72,6 +72,11 @@ AuctionField < UITextEdit
 AuctionCombo < ComboBox
   height: 32
 
+// a combo box opens "<its style>PopupMenu" with "<that>Button" options: without these the
+// dropdowns failed to open
+AuctionComboPopupMenu < ComboBoxPopupMenu
+AuctionComboPopupMenuButton < ComboBoxPopupMenuButton
+
 // one line of the typing suggestions under a search field
 AuctionSuggestion < UIWidget
   height: 28
