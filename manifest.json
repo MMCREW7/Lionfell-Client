@@ -2926,11 +2926,11 @@
   "modules/modulelib/watchlist.lua": "2b2637b1",
   "modules/startup/startup.lua": "ce798daa",
   "modules/startup/startup.otmod": "de6a601f",
-  "modules/updater/updater.lua": "51176a29",
-  "modules/updater/updater.otmod": "c4d0e5a0",
-  "modules/updater/updater.otui": "d6101100",
+  "modules/updater/updater.lua": "c424d7a8",
+  "modules/updater/updater.otmod": "8df5882b",
+  "modules/updater/updater.otui": "517debaf",
   "otclientrc.lua": "176c66ea"
  },
- "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/d050d603ddc89718c0eaf88a2d6d15c7bc1c4d2a/",
- "version": "2026-10-17 20:09:39"
+ "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/3303c2fd1902458cf179f116f558de3c4734a080/",
+ "version": "2026-10-17 20:15:22"
 }
