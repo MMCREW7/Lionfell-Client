@@ -1,50 +1,52 @@
-// Teleport rock: one button per city (filled from the server's list)
-LfTeleportCity < LfButton
-  height: 38
-  text-horizontal-auto-resize: false
+// Teleport rock city picker: a small menu next to the rock's bag socket. A transparent layer behind
+// it takes clicks elsewhere (they close it) and keeps the rest of the screen from reacting.
+LfTeleportCity < UIButton
+  ttf-font: Geist-Medium
+  ttf-font-size: 13
+  color: #e7e5e2
+  height: 30
   text-align: left
-  padding: 0 14 0 14
+  padding: 0 12 0 12
+  image-source: /images/lionfell/chip
+  image-border: 3
+  image-color: alpha
+  change-cursor-image: true
+  cursor: pointer
 
-LfWindow
-  id: teleportWindow
+  $hover:
+    image-color: #2a2c2f
+    color: #ffffff
+
+  $pressed:
+    text-offset: 0 1
+
+UIWidget
+  id: teleportLayer
+  anchors.fill: parent
   focusable: true
-  width: 280
-  anchors.centerIn: parent
-  padding: 14 16 16 16
-  draggable: true
   visible: false
-  @onEscape: modules.game_lionfell_teleport.hide()
+  @onMousePress: modules.game_lionfell_teleport.hide() return true
 
-  LfTitle
-    id: title
-    !text: tr('Teleport rock')
-    anchors.top: parent.top
-    anchors.left: parent.left
-
-  LfMuted
-    id: subtitle
-    !text: tr('Where do you want to go?')
-    anchors.top: title.bottom
-    anchors.left: parent.left
-    margin-top: 4
-
-  UIWidget
-    id: cities
-    anchors.top: subtitle.bottom
-    anchors.left: parent.left
-    anchors.right: parent.right
-    margin-top: 12
-    phantom: true
+  LfPanel
+    id: teleportMenu
+    width: 200
+    padding: 8
+    @onMousePress: return true
     layout:
       type: verticalBox
-      spacing: 6
+      spacing: 2
       fit-children: true
 
-  LfButton
-    id: cancel
-    !text: tr('Cancel')
-    anchors.top: cities.bottom
-    anchors.right: parent.right
-    margin-top: 12
-    height: 34
-    @onClick: modules.game_lionfell_teleport.hide()
+    LfCaps
+      id: title
+      !text: tr('TELEPORT ROCK')
+      height: 22
+      text-offset: 4 0
+
+    UIWidget
+      id: cities
+      phantom: true
+      layout:
+        type: verticalBox
+        spacing: 2
+        fit-children: true

@@ -121,6 +121,35 @@ local function purseSocket(parent)
     return widget
 end
 
+-- The teleport rock socket, after the purse: every account has the rock for good (it is no item),
+-- and a click opens the city picker next to it (game_lionfell_teleport).
+local ROCK_LOOK = 3251 -- the red rock the teleport rock used to be
+
+local function rockSocket(parent)
+    local widget = g_ui.createWidget('LfContainerItem', parent)
+    widget:setId('rockSocket')
+    widget:setVirtual(true)
+    widget:setDraggable(false)
+    local rock = Item.create(ROCK_LOOK)
+    if rock then
+        widget:setItem(rock)
+        widget:setShowCount(false)
+    end
+    widget:setTooltip(tr('Teleport rock: travel to any city. Yours for good - it is never lost. Click to choose a city.'))
+    widget.onMouseRelease = function(self, mousePos, button)
+        if button == MouseLeftButton and self:containsPoint(mousePos) then
+            local module = modules.game_lionfell_teleport
+            if module and module.request then
+                local rect = self:getRect()
+                module.request({ x = rect.x + rect.width, y = rect.y })
+            end
+            return true
+        end
+        return false
+    end
+    return widget
+end
+
 local function clearSocket(widget)
     if widget.socketLabel then
         widget.socketLabel:destroy()
@@ -163,13 +192,21 @@ function layoutPack(container)
     local layout = panel:getLayout()
     local columns = layout and layout.getNumColumns and layout:getNumColumns() or BAG_SOCKETS
     local withPurse = columns > BAG_SOCKETS -- room for the purse in the socket row
-    local wanted = math.max(0, columns - BAG_SOCKETS - (withPurse and 1 or 0))
+    local withRock = columns > BAG_SOCKETS + 1 -- ... and for the teleport rock after it
+    local wanted = math.max(0, columns - BAG_SOCKETS - (withPurse and 1 or 0) - (withRock and 1 or 0))
     if withPurse and not panel.lfPurse then
         panel.lfPurse = purseSocket(nil)
         panel:insertChild(BAG_SOCKETS + 1, panel.lfPurse)
     elseif not withPurse and panel.lfPurse then
         panel.lfPurse:destroy()
         panel.lfPurse = nil
+    end
+    if withRock and not panel.lfRock then
+        panel.lfRock = rockSocket(nil)
+        panel:insertChild(BAG_SOCKETS + 2, panel.lfRock)
+    elseif not withRock and panel.lfRock then
+        panel.lfRock:destroy()
+        panel.lfRock = nil
     end
     panel.lfSpacers = panel.lfSpacers or {}
     while #panel.lfSpacers > wanted do
@@ -178,7 +215,7 @@ function layoutPack(container)
     while #panel.lfSpacers < wanted do
         local spacer = g_ui.createWidget('UIWidget')
         spacer:setPhantom(true)
-        panel:insertChild(BAG_SOCKETS + (panel.lfPurse and 2 or 1), spacer)
+        panel:insertChild(BAG_SOCKETS + 1 + (panel.lfPurse and 1 or 0) + (panel.lfRock and 1 or 0), spacer)
         table.insert(panel.lfSpacers, spacer)
     end
     if not panel.lfResizeHooked then
@@ -325,6 +362,7 @@ local function rebuild()
         styleSocket(widget, i, entry and entry.item)
     end
     purseSocket(sockets)
+    rockSocket(sockets)
 
     local slots = section(tr('PACK  %d / %d', #items, PACK_SLOTS))
     for i = 1, PACK_SLOTS do
