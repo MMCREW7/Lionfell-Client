@@ -12,6 +12,7 @@ local DEFAULT_SETTINGS_FILE = "/settings/clientoptions.json"
 local DEFAULT_OPTIONS_FILE = "/modules/game_actionbar/json/cipsoft-default-options-minimal.json"
 
 local SAVED_TOP_LEVEL_KEYS = {
+    lionfellBarKeys = true, -- Lionfell: which version of the action bar keys this file has (addLionfellBarKeys)
     chatOptions = true,
     hotkeyOptions = true,
     options = true,
@@ -557,6 +558,56 @@ function ApiJson.refreshState()
     return state.bootstrapComplete
 end
 
+-- Lionfell: the bottom action bar's 12 slots answer to 1-9, 0, -, = (chat off, the WASD mode
+-- Lionfell starts in) and F1-F12 (chat on). Settings saved before this get those keys once:
+-- only slots without a key of their own, only keys nothing else uses; slots 1 and 2 swap the
+-- stock F1 / F2 for 1 / 2 in chat-off mode.
+local LIONFELL_KEYS_VERSION = 1
+local LIONFELL_NUMBER_KEYS = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=' }
+
+local function addLionfellBarKeys()
+    local array = state.array
+    if not array or not array.hotkeyOptions or not array.hotkeyOptions.hotkeySets then
+        return false
+    end
+    if (tonumber(array.lionfellBarKeys) or 0) >= LIONFELL_KEYS_VERSION then
+        return false
+    end
+    for _, profile in pairs(array.hotkeyOptions.hotkeySets) do
+        for _, mode in ipairs({ 'chatOff', 'chatOn' }) do
+            profile[mode] = profile[mode] or {}
+            local entries = profile[mode]
+            local keyOf, usedKeys = {}, {}
+            for index, entry in ipairs(entries) do
+                local action = entry.actionsetting and entry.actionsetting.action
+                if entry.keysequence then
+                    usedKeys[entry.keysequence] = true
+                    if action then
+                        keyOf[action] = index
+                    end
+                end
+            end
+            for slot = 1, 12 do
+                local action = 'TriggerActionButton_1.' .. slot
+                local key = mode == 'chatOff' and LIONFELL_NUMBER_KEYS[slot] or ('F' .. slot)
+                local index = keyOf[action]
+                local stock = index and mode == 'chatOff' and slot <= 2 and entries[index].keysequence == ('F' .. slot)
+                if (not index or stock) and not usedKeys[key] and not isHotkeyConflicting(key) then
+                    if stock then
+                        usedKeys[entries[index].keysequence] = nil
+                        entries[index].keysequence = key
+                    else
+                        table.insert(entries, { actionsetting = { action = action }, keysequence = key })
+                    end
+                    usedKeys[key] = true
+                end
+            end
+        end
+    end
+    array.lionfellBarKeys = LIONFELL_KEYS_VERSION
+    return true
+end
+
 function ApiJson.bootstrap()
     if state.bootstrapComplete then
         return true
@@ -566,6 +617,10 @@ function ApiJson.bootstrap()
         if not ApiJson.loadData(DEFAULT_SETTINGS_FILE) then
             ApiJson.createDefaultSettings()
         end
+    end
+
+    if addLionfellBarKeys() then
+        ApiJson.saveData()
     end
 
     if not state.array then
