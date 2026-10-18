@@ -5,7 +5,7 @@ Module
   website: otclient.ovh
   reloadable: false
   scripts: [ updater ]
-  dependencies: [ client_locales, client_styles ]
+  dependencies: [ client_locales, client_styles, client_lionfell ]
   @onUnload: Updater.terminate()
   
   load-later:

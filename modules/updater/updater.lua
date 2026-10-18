@@ -31,6 +31,20 @@ local function baseUrl()
   return url
 end
 
+-- thin Lionfell bar (client_lionfell LfBar): the fill child is sized to the percentage
+local ACCENT = '#c8a24a'
+local function setBar(bar, percent)
+    if not bar or not bar.fill then
+        return
+    end
+    percent = math.max(0, math.min(100, percent))
+    bar.fill:setBackgroundColor(ACCENT)
+    bar.fill:setWidth(math.floor(bar:getWidth() * percent / 100))
+    if bar == updaterWindow.mainProgress then
+        updaterWindow.percent:setText(percent .. '%')
+    end
+end
+
 local function setStatus(text)
   if updaterWindow then
     updaterWindow.status:setText(text)
@@ -97,9 +111,9 @@ local function downloadFiles(url, toUpdate, index, retries, version)
     return install(toUpdate, version)
   end
   if updaterWindow then
-    updaterWindow.downloadStatus:setText(entry.path)
-    updaterWindow.downloadProgress:setPercent(0)
-    updaterWindow.mainProgress:setPercent(math.floor(100 * (index - 1) / #toUpdate))
+    updaterWindow.downloadStatus:setText(('%d / %d  \183  %s'):format(index, #toUpdate, entry.path:match('[^/]+$') or entry.path))
+    setBar(updaterWindow.downloadProgress, 0)
+    setBar(updaterWindow.mainProgress, math.floor(100 * (index - 1) / #toUpdate))
   end
 
   httpOperationId = HTTP.download(url .. entry.path, entry.path,
@@ -122,7 +136,7 @@ local function downloadFiles(url, toUpdate, index, retries, version)
     end,
     function(progress, speed)
       if updaterWindow then
-        updaterWindow.downloadProgress:setPercent(progress)
+        setBar(updaterWindow.downloadProgress, progress)
       end
     end)
 end
