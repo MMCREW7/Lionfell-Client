@@ -63,6 +63,7 @@ Module
     - game_lionfell_items
     - game_lionfell_talents
     - game_lionfell_purse
+    - game_lionfell_restart
     - game_lionfell_bags
     - game_lionfell_loot
 

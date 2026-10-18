@@ -1,0 +1,30 @@
+// Lionfell server update notice: a banner during the countdown, then "reconnecting" until back in.
+LfRestartBanner < UIWidget
+  image-source: /images/lionfell/panel
+  image-border: 6
+  image-color: #ffffffee
+  padding: 10 18 10 18
+  phantom: true
+  focusable: false
+  layout:
+    type: verticalBox
+    fit-children: true
+
+  UILabel
+    id: title
+    ttf-font: Geist-SemiBold
+    ttf-font-size: 14
+    color: #c9a56b
+    text-align: center
+    text-auto-resize: true
+    phantom: true
+
+  UILabel
+    id: detail
+    ttf-font: Geist-Regular
+    ttf-font-size: 12
+    color: #cfccc7
+    text-align: center
+    text-auto-resize: true
+    phantom: true
+    margin-top: 3

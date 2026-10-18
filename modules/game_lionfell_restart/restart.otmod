@@ -1,0 +1,9 @@
+Module
+  name: game_lionfell_restart
+  description: Lionfell server updates: countdown, then reconnects by itself (server: lionfell_hotreload.lua)
+  author: Lionfell
+  sandboxed: true
+  scripts: [ restart ]
+  dependencies: [ game_interface, client_lionfell, client_entergame ]
+  @onLoad: init()
+  @onUnload: terminate()
