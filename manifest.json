@@ -1918,7 +1918,7 @@
   "modules/client_terminal/terminal.otmod": "a001ef44",
   "modules/client_terminal/terminal.otui": "f68bc2e5",
   "modules/client_topmenu/pingFps.otui": "32e5d83b",
-  "modules/client_topmenu/topmenu.lua": "ddb48884",
+  "modules/client_topmenu/topmenu.lua": "e49b75c1",
   "modules/client_topmenu/topmenu.otmod": "44d1b81f",
   "modules/client_topmenu/topmenu.otui": "58c6bc30",
   "modules/corelib/base64.lua": "42465235",
@@ -2931,6 +2931,6 @@
   "modules/updater/updater.otui": "517debaf",
   "otclientrc.lua": "176c66ea"
  },
- "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/3303c2fd1902458cf179f116f558de3c4734a080/",
- "version": "2026-10-17 20:15:22"
+ "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/9c55da5188cee3fac8c64684ea1fd4d11e6f8c2a/",
+ "version": "2026-10-17 20:38:38"
 }
