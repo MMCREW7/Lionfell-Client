@@ -1,0 +1,203 @@
+// Lionfell HUD widgets that don't exist in stock OTClient. Loaded into the game root panel,
+// shown only in extended view (map full-bleed). Everything else in the design (minimap,
+// battle, equipment, containers, chat, action bar) is the stock module, re-skinned through
+// the MiniWindow override in client_lionfell and positioned by hud.lua.
+
+LfVitalsRow < UIWidget
+  height: 14
+  phantom: true
+
+  LfMono
+    id: caption
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+
+  LfMono
+    id: value
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    color: #e7e5e2
+
+UIWidget
+  id: lionfellHud
+  anchors.fill: parent
+  phantom: true
+  focusable: false
+
+  // low-health vignette: inset 0 0 220px rgba(160,40,30,.45)
+  UIWidget
+    id: vignette
+    anchors.fill: parent
+    image-source: /images/lionfell/vignette_low_health
+    image-smooth: true
+    phantom: true
+    visible: false
+
+  LfWindow
+    id: vitals
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: 24
+    margin-left: 24
+    width: 320
+    padding: 14 16 16 16
+    draggable: false
+    layout:
+      type: verticalBox
+      spacing: 12
+      fit-children: true
+
+    UIWidget
+      id: header
+      height: 36
+      phantom: true
+
+      LfTitle
+        id: name
+        anchors.top: parent.top
+        anchors.left: parent.left
+
+      LfMuted
+        id: subtitle
+        anchors.top: name.bottom
+        anchors.left: parent.left
+        margin-top: 2
+
+      LfMono
+        id: world
+        anchors.top: parent.top
+        anchors.right: parent.right
+        margin-top: 3
+        color: #6f6c68
+
+    UIWidget
+      id: hpBlock
+      height: 20
+      phantom: true
+
+      LfVitalsRow
+        id: row
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+
+      LfBar
+        id: bar
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        &fillColor: '#b9625a'
+
+    UIWidget
+      id: mpBlock
+      height: 20
+      phantom: true
+
+      LfVitalsRow
+        id: row
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+
+      LfBar
+        id: bar
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        &fillColor: '#6a83a8'
+
+    UIWidget
+      id: xpBlock
+      height: 18
+      phantom: true
+
+      LfBar
+        id: bar
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: 2
+        &fillColor: '#a8a49e'
+
+      LfMono
+        id: progress
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        ttf-font-size: 10
+        color: #6f6c68
+
+      LfMono
+        id: rate
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        ttf-font-size: 10
+        color: #6f6c68
+
+    UIWidget
+      id: conditions
+      height: 18
+      phantom: true
+      layout:
+        type: horizontalBox
+        spacing: 6
+
+  LfWindow
+    id: dock
+    anchors.top: vitals.bottom
+    anchors.left: vitals.left
+    margin-top: 16
+    width: 44
+    padding: 5
+    draggable: false
+    layout:
+      type: verticalBox
+      spacing: 2
+      fit-children: true
+
+    LfGrip
+      id: grip
+
+  // edit-layout bar (LAY in the dock): top centre while panels can be dragged
+  LfWindow
+    id: layoutBar
+    anchors.top: parent.top
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-top: 24
+    size: 520 48
+    padding: 8 10 8 16
+    visible: false
+
+    LfLabel
+      id: hint
+      anchors.left: parent.left
+      anchors.verticalCenter: parent.verticalCenter
+      !text: tr('Drag the highlighted panels. Windows move by their title bar.')
+      text-auto-resize: true
+      ttf-font-size: 12
+
+    LfPillButton
+      id: done
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      !text: tr('Done')
+
+    LfPillButton
+      id: reset
+      anchors.right: done.left
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 6
+      !text: tr('Reset')
+
+// drag handle laid over a HUD part in edit-layout mode
+LfLayoutHandle < UIWidget
+  draggable: true
+  focusable: false
+  background-color: #c9a45a1a
+  border-width: 1
+  border-color: #c9a45a
+  ttf-font: GeistMono-Medium
+  ttf-font-size: 11
+  color: #f1efec
+  text-align: center
+  change-cursor-image: true
+  cursor: pointer

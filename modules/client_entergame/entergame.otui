@@ -1,0 +1,358 @@
+// Lionfell login screen. Full-screen layer over client_background's key art.
+// entergame.lua finds widgets with getChildById, so every id stays a direct child of the
+// root and is positioned against the invisible `column` widget. Server/version/port fields
+// sit at the bottom of the column and collapse when init.lua configures a single server.
+// Classic layout: entergame_classic.otui
+
+ServerListButton < UIButton
+  size: 32 32
+  image-source: /images/topbuttons/minimap
+  image-color: #cfccc7
+  change-cursor-image: true
+  cursor: pointer
+
+  $hover !disabled:
+    image-color: #ffffff
+
+  $disabled:
+    image-color: #ffffff55
+
+LfSmallTextEdit < LfTextEdit
+  height: 32
+  padding: 8 10 0 10
+  ttf-font-size: 13
+
+UIWindow
+  id: enterGame
+  &modernLayout: true
+  &authenticatorEnabled: false
+  &authenticatorHeight: 44
+  &stayLoggedBoxEnabled: false
+  &stayLoggedBoxHeight: 24
+  anchors.fill: parent
+  draggable: false
+  focusable: true
+  color: alpha
+  @onEnter: EnterGame.doLogin()
+
+  // legibility scrims (design: 1000px left fade + 160px bottom fade)
+  UIWidget
+    id: scrimLeft
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    width: 1000
+    image-source: /images/lionfell/grad_login_left
+    image-smooth: true
+    phantom: true
+
+  UIWidget
+    id: scrimBottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    height: 160
+    image-source: /images/lionfell/grad_login_bottom
+    image-smooth: true
+    phantom: true
+
+  // top-right utilities
+  LfPillButton
+    id: exitButton
+    !text: tr('Exit')
+    anchors.top: parent.top
+    anchors.right: parent.right
+    margin-top: 32
+    margin-right: 40
+    @onClick: exit()
+
+  LfPillButton
+    id: settingsButton
+    !text: tr('Settings')
+    anchors.top: exitButton.top
+    anchors.right: exitButton.left
+    margin-right: 8
+    @onClick: modules.client_options.toggle()
+
+  LfPillButton
+    id: localeButton
+    text: EN
+    anchors.top: exitButton.top
+    anchors.right: settingsButton.left
+    margin-right: 8
+    @onClick: modules.client_locales.createWindow()
+    @onSetup: |
+      local locale = modules.client_locales and modules.client_locales.getCurrentLocale()
+      if locale and locale.name then
+        self:setText(locale.name:sub(1, 2):upper())
+      end
+
+  // layout anchor: 400px column, 160px from the left, vertically centred
+  UIWidget
+    id: column
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 160
+    width: 400
+    height: 520
+    phantom: true
+
+  // brand
+  UIWidget
+    id: logo
+    anchors.top: column.top
+    anchors.left: column.left
+    size: 60 60
+    image-source: /images/lionfell/logo
+    image-smooth: true
+    phantom: true
+
+  UILabel
+    id: brandTitle
+    text: L I O N F E L L
+    anchors.top: logo.top
+    anchors.left: logo.right
+    margin-top: 8
+    margin-left: 20
+    ttf-font: Geist-SemiBold
+    ttf-font-size: 34
+    color: #f1efec
+    text-auto-resize: true
+    phantom: true
+
+  UIWidget
+    id: brandRule
+    anchors.left: brandTitle.left
+    anchors.top: brandTitle.bottom
+    margin-top: 13
+    size: 24 1
+    background-color: #c9a56b
+    phantom: true
+
+  LfMono
+    id: brandTagline
+    !text: 'OPEN TIBIA  \183  EST. 2026'
+    anchors.left: brandRule.right
+    anchors.verticalCenter: brandRule.verticalCenter
+    margin-left: 10
+    ttf-font: GeistMono-Medium
+    ttf-font-size: 10
+    color: #a8a49e
+
+  LfLabel
+    id: subtitle
+    !text: tr('Sign in to continue')
+    anchors.top: logo.bottom
+    anchors.left: column.left
+    margin-top: 28
+    ttf-font-size: 15
+    color: #9a9792
+
+  // account
+  LfField
+    id: emailLabel
+    !text: tr('ACCOUNT')
+    anchors.left: column.left
+    anchors.top: subtitle.bottom
+    margin-top: 40
+
+  LfTextEdit
+    id: accountNameTextEdit
+    anchors.left: column.left
+    anchors.right: column.right
+    anchors.top: emailLabel.bottom
+    margin-top: 6
+
+  LfField
+    id: passwordLabel
+    !text: tr('PASSWORD')
+    anchors.left: column.left
+    anchors.top: accountNameTextEdit.bottom
+    margin-top: 16
+
+  LfPasswordEdit
+    id: accountPasswordTextEdit
+    anchors.left: column.left
+    anchors.right: column.right
+    anchors.top: passwordLabel.bottom
+    margin-top: 6
+    padding-right: 64
+
+    LfFieldToggle
+      id: showPassword
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: -50
+      margin-top: -7
+      @onCheckChange: |
+        self:getParent():setTextHidden(not self:isChecked())
+
+  LfCheckBox
+    id: rememberEmailBox
+    !text: tr('Remember account')
+    !tooltip: tr('Remember account and password when starts client')
+    anchors.left: column.left
+    anchors.top: accountPasswordTextEdit.bottom
+    margin-top: 16
+    @onCheckChange: |
+      self:getParent():getChildById('autoLoginBox'):setEnabled(self:isChecked())
+      self:getParent():getChildById('rememberEmailTip'):setOn(self:isChecked())
+
+  // entergame.lua toggles this; the hint is folded into the checkbox tooltip instead
+  UIWidget
+    id: rememberEmailTip
+    size: 0 0
+    visible: false
+    phantom: true
+
+  LfLinkButton
+    id: Forgot_password_email
+    !text: tr('Forgot password?')
+    anchors.right: column.right
+    anchors.verticalCenter: rememberEmailBox.verticalCenter
+    @onClick: g_platform.openUrl(Services.websites)
+    @onSetup: |
+      self:setVisible(Services ~= nil and Services.websites ~= nil)
+
+  LfCheckBox
+    id: stayLoggedBox
+    !text: tr('Stay logged during session')
+    anchors.left: column.left
+    anchors.top: rememberEmailBox.bottom
+    margin-top: 0
+    height: 0
+    visible: false
+
+    $on:
+      visible: true
+      height: 16
+      margin-top: 12
+
+  LfPrimaryButton
+    id: loginButton
+    !text: tr('Log in')
+    anchors.left: column.left
+    anchors.right: column.right
+    anchors.top: stayLoggedBox.bottom
+    margin-top: 40
+    @onClick: EnterGame.doLogin()
+
+  LfLinkButton
+    id: btnCreateNewAccount
+    !text: tr('No account? Create one')
+    anchors.top: loginButton.bottom
+    anchors.horizontalCenter: column.horizontalCenter
+    margin-top: 12
+    color: #7d7a76
+    @onClick: |
+      self:disable()
+      createWidgetAccount()
+    @onSetup: |
+      self:setVisible(Services and Servers_init and table.size(Servers_init) == 1 and Services.createAccount and true or false)
+
+  // server selection (hidden by EnterGame.setUniqueServer when only one server is configured)
+  LfField
+    id: serverLabel
+    !text: tr('SERVER')
+    anchors.left: column.left
+    anchors.top: btnCreateNewAccount.bottom
+    margin-top: 28
+
+  ServerListButton
+    id: serverListButton
+    !tooltip: tr('Server list')
+    anchors.right: column.right
+    anchors.top: serverLabel.bottom
+    margin-top: 6
+    @onClick: EnterGame.showServerList()
+
+  LfSmallTextEdit
+    id: serverHostTextEdit
+    !tooltip: tr('Make sure that your client uses\nthe correct game client version')
+    anchors.left: column.left
+    anchors.right: serverListButton.left
+    anchors.top: serverLabel.bottom
+    margin-top: 6
+    margin-right: 8
+
+  LfField
+    id: clientLabel
+    !text: tr('VERSION')
+    anchors.left: column.left
+    anchors.top: serverHostTextEdit.bottom
+    margin-top: 12
+
+  ComboBox
+    id: clientComboBox
+    anchors.left: column.left
+    anchors.right: column.horizontalCenter
+    anchors.top: clientLabel.bottom
+    margin-top: 6
+    margin-right: 4
+    height: 32
+    menu-scroll: true
+    menu-height: 125
+    menu-scroll-step: 25
+
+  LfField
+    id: portLabel
+    !text: tr('PORT')
+    anchors.left: serverPortTextEdit.left
+    anchors.top: clientLabel.top
+
+  LfSmallTextEdit
+    id: serverPortTextEdit
+    text: 7171
+    anchors.left: column.horizontalCenter
+    anchors.right: column.right
+    anchors.top: clientComboBox.top
+    margin-left: 4
+
+  LfCheckBox
+    id: autoLoginBox
+    enabled: false
+    !text: tr('Auto login')
+    !tooltip: tr('Open charlist automatically when starting client')
+    anchors.left: column.left
+    anchors.top: serverPortTextEdit.bottom
+    margin-top: 16
+
+  LfCheckBox
+    id: httpLoginBox
+    !text: tr('HTTP login')
+    !tooltip: tr('If login fails using HTTPS (encrypted) try with HTTP (unencrypted)')
+    anchors.left: column.horizontalCenter
+    anchors.top: autoLoginBox.top
+    margin-left: 4
+
+  // footer status line
+  UIWidget
+    id: statusDot
+    anchors.left: column.left
+    anchors.bottom: parent.bottom
+    margin-bottom: 44
+    size: 6 6
+    image-source: /images/lionfell/dot
+    image-color: #8fb08a
+    phantom: true
+
+  LfMono
+    id: footerHost
+    anchors.left: statusDot.right
+    anchors.verticalCenter: statusDot.verticalCenter
+    margin-left: 6
+    color: #6f6c68
+
+  LfMono
+    id: footerProtocol
+    anchors.left: footerHost.right
+    anchors.verticalCenter: statusDot.verticalCenter
+    margin-left: 24
+    color: #6f6c68
+
+  LfMono
+    id: serverInfoLabel
+    anchors.left: footerProtocol.right
+    anchors.verticalCenter: statusDot.verticalCenter
+    margin-left: 24
+    color: #8fb08a

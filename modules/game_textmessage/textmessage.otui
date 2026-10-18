@@ -1,0 +1,86 @@
+// Lionfell on-map text: Geist with a thin dark outline; loot goes to a flat banner at the
+// top centre (mockup: "LOOT  Dragon - 112 gold coins, ...").
+TextMessageLabel < UILabel
+  ttf-font: Geist-Medium
+  ttf-font-size: 14
+  ttf-stroke-width: 1
+  ttf-stroke-color: #000000c0
+  text-align: center
+  text-wrap: true
+  text-auto-resize: true
+  margin-bottom: 2
+  visible: false
+
+Panel
+  anchors.fill: gameMapPanel
+  focusable: false
+
+  Panel
+    id: centerTextMessagePanel
+    layout:
+      type: verticalBox
+      fit-children: true
+    width: 360
+    anchors.centerIn: parent
+
+    TextMessageLabel
+      id: highCenterLabel
+    TextMessageLabel
+      id: middleCenterLabel
+    TextMessageLabel
+      id: lowCenterLabel
+
+  TextMessageLabel
+    id: privateLabel
+    anchors.top: parent.top
+    anchors.bottom: centerTextMessagePanel.top
+    anchors.horizontalCenter: parent.horizontalCenter
+    text-auto-resize: false
+    width: 320
+
+  TextMessageLabel
+    id: statusLabel
+    anchors.bottom: parent.bottom
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-bottom: 7
+    width: 520
+
+  UIWidget
+    id: lootBanner
+    anchors.top: parent.top
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-top: 24
+    height: 34
+    padding: 0 14 0 14
+    image-source: /images/lionfell/panel
+    image-border: 6
+    phantom: true
+    visible: false
+    layout:
+      type: horizontalBox
+      spacing: 10
+      fit-children: true
+
+    UILabel
+      id: lootTag
+      text: LOOT
+      ttf-font: GeistMono-Medium
+      ttf-font-size: 10
+      color: #7d7a76
+      text-auto-resize: true
+      text-offset: 0 11
+      height: 34
+      phantom: true
+
+    // the text message module writes here; &lfBanner makes it show/hide the banner too
+    UILabel
+      id: lootText
+      &lfBanner: true
+      ttf-font: Geist-Regular
+      ttf-font-size: 13
+      color: #cfccc7
+      text-auto-resize: true
+      text-offset: 0 9
+      height: 34
+      phantom: true
+      visible: false

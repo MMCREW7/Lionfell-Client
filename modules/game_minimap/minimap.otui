@@ -1,0 +1,161 @@
+// Lionfell minimap (mockup: map with zoom buttons on top, footer with coordinates and
+// floor). minimap.lua addresses minimapBorder.minimap, layersPanel.* and rosePanel.*, so
+// those widgets stay; the compass rose and layer slider are hidden. The footer text is
+// filled in by game_lionfell_hud.
+
+LfMapButton < UIButton
+  size: 24 24
+  ttf-font: GeistMono-Medium
+  ttf-font-size: 13
+  color: #cfccc7
+  image-source: /images/lionfell/fill_r4
+  image-border: 4
+  image-color: #101112e6
+  change-cursor-image: true
+  cursor: pointer
+
+  $hover:
+    color: #ffffff
+    image-color: #25272a
+
+LfPhantomPanel
+  id: mainmappanel
+  &panelHeight: 290
+  height: 290
+  padding: 8
+
+  UIWidget
+    id: minimapBorder
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 244
+    background-color: #212320
+
+    Minimap
+      id: minimap
+      anchors.fill: parent
+
+  LfMapButton
+    id: zoomIn
+    text: +
+    !tooltip: tr('Zoom in')
+    anchors.top: minimapBorder.top
+    anchors.right: minimapBorder.right
+    margin-top: 6
+    margin-right: 6
+    @onClick: zoomIn()
+
+  LfMapButton
+    id: zoomOut
+    text: -
+    !tooltip: tr('Zoom out')
+    anchors.top: zoomIn.bottom
+    anchors.right: zoomIn.right
+    margin-top: 3
+    @onClick: zoomOut()
+
+  LfMapButton
+    id: fullMap
+    !tooltip: tr('Open the world map')
+    anchors.top: zoomOut.bottom
+    anchors.right: zoomIn.right
+    margin-top: 3
+    icon-source: /images/automap/automap_buttons
+    icon-clip: 0 0 20 20
+    @onClick: openCyclopediaMap()
+
+  UIWidget
+    id: footer
+    anchors.top: minimapBorder.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-top: 8
+    padding: 0 2 0 2
+
+    UILabel
+      id: coords
+      anchors.left: parent.left
+      anchors.verticalCenter: parent.verticalCenter
+      ttf-font: GeistMono-Regular
+      ttf-font-size: 11
+      color: #8d8a86
+      text-auto-resize: true
+      phantom: true
+
+    UIButton
+      id: floorDown
+      !tooltip: tr('Show the floor below')
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      size: 14 14
+      icon-source: /images/lionfell/tri_down
+      icon-color: #6f6c68
+      change-cursor-image: true
+      cursor: pointer
+      @onClick: downLayer()
+
+      $hover:
+        icon-color: #e7e5e2
+
+    UILabel
+      id: floor
+      anchors.right: floorDown.left
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 4
+      ttf-font: GeistMono-Medium
+      ttf-font-size: 11
+      color: #e7e5e2
+      text-auto-resize: true
+      phantom: true
+
+    UIButton
+      id: floorUp
+      !tooltip: tr('Show the floor above')
+      anchors.right: floor.left
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 4
+      size: 14 14
+      icon-source: /images/lionfell/tri_up
+      icon-color: #6f6c68
+      change-cursor-image: true
+      cursor: pointer
+      @onClick: upLayer()
+
+      $hover:
+        icon-color: #e7e5e2
+
+  // kept for minimap.lua; not part of this layout
+  UIWidget
+    id: layersPanel
+    visible: false
+    size: 0 0
+
+    UIWidget
+      id: automapLayers
+      image-source: /images/automap/automap_indicator_maplayers
+      image-clip: 98 0 14 67
+      size: 14 67
+
+    UIWidget
+      id: layersMark
+
+  UIWidget
+    id: rosePanel
+    visible: false
+    size: 0 0
+
+    UIWidget
+      id: ambients
+
+      UIWidget
+        id: main
+        image-source: /images/automap/timedisplay_scroll
+
+      UIWidget
+        id: secondary
+        image-source: /images/automap/timedisplay_scroll
+
+    UIWidget
+      id: rose

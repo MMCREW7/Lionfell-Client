@@ -1,0 +1,302 @@
+// Lionfell skins for the stock in-game widgets. Loaded by client_lionfell before the game_*
+// modules, so their styles derive from these. Child ids match the stock styles exactly
+// (the module Lua looks them up by id).
+
+// Flat panel used for the docked HUD blocks (minimap, equipment) instead of PhantomMiniWindow
+LfPhantomPanel < UIMiniWindow
+  draggable: true
+  phantom: false
+  focusable: false
+  &moveOnlyToMain: true
+  image-source: /images/lionfell/panel
+  image-border: 6
+
+  UIWidget
+    id: miniwindowTopBar
+    phantom: true
+
+  UIButton
+    id: closeButton
+    phantom: true
+    visible: false
+
+// Equipment slot: 44px, labelled placeholder when empty (the module enables the matching
+// placeholder child while the slot is empty).
+LfSlotLabel < UILabel
+  anchors.centerIn: parent
+  ttf-font: GeistMono-Regular
+  ttf-font-size: 9
+  color: #4a4b4d
+  text-auto-resize: true
+  phantom: true
+  enabled: false
+
+  $disabled:
+    opacity: 0
+
+  $!disabled:
+    opacity: 1
+
+MainInventoryItem < UIWidget
+  image-source: /images/lionfell/slot
+  image-border: 4
+  phantom: false
+  size: 44 44
+
+  $on:
+    image-source: /images/lionfell/slot_hover
+
+  LfSlotLabel
+    id: backpack
+    text: bag
+
+  LfSlotLabel
+    id: boots
+    text: boots
+
+  LfSlotLabel
+    id: ring
+    text: ring
+
+  LfSlotLabel
+    id: helmet
+    text: helmet
+
+  LfSlotLabel
+    id: tools
+    text: ammo
+
+  LfSlotLabel
+    id: sword
+    text: weapon
+
+  LfSlotLabel
+    id: legs
+    text: legs
+
+  LfSlotLabel
+    id: amulet
+    text: amulet
+
+  LfSlotLabel
+    id: shield
+    text: shield
+
+  LfSlotLabel
+    id: armor
+    text: armor
+
+  UIWidget
+    id: golden
+    anchors.fill: parent
+    phantom: true
+    visible: false
+
+  UIItem
+    id: item
+    anchors.centerIn: parent
+    size: 34 34
+    padding: 1
+    font: verdana-11px-rounded
+    border-color: #4a4b4d
+    color: #e7e5e2
+
+    Label
+      id: duration
+      anchors.bottom: parent.bottom
+      anchors.left: parent.left
+      phantom: true
+
+    Label
+      id: charges
+      anchors.top: parent.top
+      anchors.left: parent.left
+      phantom: true
+      text-auto-resize: true
+      font: "verdana-11px-rounded"
+
+    UIWidget
+      id: tier
+      size: 10 9
+      image-source: /images/inventory/tiers-strip
+      image-clip: 0 0 10 9
+      image-size: 10 9
+      anchors.top: parent.top
+      anchors.right: parent.right
+      phantom: true
+      focusable: false
+      visible: false
+      image-smooth: true
+
+// Small icon chip used for combat/stance/pvp toggles. The stock code marks the active
+// choice by disabling it, so $disabled is the "selected" look.
+LfIconChip < UIButton
+  size: 26 22
+  border-width: 0
+  border-color: #c9a45a
+  image-source: /images/lionfell/fill_r4
+  image-border: 4
+  image-color: alpha
+  icon-color: #8d8a86
+  opacity: 1
+  change-cursor-image: true
+  cursor: pointer
+
+  $hover !disabled:
+    image-color: #25272a
+
+  // the inventory module marks the active fighting / chase mode by disabling its chip
+  $disabled:
+    image-color: #3a3326
+    border-width: 1
+    border-color: #c9a45a
+    icon-color: #f1efec
+    opacity: 1
+
+// Battle list row (mockup: 28px portrait, name, thin HP bar; target gets a red outline)
+CreatureButton < UICreatureButton
+  height: 40
+  margin-bottom: 2
+  image-source: /images/lionfell/fill_r4
+  image-border: 4
+  image-color: alpha
+  border-width: 0
+
+  $hover:
+    image-color: #1d1f20
+
+  UIWidget
+    id: portrait
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 6
+    size: 28 28
+    image-source: /images/lionfell/fill_r4
+    image-border: 4
+    image-color: #232425
+    phantom: true
+
+  UICreature
+    id: creature
+    size: 28 28
+    anchors.left: portrait.left
+    anchors.top: portrait.top
+    phantom: true
+
+  UIWidget
+    id: spacer
+    width: 10
+    anchors.left: creature.right
+    anchors.top: creature.top
+    phantom: true
+
+  UIWidget
+    id: botBadge
+    size: 0 11
+    anchors.left: spacer.right
+    anchors.top: parent.top
+    margin-top: 10
+    phantom: true
+
+  UIWidget
+    id: skull
+    height: 11
+    anchors.left: botBadge.right
+    anchors.top: parent.top
+    margin-top: 10
+    phantom: true
+
+  UIWidget
+    id: emblem
+    height: 11
+    anchors.left: skull.right
+    anchors.top: parent.top
+    margin-top: 10
+    phantom: true
+
+  UIWidget
+    id: iconsMonsterSlot1
+    height: 11
+    width: 11
+    anchors.right: parent.right
+    anchors.top: label.top
+    margin-right: 8
+    margin-top: 2
+    phantom: true
+
+  UIWidget
+    id: iconsMonsterSlot2
+    height: 11
+    width: 11
+    anchors.right: prev.left
+    anchors.top: label.top
+    margin-right: 4
+    margin-top: 2
+    phantom: true
+
+  UIWidget
+    id: iconsMonsterSlot3
+    height: 11
+    width: 11
+    anchors.right: prev.left
+    anchors.top: label.top
+    margin-right: 4
+    margin-top: 2
+    phantom: true
+
+  Label
+    id: label
+    anchors.left: emblem.right
+    anchors.top: parent.top
+    margin-top: 8
+    ttf-font: Geist-Regular
+    ttf-font-size: 12
+    color: #cfccc7
+    phantom: true
+    text-auto-resize: true
+
+  UIWidget
+    id: lifeTrack
+    height: 3
+    anchors.left: spacer.right
+    anchors.right: parent.right
+    anchors.top: label.bottom
+    margin-top: 6
+    margin-right: 8
+    background-color: #0b0c0c
+    phantom: true
+
+  UIProgressBar
+    id: lifeBar
+    height: 3
+    anchors.left: lifeTrack.left
+    anchors.right: lifeTrack.right
+    anchors.top: lifeTrack.top
+    background-color: #8fb08a
+    phantom: true
+
+// Backpack/container slot: 40px cell, 4px padding keeps 32px item art pixel-exact
+LfContainerItem < UIItem
+  size: 40 40
+  padding: 4
+  image-source: /images/lionfell/slot
+  image-border: 4
+  font: verdana-11px-rounded
+  border-color: #4a4b4d
+  color: #e7e5e2
+
+  $disabled:
+    color: #646464
+
+  UIWidget
+    id: tier
+    size: 10 9
+    image-source: /images/inventory/tiers-strip
+    image-clip: 0 0 10 9
+    image-size: 10 9
+    anchors.top: parent.top
+    anchors.right: parent.right
+    phantom: true
+    focusable: false
+    visible: false
+    image-smooth: true

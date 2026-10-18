@@ -1,0 +1,157 @@
+// Lionfell auto loot window. Every control is wired up by loot.lua.
+
+LfLootSectionTitle < LfCaps
+  margin-top: 14
+
+LfLootCheck < LfCheckBox
+  margin-top: 8
+
+LfLootBox < UIWidget
+  height: 92
+  margin-top: 6
+  image-source: /images/lionfell/chip
+  image-border: 3
+  image-color: #101112dc
+
+LfLootList < UIWidget
+  anchors.fill: parent
+  padding: 6
+  layout:
+    type: grid
+    cell-size: 36 36
+    cell-spacing: 4
+    flow: true
+
+LfLootListHint < LfMuted
+  anchors.centerIn: parent
+  ttf-font-size: 11
+  text-align: center
+  text-wrap: true
+  text-auto-resize: false
+  width: 260
+  height: 30
+  phantom: true
+
+LfLootItem < UIItem
+  size: 36 36
+  padding: 2
+  image-source: /images/lionfell/slot
+  image-border: 4
+  virtual: true
+
+LfWindow
+  id: lootWindow
+  width: 420
+  height: 585
+  anchors.top: parent.top
+  anchors.right: parent.right
+  margin-top: 80
+  margin-right: 320
+  padding: 14 16 14 16
+  draggable: true
+  visible: false
+  layout:
+    type: verticalBox
+
+  UIWidget
+    id: header
+    height: 26
+    phantom: true
+
+    LfTitle
+      id: title
+      !text: tr('Auto loot')
+      anchors.left: parent.left
+      anchors.verticalCenter: parent.verticalCenter
+
+    LfCheckBox
+      id: enabled
+      !text: tr('On')
+      anchors.right: close.left
+      anchors.verticalCenter: parent.verticalCenter
+      margin-right: 14
+
+    LfPillButton
+      id: close
+      !text: tr('Close')
+      height: 26
+      padding: 0 10 0 10
+      ttf-font-size: 11
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      @onClick: modules.game_lionfell_loot.hide()
+
+  LfMuted
+    id: intro
+    !text: tr('Loot from your kills goes straight into your pack and bags.')
+    margin-top: 6
+    ttf-font-size: 11
+    text-wrap: true
+    text-auto-resize: false
+    height: 16
+
+  LfLootSectionTitle
+    !text: tr('PICK UP')
+
+  LfLootCheck
+    id: gold
+    !text: tr('Gold and money')
+
+  LfLootCheck
+    id: supplies
+    !text: tr('Potions and runes')
+
+  LfLootCheck
+    id: stackables
+    !text: tr('Creature products, gems, ammo')
+
+  LfLootCheck
+    id: other
+    !text: tr('Everything else')
+
+  LfLootSectionTitle
+    !text: tr('GEAR, FROM QUALITY')
+
+  UIWidget
+    id: qualityRow
+    height: 34
+    margin-top: 8
+    phantom: true
+
+    LfSegmentBar
+      id: quality
+      anchors.top: parent.top
+      anchors.left: parent.left
+
+  LfLootSectionTitle
+    id: alwaysTitle
+    !text: tr('ALWAYS PICK UP')
+
+  LfLootBox
+    LfLootList
+      id: always
+
+    LfLootListHint
+      id: alwaysHint
+      !text: tr('Right-click any item and choose "Always pick up".')
+
+  LfLootSectionTitle
+    id: neverTitle
+    !text: tr('NEVER PICK UP')
+
+  LfLootBox
+    LfLootList
+      id: never
+
+    LfLootListHint
+      id: neverHint
+      !text: tr('Right-click any item and choose "Never pick up".')
+
+  LfMuted
+    id: footer
+    !text: tr('The lists win over the checkboxes. Right-click an item here to remove it. Loot only comes to you from your own kills, within 8 tiles.')
+    margin-top: 12
+    ttf-font-size: 11
+    text-wrap: true
+    text-auto-resize: false
+    height: 46

@@ -1,0 +1,688 @@
+WhiteDoveBox < CombatBox
+  image-source: /images/game/combatmodes/whitedovemode
+WhiteHandBox < CombatBox
+  image-source: /images/game/combatmodes/whitehandmode
+YellowHandBox < CombatBox
+  image-source: /images/game/combatmodes/yellowhandmode
+RedFistBox < CombatBox
+  image-source: /images/game/combatmodes/redfistmode
+// Lionfell PvP mode chip: a coloured dot on the flat chip; checked = the active mode
+LfPvpModeChip < UICheckBox
+  size: 24 22
+  border-width: 0
+  border-color: #c9a45a
+  image-source: /images/lionfell/fill_r4
+  image-border: 4
+  image-color: #1d1f20
+  icon-source: /images/lionfell/dot
+  opacity: 0.55
+  change-cursor-image: true
+  cursor: pointer
+
+  $hover:
+    opacity: 0.85
+
+  $checked:
+    image-color: #3a3326
+    border-width: 1
+    border-color: #c9a45a
+    opacity: 1
+SafeFightBox < CombatBox
+  image-source: /images/game/combatmodes/safefight
+
+StandModeBox < UICheckBox
+  size: 20 20
+  image-source: /images/inventory/buttons_general
+  image-clip: 0 0 20 20
+  $checked:
+    image-clip: 20 0 20 20
+
+ChaseModeBox < UICheckBox
+  size: 20 20
+  image-source: /images/inventory/buttons_general
+  image-clip: 0 20 20 20
+  $checked:
+    image-clip: 20 20 20 20
+
+ConditionWidget < UIWidget
+  size: 10 10
+
+
+// Lionfell equipment panel (mockup: EQUIPMENT header with CAP / SOUL, 3x4 grid of 44px slots).
+// Every id the inventory module touches is kept; combat/stance/pvp sit in one chip row.
+LfPhantomPanel
+  id: maininventorypanel
+  height: 312
+  &panelHeight: 312
+  on: true
+
+  $!on:
+    &panelHeight: 62
+    height: 62
+
+  UIWidget
+    id: onPanel
+    anchors.fill: parent
+    padding: 10 12 12 12
+    phantom: true
+
+    UILabel
+      id: lfTitle
+      text: EQUIPMENT
+      anchors.top: parent.top
+      anchors.left: parent.left
+      ttf-font: GeistMono-Medium
+      ttf-font-size: 10
+      color: #7d7a76
+      text-auto-resize: true
+      phantom: true
+
+    UIWidget
+      id: soulAndCapacity
+      anchors.top: parent.top
+      anchors.right: parent.right
+      height: 12
+      width: 150
+      phantom: true
+
+      UILabel
+        id: soul
+        anchors.right: parent.right
+        anchors.top: parent.top
+        ttf-font: GeistMono-Regular
+        ttf-font-size: 10
+        color: #6f6c68
+        text-auto-resize: true
+
+      UILabel
+        id: soulCaption
+        text: SOUL
+        anchors.right: soul.left
+        anchors.top: parent.top
+        margin-right: 4
+        ttf-font: GeistMono-Regular
+        ttf-font-size: 10
+        color: #6f6c68
+        text-auto-resize: true
+
+      UILabel
+        id: dot
+        !text: '  \183  '
+        anchors.right: soulCaption.left
+        anchors.top: parent.top
+        ttf-font: GeistMono-Regular
+        ttf-font-size: 10
+        color: #6f6c68
+        text-auto-resize: true
+
+      UILabel
+        id: capacity
+        anchors.right: dot.left
+        anchors.top: parent.top
+        ttf-font: GeistMono-Regular
+        ttf-font-size: 10
+        color: #6f6c68
+        text-auto-resize: true
+
+      UILabel
+        id: capCaption
+        text: CAP
+        anchors.right: capacity.left
+        anchors.top: parent.top
+        margin-right: 4
+        ttf-font: GeistMono-Regular
+        ttf-font-size: 10
+        color: #6f6c68
+        text-auto-resize: true
+
+    // 3x4 grid, 44px slots, 6px gaps, centred: amulet helmet bag / weapon armor shield /
+    // ring legs ammo / - boots -
+    UIWidget
+      id: grid
+      anchors.top: lfTitle.bottom
+      anchors.horizontalCenter: parent.horizontalCenter
+      margin-top: 12
+      size: 144 194
+      phantom: true
+
+    MainInventoryItem
+      id: amulet
+      anchors.top: grid.top
+      anchors.left: grid.left
+      &slotPosition: {x = 65535, y = 2, z = 0}
+
+    MainInventoryItem
+      id: helmet
+      anchors.top: grid.top
+      anchors.left: amulet.right
+      margin-left: 6
+      &slotPosition: {x = 65535, y = 1, z = 0}
+
+    MainInventoryItem
+      id: backpack
+      anchors.top: grid.top
+      anchors.left: helmet.right
+      margin-left: 6
+      &slotPosition: {x = 65535, y = 3, z = 0}
+
+    MainInventoryItem
+      id: sword
+      anchors.top: amulet.bottom
+      anchors.left: amulet.left
+      margin-top: 6
+      &slotPosition: {x = 65535, y = 6, z = 0}
+
+    MainInventoryItem
+      id: armor
+      anchors.top: helmet.bottom
+      anchors.left: helmet.left
+      margin-top: 6
+      &slotPosition: {x = 65535, y = 4, z = 0}
+
+    MainInventoryItem
+      id: shield
+      anchors.top: backpack.bottom
+      anchors.left: backpack.left
+      margin-top: 6
+      &slotPosition: {x = 65535, y = 5, z = 0}
+
+    MainInventoryItem
+      id: ring
+      anchors.top: sword.bottom
+      anchors.left: amulet.left
+      margin-top: 6
+      &slotPosition: {x = 65535, y = 9, z = 0}
+
+    MainInventoryItem
+      id: legs
+      anchors.top: armor.bottom
+      anchors.left: helmet.left
+      margin-top: 6
+      &slotPosition: {x = 65535, y = 7, z = 0}
+
+    MainInventoryItem
+      id: tools
+      anchors.top: shield.bottom
+      anchors.left: backpack.left
+      margin-top: 6
+      &slotPosition: {x = 65535, y = 10, z = 0}
+
+    MainInventoryItem
+      id: boots
+      anchors.top: legs.bottom
+      anchors.left: helmet.left
+      margin-top: 6
+      &slotPosition: {x = 65535, y = 8, z = 0}
+
+    // combat / stance / pvp (the module marks the active choice by disabling it)
+    UIWidget
+      id: controlsDivider
+      anchors.top: grid.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 10
+      height: 1
+      background-color: #ffffff0d
+      phantom: true
+
+    // row 1: fighting mode, chase mode, stop
+    UIWidget
+      id: chips
+      anchors.top: controlsDivider.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 9
+      height: 22
+      phantom: true
+
+    // row 2: secure mode (PVP), expert mode and the PvP modes it reveals
+    UIWidget
+      id: pvpRow
+      anchors.top: chips.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 6
+      height: 22
+      phantom: true
+
+    LfIconChip
+      id: attack
+      !tooltip: tr('Offensive fighting')
+      anchors.left: chips.left
+      anchors.top: chips.top
+      icon-source: /images/inventory/buttons_general
+      icon-clip: 0 40 20 20
+      @onClick: selectCombat('attack')
+
+    LfIconChip
+      id: balanced
+      !tooltip: tr('Balanced fighting')
+      anchors.left: attack.right
+      anchors.top: chips.top
+      margin-left: 2
+      icon-source: /images/inventory/buttons_general
+      icon-clip: 0 80 20 20
+      @onClick: selectCombat('balanced')
+
+    LfIconChip
+      id: defense
+      !tooltip: tr('Defensive fighting')
+      anchors.left: balanced.right
+      anchors.top: chips.top
+      margin-left: 2
+      icon-source: /images/inventory/buttons_general
+      icon-clip: 0 60 20 20
+      @onClick: selectCombat('defense')
+
+    LfIconChip
+      id: standPosture
+      !tooltip: tr('Stand while fighting')
+      anchors.left: defense.right
+      anchors.top: chips.top
+      margin-left: 10
+      icon-source: /images/inventory/buttons_general
+      icon-clip: 0 0 20 20
+      @onClick: selectPosture('stand')
+
+    LfIconChip
+      id: followPosture
+      !tooltip: tr('Chase opponent')
+      anchors.left: standPosture.right
+      anchors.top: chips.top
+      margin-left: 2
+      icon-source: /images/inventory/buttons_general
+      icon-clip: 0 20 20 20
+      @onClick: selectPosture('follow')
+
+    UICheckBox
+      id: pvp
+      !tooltip: tr('Secure mode (PvP)')
+      anchors.left: pvpRow.left
+      anchors.top: pvpRow.top
+      size: 34 22
+      text: PVP
+      text-align: center
+      border-width: 0
+      border-color: #c9a45a
+      ttf-font: GeistMono-Medium
+      ttf-font-size: 10
+      color: #6f6c68
+      image-source: /images/lionfell/fill_r4
+      image-border: 4
+      image-color: alpha
+      change-cursor-image: true
+      cursor: pointer
+
+      $checked:
+        color: #f1efec
+        image-color: #3a3326
+        border-width: 1
+        border-color: #c9a45a
+
+    UIButton
+      id: stop
+      !text: tr('STOP')
+      !tooltip: tr('Stop all actions')
+      anchors.right: chips.right
+      anchors.top: chips.top
+      size: 38 22
+      ttf-font: GeistMono-Medium
+      ttf-font-size: 10
+      color: #8d8a86
+      image-source: /images/lionfell/fill_r4
+      image-border: 4
+      image-color: #1d1f20
+      change-cursor-image: true
+      cursor: pointer
+      @onClick: |
+        g_game.stop()
+        g_game.getLocalPlayer():stopAutoWalk()
+
+      $hover:
+        color: #f1efec
+        image-color: #25272a
+
+    // expert mode (the module shows it when the server supports it): reveals the PvP mode chips
+    UICheckBox
+      id: expert
+      !tooltip: tr('Expert mode: choose who you may attack')
+      anchors.left: pvp.right
+      anchors.top: pvpRow.top
+      margin-left: 4
+      size: 34 22
+      text: EXP
+      text-align: center
+      border-width: 0
+      border-color: #c9a45a
+      ttf-font: GeistMono-Medium
+      ttf-font-size: 10
+      color: #6f6c68
+      image-source: /images/lionfell/fill_r4
+      image-border: 4
+      image-color: alpha
+      change-cursor-image: true
+      cursor: pointer
+
+      $hover:
+        color: #cfccc7
+
+      $checked:
+        color: #f1efec
+        image-color: #3a3326
+        border-width: 1
+        border-color: #c9a45a
+
+    // kept for the module, not part of this layout
+
+    // PvP modes (only shown by the module on servers with GamePVPMode), right-aligned above the chips
+    LfPvpModeChip
+      id: redFistBox
+      !tooltip: tr('Red fist: attack anyone')
+      anchors.right: pvpRow.right
+      anchors.top: pvpRow.top
+      icon-color: #d9534f
+      visible: false
+
+    LfPvpModeChip
+      id: yellowHandBox
+      !tooltip: tr('Yellow hand: attack anyone who attacks you or has a skull')
+      anchors.right: redFistBox.left
+      anchors.top: redFistBox.top
+      margin-right: 2
+      icon-color: #e2c14a
+      visible: false
+
+    LfPvpModeChip
+      id: whiteHandBox
+      !tooltip: tr('White hand: fight back against attackers')
+      anchors.right: yellowHandBox.left
+      anchors.top: redFistBox.top
+      margin-right: 2
+      icon-color: #e7e5e2
+      visible: false
+
+    LfPvpModeChip
+      id: whiteDoveBox
+      !tooltip: tr('Dove: never attack other players')
+      anchors.right: whiteHandBox.left
+      anchors.top: redFistBox.top
+      margin-right: 2
+      icon-color: #7fb6e0
+      visible: false
+
+    Button
+      id: changeSize
+      visible: false
+      size: 0 0
+      @onClick: changeInventorySize()
+
+    // blessings status: a dot next to the title, grey / gold / green (game_blessing picks the colour)
+    UIButton
+      id: blessings
+      !tooltip: tr('Blessings')
+      anchors.left: lfTitle.right
+      anchors.verticalCenter: lfTitle.verticalCenter
+      margin-left: 8
+      size: 14 14
+      icon-source: /images/lionfell/dot
+      icon-color: #6f6c68
+      image-source: /images/lionfell/fill_r4
+      image-border: 4
+      image-color: alpha
+      &lfStateColors: { '#6f6c68', '#d4b25a', '#6fbf73' }
+      change-cursor-image: true
+      cursor: pointer
+      @onClick: modules.game_blessing.toggle()
+
+      $hover:
+        image-color: #25272a
+
+    // store inbox (purse slot)
+    UIButton
+      id: purseButton
+      !tooltip: tr('Open your store inbox')
+      !text: tr('INBOX')
+      anchors.left: blessings.right
+      anchors.verticalCenter: lfTitle.verticalCenter
+      margin-left: 4
+      size: 36 14
+      ttf-font: GeistMono-Medium
+      ttf-font-size: 9
+      color: #6f6c68
+      image-source: /images/lionfell/fill_r4
+      image-border: 4
+      image-color: alpha
+      change-cursor-image: true
+      cursor: pointer
+      @onClick: |
+        local purse = g_game.getLocalPlayer():getInventoryItem(InventorySlotPurse)
+        if purse then
+            g_game.use(purse)
+        end
+
+      $hover:
+        color: #e7e5e2
+        image-color: #25272a
+
+    Panel
+      id: icons
+      visible: false
+      size: 0 0
+      layout:
+        type: horizontalBox
+
+  UIWidget
+    id: offPanel
+    anchors.fill: parent
+    phantom: true
+    visible: false
+
+    Button
+      id: changeSize
+      image-source: /images/inventory/max_button_small
+      image-clip: 0 0 12 12
+      anchors.top: parent.top
+      anchors.left: parent.left
+      margin-left: 8
+      margin-top: 5
+      size: 12 12
+      @onClick: changeInventorySize()
+
+      $pressed !disabled:
+        image-clip: 12 0 12 12
+
+    UIWidget
+      id: soulAndCapacity
+      image-source: /images/inventory/containerslot
+      image-border: 3
+      phantom: false
+      anchors.left: changeSize.right
+      anchors.top: changeSize.top
+      margin-left: 4
+      size: 30 44
+
+      Label
+        !text: tr('Cap')
+        text.align: center
+        font: cipsoftFont
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+        color: #c0c0c0ff
+        margin-top: 1
+        height: 10
+
+      Label
+        id: capacity
+        !text: '10000'
+        font: cipsoftFont
+        text-align: center
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+        margin-top: 8
+        color: #c0c0c0ff
+
+      Label
+        !text: tr('Soul')
+        text.align: center
+        font: cipsoftFont
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        color: #c0c0c0ff
+        margin-bottom: 8
+        height: 10
+
+      Label
+        id: soul
+        !text: '100000'
+        font: cipsoftFont
+        text-align: center
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        margin-bottom: -2
+        color: #c0c0c0ff
+
+    TopToggleButton
+      id: attack
+      image-source: /images/inventory/buttons_general
+      image-clip: 0 40 20 20
+      anchors.left: soulAndCapacity.right
+      anchors.top: changeSize.top
+      margin-left: 3
+      size: 20 20
+      @onClick: |
+        selectCombat('attack')
+
+      $pressed !disabled:
+        image-clip: 20 40 20 20
+
+      $disabled:
+        image-clip: 20 40 20 20
+
+    TopToggleButton
+      id: defense
+      image-source: /images/inventory/buttons_general
+      image-clip: 0 60 20 20
+      anchors.left: attack.right
+      anchors.top: changeSize.top
+      margin-left: 1
+      size: 20 20
+      @onClick: |
+        selectCombat('defense')
+
+      $pressed !disabled:
+        image-clip: 20 60 20 20
+
+      $disabled:
+        image-clip: 20 60 20 20
+
+    TopToggleButton
+      id: balanced
+      image-source: /images/inventory/buttons_general
+      image-clip: 0 80 20 20
+      anchors.left: defense.right
+      anchors.top: changeSize.top
+      margin-left: 1
+      size: 20 20
+      @onClick: |
+        selectCombat('balanced')
+
+      $pressed !disabled:
+        image-clip: 20 80 20 20
+
+      $disabled:
+        image-clip: 20 80 20 20
+
+    TopToggleButton
+      id: standPosture
+      image-source: /images/inventory/buttons_general
+      image-clip: 0 0 20 20
+      anchors.left: attack.left
+      anchors.top: attack.bottom
+      margin-top: 4
+      size: 20 20
+      @onClick: |
+        selectPosture('stand')
+
+      $pressed !disabled:
+        image-clip: 20 0 20 20
+
+      $disabled:
+        image-clip: 20 0 20 20
+
+    TopToggleButton
+      id: followPosture
+      image-source: /images/inventory/buttons_general
+      image-clip: 0 20 20 20
+      anchors.left: standPosture.right
+      anchors.top: standPosture.top
+      margin-left: 1
+      size: 20 20
+      @onClick: |
+        selectPosture('follow')
+
+      $pressed !disabled:
+        image-clip: 20 20 20 20
+
+      $disabled:
+        image-clip: 20 20 20 20
+    SafeFightBox
+      id: pvp
+      anchors.left: followPosture.right
+      anchors.top: standPosture.top
+      margin-left: 1
+      margin-top: 0
+      phantom: false
+
+    UIWidget
+      id: expert
+      image-source: /data/images/inventory/button-expert-up
+      anchors.left: changeSize.left
+      anchors.bottom: soulAndCapacity.bottom
+      phantom: false
+      size: 12 12
+      @onClick: |
+        expertMode()
+
+      $checked:
+        image-source: /data/images/inventory/button-expert-down
+
+      $disabled:
+        image-source: /data/images/inventory/button-expert-disabled
+
+    Button
+      id: blessings
+      image-source: /images/inventory/button_blessings_grey
+      image-clip: 0 0 12 12
+      anchors.top: expert.bottom
+      anchors.left: changeSize.left
+      margin-top: 3
+      size: 12 12
+      @onClick: modules.game_blessing.toggle()
+      $pressed !disabled:
+        image-clip: 12 0 12 12
+
+    Panel
+      id: icons
+      anchors.left: soulAndCapacity.left
+      anchors.right: pvp.right
+      anchors.bottom: parent.bottom
+      anchors.top: blessings.top
+      phantom: false
+      image-source: /images/ui/containerslot
+      image-border: 3
+      layout:
+        type: horizontalBox
+
+    TopToggleButton
+      id: stop
+      !text: tr('Stop')
+      anchors.right: parent.right
+      margin-right: 7
+      anchors.bottom: icons.bottom
+      font: cipsoftFont
+      color: #c0c0c0ff
+      size: 44 13
+      @onClick: |
+        g_game.stop()
+        g_game.getLocalPlayer():stopAutoWalk()
+

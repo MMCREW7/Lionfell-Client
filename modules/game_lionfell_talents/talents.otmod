@@ -1,0 +1,9 @@
+Module
+  name: game_lionfell_talents
+  description: Lionfell talent tree (PoE-style passive tree), talks to data/scripts/lionfell/talents/lf_talents.lua
+  author: Lionfell
+  sandboxed: true
+  scripts: [ talents ]
+  dependencies: [ game_interface, client_lionfell ]
+  @onLoad: init()
+  @onUnload: terminate()

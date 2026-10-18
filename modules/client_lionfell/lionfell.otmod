@@ -1,0 +1,9 @@
+Module
+  name: client_lionfell
+  description: Lionfell modern UI theme (flat 9-slice panels, Geist type)
+  author: Lionfell
+  sandboxed: true
+  scripts: [ lionfell ]
+  dependencies: [ client_styles ]
+  @onLoad: init()
+  @onUnload: terminate()

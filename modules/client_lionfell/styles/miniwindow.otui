@@ -1,0 +1,215 @@
+// Lionfell override of MiniWindow (data/styles/30-miniwindow.otui): same widget ids so every
+// module keeps working, but drawn with the flat panel skin. Styles are replaced wholesale on
+// redefinition, so this copies the full structure rather than patching it.
+
+LfHeaderButton < UIButton
+  size: 14 14
+  icon-color: #6f6c68
+  change-cursor-image: true
+  cursor: pointer
+
+  $hover:
+    icon-color: #f1efec
+
+  $pressed:
+    icon-color: #ffffff
+
+// Thin flat scrollbar: no arrow buttons, a 4px slider on a faint track
+LfScrollBar < UIScrollBar
+  orientation: vertical
+  width: 6
+  min-width: 6
+  image-source: /images/lionfell/fill_r4
+  image-border: 2
+  image-color: alpha
+
+  UIButton
+    id: decrementButton
+    anchors.top: parent.top
+    anchors.left: parent.left
+    size: 0 0
+    visible: false
+
+  UIButton
+    id: incrementButton
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    size: 0 0
+    visible: false
+
+  UIButton
+    id: sliderButton
+    anchors.centerIn: parent
+    size: 4 20
+    image-source: /images/lionfell/fill_r4
+    image-border: 2
+    image-color: #ffffff12
+
+    $hover:
+      image-color: #ffffff30
+
+    $pressed:
+      image-color: #ffffff40
+
+MiniWindow < UIMiniWindow
+  font: verdana-11px-antialised
+  width: 192
+  height: 200
+  image-source: /images/lionfell/panel
+  image-border: 6
+  focusable: false
+  &minimizedHeight: 22
+  
+  $on:
+    image-border-bottom: 6
+
+  UIWidget
+    id: miniwindowHeader
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.left: parent.left
+    height: 16
+    margin-top: 3
+    phantom: true
+
+  UIWidget
+    id: miniwindowHeaderBevel
+    anchors.top: miniwindowHeader.bottom
+    anchors.right: parent.right
+    anchors.left: parent.left
+    height: 2
+    margin-left: 3
+    margin-right: 3
+    phantom: true
+
+    UIWidget
+      id: bevelHighlight
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      height: 1
+      background-color: alpha
+      phantom: true
+
+    UIWidget
+      id: bevelShadow
+      anchors.bottom: parent.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      height: 1
+      background-color: alpha
+      phantom: true
+
+  UIWidget
+    id: miniwindowHeaderBorder
+    anchors.top: miniwindowHeaderBevel.bottom
+    anchors.right: parent.right
+    anchors.left: parent.left
+    height: 1
+    margin-left: 6
+    margin-right: 6
+    background-color: #ffffff0d
+    phantom: true
+
+  UIWidget
+    id: miniwindowTopBar
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.left: parent.left
+    margin-right: 3
+    margin-left: 3
+    margin-top: 3
+    size: 258 15
+    phantom: true
+
+  // header buttons: flat glyphs (data/images/lionfell/glyph_*), muted until hovered
+  LfHeaderButton
+    id: closeButton
+    anchors.top: parent.top
+    anchors.right: parent.right
+    margin-top: 5
+    margin-right: 6
+    icon-source: /images/lionfell/glyph_close
+
+  LfHeaderButton
+    id: minimizeButton
+    anchors.top: closeButton.top
+    anchors.right: closeButton.left
+    margin-right: 2
+    icon-source: /images/lionfell/glyph_minimize
+
+    $on:
+      icon-source: /images/lionfell/glyph_restore
+
+  LfHeaderButton
+    id: toggleFilterButton
+    anchors.top: minimizeButton.top
+    anchors.right: minimizeButton.left
+    margin-right: 2
+    icon-source: /images/lionfell/glyph_filter
+
+    $on:
+      icon-color: #e7e5e2
+
+  LfHeaderButton
+    id: contextMenuButton
+    anchors.top: prev.top
+    anchors.right: prev.left
+    margin-right: 2
+    icon-source: /images/lionfell/glyph_menu
+
+  LfHeaderButton
+    id: newWindowButton
+    anchors.top: prev.top
+    anchors.right: prev.left
+    margin-right: 2
+    icon-source: /images/lionfell/glyph_newwindow
+
+  LfHeaderButton
+    id: lockButton
+    anchors.top: prev.top
+    anchors.right: prev.left
+    margin-right: 2
+    icon-source: /images/lionfell/glyph_unlock
+
+    $on:
+      icon-source: /images/lionfell/glyph_lock
+      icon-color: #cfccc7
+
+  LfScrollBar
+    id: miniwindowScrollBar
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    step: 14
+    margin-top: 24
+    margin-right: 3
+    margin-bottom: 6
+    pixels-scroll: true
+
+    $!on:
+      width: 0
+
+  ResizeBorder
+    id: bottomResizeBorder
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 3
+    minimum: 48
+    margin-left: 6
+    margin-right: 6
+    background: #ffffff10
+
+MiniWindowContents < ScrollablePanel
+  id: contentsPanel
+  anchors.top: miniwindowHeader.bottom
+  anchors.left: parent.left
+  anchors.right: miniwindowScrollBar.left
+  anchors.bottom: parent.bottom
+  margin-left: 3
+  margin-bottom: 3
+  margin-top: 2
+  margin-right: 1
+  vertical-scrollbar: miniwindowScrollBar
+  always-show-vertical-scrollbar: true

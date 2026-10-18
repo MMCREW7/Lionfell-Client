@@ -1,0 +1,70 @@
+// Lionfell bags window: the adventurer's pack (24 slots + 4 bag sockets) and every bag in it,
+// in one place. Sections are built by bags.lua.
+
+LfBagSectionTitle < LfMono
+  color: #7d7a76
+  margin-top: 10
+
+LfBagGrid < UIWidget
+  phantom: true
+  layout:
+    type: grid
+    cell-size: 40 40
+    cell-spacing: 4
+    flow: true
+    fit-children: true
+
+LfWindow
+  id: bagsWindow
+  width: 340
+  height: 620
+  anchors.top: parent.top
+  anchors.right: parent.right
+  margin-top: 80
+  margin-right: 300
+  padding: 14 14 14 16
+  draggable: true
+  visible: false
+
+  LfTitle
+    id: title
+    !text: tr('Bags')
+    anchors.top: parent.top
+    anchors.left: parent.left
+
+  LfMono
+    id: summary
+    anchors.verticalCenter: title.verticalCenter
+    anchors.right: close.left
+    margin-right: 10
+
+  LfPillButton
+    id: close
+    !text: tr('Close')
+    height: 26
+    padding: 0 10 0 10
+    ttf-font-size: 11
+    anchors.top: parent.top
+    anchors.right: parent.right
+    @onClick: modules.game_lionfell_bags.hide()
+
+  ScrollablePanel
+    id: content
+    anchors.top: title.bottom
+    anchors.left: parent.left
+    anchors.right: scroll.left
+    anchors.bottom: parent.bottom
+    margin-top: 8
+    margin-right: 4
+    vertical-scrollbar: scroll
+    layout:
+      type: verticalBox
+
+  LfScrollBar
+    id: scroll
+    anchors.top: title.bottom
+    margin-top: 8
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    step: 44
+    pixels-scroll: true

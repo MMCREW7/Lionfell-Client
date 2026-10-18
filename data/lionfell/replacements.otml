@@ -1,0 +1,4078 @@
+// Lionfell replacement art (written by tools/lionfell_replacements.py - edit the tool, not this).
+items
+  103:
+    image: /images/lionfell/replacements/tiledirt_0.png
+    image-layout: single
+    autotile-material: 3 3
+    autotile: /images/lionfell/replacements/tiledirt_edges.png
+  104:
+    image: /images/lionfell/replacements/sandtile_0.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  106:
+    image: /images/lionfell/replacements/tilegrass1_0.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  194:
+    image: /images/lionfell/replacements/tiledirt_1.png
+    image-layout: single
+    autotile-material: 3 3
+    autotile: /images/lionfell/replacements/tiledirt_edges.png
+  231:
+    image: /images/lionfell/replacements/sandtile_1.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  293:
+    image: /images/lionfell/replacements/tilegrass1_1.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  408:
+    image: /images/lionfell/replacements/wood_floor_0.png
+    image-layout: single
+  416:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  418:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  436:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  452:
+    image: /images/lionfell/replacements/wood_floor_1.png
+    image-layout: single
+  453:
+    image: /images/lionfell/replacements/wood_floor_2.png
+    image-layout: single
+  454:
+    image: /images/lionfell/replacements/wood_floor_3.png
+    image-layout: single
+  455:
+    image: /images/lionfell/replacements/wood_floor_4.png
+    image-layout: single
+  456:
+    image: /images/lionfell/replacements/wood_floor_0.png
+    image-layout: single
+  457:
+    image: /images/lionfell/replacements/wood_floor_1.png
+    image-layout: single
+  458:
+    image: /images/lionfell/replacements/wood_floor_2.png
+    image-layout: single
+  459:
+    image: /images/lionfell/replacements/wood_floor_3.png
+    image-layout: single
+  460:
+    image: /images/lionfell/replacements/wood_floor_4.png
+    image-layout: single
+  461:
+    image: /images/lionfell/replacements/wood_floor_0.png
+    image-layout: single
+  462:
+    image: /images/lionfell/replacements/wood_floor_1.png
+    image-layout: single
+  464:
+    image: /images/lionfell/replacements/wood_floor_2.png
+    image-layout: single
+  479:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  481:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  486:
+    image: /images/lionfell/replacements/wood_floor_3.png
+    image-layout: single
+  487:
+    image: /images/lionfell/replacements/wood_floor_4.png
+    image-layout: single
+  488:
+    image: /images/lionfell/replacements/wood_floor_0.png
+    image-layout: single
+  489:
+    image: /images/lionfell/replacements/wood_floor_1.png
+    image-layout: single
+  490:
+    image: /images/lionfell/replacements/wood_floor_2.png
+    image-layout: single
+  491:
+    image: /images/lionfell/replacements/wood_floor_3.png
+    image-layout: single
+  492:
+    image: /images/lionfell/replacements/wood_floor_4.png
+    image-layout: single
+  493:
+    image: /images/lionfell/replacements/wood_floor_0.png
+    image-layout: single
+  494:
+    image: /images/lionfell/replacements/wood_floor_1.png
+    image-layout: single
+  495:
+    image: /images/lionfell/replacements/wood_floor_2.png
+    image-layout: single
+  496:
+    image: /images/lionfell/replacements/wood_floor_3.png
+    image-layout: single
+  497:
+    image: /images/lionfell/replacements/wood_floor_4.png
+    image-layout: single
+  498:
+    image: /images/lionfell/replacements/wood_floor_0.png
+    image-layout: single
+  499:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  500:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  501:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  502:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  503:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  504:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  529:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  530:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  531:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  532:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  533:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  534:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  562:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  563:
+    image: /images/lionfell/replacements/wood_floor_1.png
+    image-layout: single
+  564:
+    image: /images/lionfell/replacements/wood_floor_2.png
+    image-layout: single
+  614:
+    image: /images/lionfell/replacements/sandtile_2.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  870:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  905:
+    image: /images/lionfell/replacements/wood_floor_3.png
+    image-layout: single
+  914:
+    image: /images/lionfell/replacements/tree_092_spiky_oak.png
+    image-layout: single
+  915:
+    image: /images/lionfell/replacements/tree_093_emerald_oak.png
+    image-layout: single
+  916:
+    image: /images/lionfell/replacements/tree_096_green_puff_oak.png
+    image-layout: single
+  958:
+    image: /images/lionfell/replacements/tree_074_dead_sapling.png
+    image-layout: single
+  959:
+    image: /images/lionfell/replacements/sandtile_3.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  960:
+    image: /images/lionfell/replacements/sandtile_0.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  961:
+    image: /images/lionfell/replacements/sandtile_1.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  962:
+    image: /images/lionfell/replacements/sandtile_2.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  963:
+    image: /images/lionfell/replacements/sandtile_3.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  964:
+    image: /images/lionfell/replacements/sandtile_0.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  965:
+    image: /images/lionfell/replacements/sandtile_1.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  966:
+    image: /images/lionfell/replacements/sandtile_2.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  967:
+    image: /images/lionfell/replacements/sandtile_3.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  2986:
+    image: /images/lionfell/replacements/tree_061_shrub_oak.png
+    image-layout: single
+  3608:
+    image: /images/lionfell/replacements/tree_078_frost_deadwood.png
+    image-layout: single
+  3609:
+    image: /images/lionfell/replacements/tree_006_frost_coral_tree.png
+    image-layout: single
+  3613:
+    image: /images/lionfell/replacements/tree_097_starroot_oak.png
+    image-layout: single
+  3614:
+    image: /images/lionfell/replacements/tree_035_golden_larch.png
+    image-layout: single
+  3616:
+    image: /images/lionfell/replacements/tree_025_green_linden.png
+    image-layout: single
+  3617:
+    image: /images/lionfell/replacements/tree_100_grove_oak.png
+    image-layout: single
+  3619:
+    image: /images/lionfell/replacements/tree_096_green_puff_oak.png
+    image-layout: single
+  3623:
+    image: /images/lionfell/replacements/tree_014_dead_oak.png
+    image-layout: single
+  3624:
+    image: /images/lionfell/replacements/tree_018_dead_snag.png
+    image-layout: single
+  3625:
+    image: /images/lionfell/replacements/tree_033_blossom_linden.png
+    image-layout: single
+  3626:
+    image: /images/lionfell/replacements/tree_035_golden_larch.png
+    image-layout: single
+  3631:
+    image: /images/lionfell/replacements/tree_034_brushwood_tree.png
+    image-layout: single
+  3632:
+    image: /images/lionfell/replacements/tree_040_bare_beech.png
+    image-layout: single
+  3633:
+    image: /images/lionfell/replacements/tree_042_driftwood_snag.png
+    image-layout: single
+  3634:
+    image: /images/lionfell/replacements/tree_046_hooked_deadwood.png
+    image-layout: single
+  3636:
+    image: /images/lionfell/replacements/tree_081_forked_oak.png
+    image-layout: single
+  3639:
+    image: /images/lionfell/replacements/tree_050_young_palm.png
+    image-layout: single
+  3640:
+    image: /images/lionfell/replacements/tree_045_tropical_palm.png
+    image-layout: single
+  3742:
+    image: /images/lionfell/replacements/tree_088_meadow_oak.png
+    image-layout: single
+  3743:
+    image: /images/lionfell/replacements/tree_096_green_puff_oak.png
+    image-layout: single
+  3752:
+    image: /images/lionfell/replacements/tree_004_wild_elm.png
+    image-layout: single
+  3771:
+    image: /images/lionfell/replacements/tree_084_spring_oak.png
+    image-layout: single
+  3772:
+    image: /images/lionfell/replacements/tree_088_meadow_oak.png
+    image-layout: single
+  3773:
+    image: /images/lionfell/replacements/tree_092_spiky_oak.png
+    image-layout: single
+  3963:
+    image: /images/lionfell/replacements/tree_093_emerald_oak.png
+    image-layout: single
+  3964:
+    image: /images/lionfell/replacements/tree_096_green_puff_oak.png
+    image-layout: single
+  4433:
+    image: /images/lionfell/replacements/tree_010_frost_oak.png
+    image-layout: single
+  4515:
+    image: /images/lionfell/replacements/tilegrass1_2.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  4516:
+    image: /images/lionfell/replacements/tilegrass1_3.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  4517:
+    image: /images/lionfell/replacements/tilegrass1_4.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  4518:
+    image: /images/lionfell/replacements/tilegrass1_0.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  4519:
+    image: /images/lionfell/replacements/tilegrass1_1.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  4520:
+    image: /images/lionfell/replacements/tilegrass1_2.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  4521:
+    image: /images/lionfell/replacements/tilegrass1_3.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  4522:
+    image: /images/lionfell/replacements/tilegrass1_4.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  4523:
+    image: /images/lionfell/replacements/tilegrass1_0.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  4524:
+    image: /images/lionfell/replacements/tilegrass1_1.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  4525:
+    image: /images/lionfell/replacements/tilegrass1_2.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  4526:
+    image: /images/lionfell/replacements/tilegrass1_3.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  4527:
+    image: /images/lionfell/replacements/tilegrass1_4.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  4528:
+    image: /images/lionfell/replacements/tilegrass1_0.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  4529:
+    image: /images/lionfell/replacements/tilegrass1_1.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  4530:
+    image: /images/lionfell/replacements/tilegrass1_2.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  4680:
+    image: /images/lionfell/replacements/swampwater_0.png
+    image-layout: single
+    autotile-material: 4 1
+  4681:
+    image: /images/lionfell/replacements/swampwater_1.png
+    image-layout: single
+    autotile-material: 4 1
+  4682:
+    image: /images/lionfell/replacements/swampwater_2.png
+    image-layout: single
+    autotile-material: 4 1
+  4683:
+    image: /images/lionfell/replacements/swampwater_3.png
+    image-layout: single
+    autotile-material: 4 1
+  4684:
+    image: /images/lionfell/replacements/swampwater_4.png
+    image-layout: single
+    autotile-material: 4 1
+  4685:
+    image: /images/lionfell/replacements/swampwater_0.png
+    image-layout: single
+    autotile-material: 4 1
+  4686:
+    image: /images/lionfell/replacements/swampwater_1.png
+    image-layout: single
+    autotile-material: 4 1
+  4687:
+    image: /images/lionfell/replacements/swampwater_2.png
+    image-layout: single
+    autotile-material: 4 1
+  4688:
+    image: /images/lionfell/replacements/swampwater_3.png
+    image-layout: single
+    autotile-material: 4 1
+  4689:
+    image: /images/lionfell/replacements/swampwater_4.png
+    image-layout: single
+    autotile-material: 4 1
+  4690:
+    image: /images/lionfell/replacements/swampwater_0.png
+    image-layout: single
+    autotile-material: 4 1
+  4691:
+    image: /images/lionfell/replacements/swampwater_1.png
+    image-layout: single
+    autotile-material: 4 1
+  4692:
+    image: /images/lionfell/replacements/swampwater_2.png
+    image-layout: single
+    autotile-material: 4 1
+  4693:
+    image: /images/lionfell/replacements/swampwater_3.png
+    image-layout: single
+    autotile-material: 4 1
+  4694:
+    image: /images/lionfell/replacements/swampwater_4.png
+    image-layout: single
+    autotile-material: 4 1
+  4695:
+    image: /images/lionfell/replacements/swampwater_0.png
+    image-layout: single
+    autotile-material: 4 1
+  4696:
+    image: /images/lionfell/replacements/swampwater_1.png
+    image-layout: single
+    autotile-material: 4 1
+  4697:
+    image: /images/lionfell/replacements/swampwater_2.png
+    image-layout: single
+    autotile-material: 4 1
+  4698:
+    image: /images/lionfell/replacements/swampwater_3.png
+    image-layout: single
+    autotile-material: 4 1
+  4699:
+    image: /images/lionfell/replacements/swampwater_4.png
+    image-layout: single
+    autotile-material: 4 1
+  4700:
+    image: /images/lionfell/replacements/swampwater_0.png
+    image-layout: single
+    autotile-material: 4 1
+  4701:
+    image: /images/lionfell/replacements/swampwater_1.png
+    image-layout: single
+    autotile-material: 4 1
+  4738:
+    image: /images/lionfell/replacements/swampwater_2.png
+    image-layout: single
+    autotile-material: 4 1
+  4739:
+    image: /images/lionfell/replacements/swampwater_3.png
+    image-layout: single
+    autotile-material: 4 1
+  4740:
+    image: /images/lionfell/replacements/swampwater_4.png
+    image-layout: single
+    autotile-material: 4 1
+  4741:
+    image: /images/lionfell/replacements/swampwater_0.png
+    image-layout: single
+    autotile-material: 4 1
+  4742:
+    image: /images/lionfell/replacements/swampwater_1.png
+    image-layout: single
+    autotile-material: 4 1
+  4743:
+    image: /images/lionfell/replacements/swampwater_2.png
+    image-layout: single
+    autotile-material: 4 1
+  4744:
+    image: /images/lionfell/replacements/swampwater_3.png
+    image-layout: single
+    autotile-material: 4 1
+  5091:
+    image: /images/lionfell/replacements/tree_024_emerald_laurel.png
+    image-layout: single
+  5092:
+    image: /images/lionfell/replacements/tree_069_fern_tree.png
+    image-layout: single
+  5093:
+    image: /images/lionfell/replacements/tree_094_mahogany_tree.png
+    image-layout: single
+  5094:
+    image: /images/lionfell/replacements/tree_024_emerald_laurel.png
+    image-layout: single
+  5095:
+    image: /images/lionfell/replacements/tree_047_coiled_red_palm.png
+    image-layout: single
+  5155:
+    image: /images/lionfell/replacements/tree_033_blossom_linden.png
+    image-layout: single
+  5156:
+    image: /images/lionfell/replacements/tree_037_green_elm.png
+    image-layout: single
+  5389:
+    image: /images/lionfell/replacements/tree_092_spiky_oak.png
+    image-layout: single
+  5390:
+    image: /images/lionfell/replacements/tree_093_emerald_oak.png
+    image-layout: single
+  5730:
+    image: /images/lionfell/replacements/sandtile_0.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  6094:
+    image: /images/lionfell/replacements/tree_097_starroot_oak.png
+    image-layout: single
+  6132:
+    image: /images/lionfell/replacements/tree_025_green_linden.png
+    image-layout: single
+  6133:
+    image: /images/lionfell/replacements/tree_033_blossom_linden.png
+    image-layout: single
+  6135:
+    image: /images/lionfell/replacements/tree_037_green_elm.png
+    image-layout: single
+  6136:
+    image: /images/lionfell/replacements/tree_061_shrub_oak.png
+    image-layout: single
+  6138:
+    image: /images/lionfell/replacements/tree_081_forked_oak.png
+    image-layout: single
+  6139:
+    image: /images/lionfell/replacements/tree_084_spring_oak.png
+    image-layout: single
+  6140:
+    image: /images/lionfell/replacements/tree_088_meadow_oak.png
+    image-layout: single
+  6141:
+    image: /images/lionfell/replacements/tree_092_spiky_oak.png
+    image-layout: single
+  6142:
+    image: /images/lionfell/replacements/tree_093_emerald_oak.png
+    image-layout: single
+  6143:
+    image: /images/lionfell/replacements/tree_096_green_puff_oak.png
+    image-layout: single
+  6144:
+    image: /images/lionfell/replacements/tree_097_starroot_oak.png
+    image-layout: single
+  6145:
+    image: /images/lionfell/replacements/tree_100_grove_oak.png
+    image-layout: single
+  6146:
+    image: /images/lionfell/replacements/tree_004_wild_elm.png
+    image-layout: single
+  6147:
+    image: /images/lionfell/replacements/tree_013_cloud_oak.png
+    image-layout: single
+  6148:
+    image: /images/lionfell/replacements/tree_016_great_canopy_oak.png
+    image-layout: single
+  6149:
+    image: /images/lionfell/replacements/tree_017_puffball_tree.png
+    image-layout: single
+  6150:
+    image: /images/lionfell/replacements/tree_020_broad_oak.png
+    image-layout: single
+  6151:
+    image: /images/lionfell/replacements/tree_021_round_oak.png
+    image-layout: single
+  6174:
+    image: /images/lionfell/replacements/tree_092_spiky_oak.png
+    image-layout: single
+  6175:
+    image: /images/lionfell/replacements/tree_093_emerald_oak.png
+    image-layout: single
+  6177:
+    image: /images/lionfell/replacements/tree_004_wild_elm.png
+    image-layout: single
+  6178:
+    image: /images/lionfell/replacements/tree_013_cloud_oak.png
+    image-layout: single
+  6179:
+    image: /images/lionfell/replacements/tree_100_grove_oak.png
+    image-layout: single
+  6180:
+    image: /images/lionfell/replacements/tree_004_wild_elm.png
+    image-layout: single
+  6231:
+    image: /images/lionfell/replacements/tree_096_green_puff_oak.png
+    image-layout: single
+  6232:
+    image: /images/lionfell/replacements/tree_097_starroot_oak.png
+    image-layout: single
+  6274:
+    image: /images/lionfell/replacements/tree_100_grove_oak.png
+    image-layout: single
+  6352:
+    image: /images/lionfell/replacements/swampwater_4.png
+    image-layout: single
+    autotile-material: 4 1
+  6449:
+    image: /images/lionfell/replacements/tree_016_great_canopy_oak.png
+    image-layout: single
+  6450:
+    image: /images/lionfell/replacements/tree_017_puffball_tree.png
+    image-layout: single
+  6451:
+    image: /images/lionfell/replacements/tree_020_broad_oak.png
+    image-layout: single
+  6452:
+    image: /images/lionfell/replacements/tree_021_round_oak.png
+    image-layout: single
+  7020:
+    image: /images/lionfell/replacements/tree_006_frost_coral_tree.png
+    image-layout: single
+  7021:
+    image: /images/lionfell/replacements/tree_010_frost_oak.png
+    image-layout: single
+  7022:
+    image: /images/lionfell/replacements/tree_078_frost_deadwood.png
+    image-layout: single
+  7023:
+    image: /images/lionfell/replacements/tree_010_frost_oak.png
+    image-layout: single
+  7024:
+    image: /images/lionfell/replacements/tree_035_golden_larch.png
+    image-layout: single
+  7352:
+    image: /images/lionfell/replacements/tiledirt_2.png
+    image-layout: single
+    autotile-material: 3 3
+    autotile: /images/lionfell/replacements/tiledirt_edges.png
+  7353:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  7355:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  7357:
+    image: /images/lionfell/replacements/wood_floor_4.png
+    image-layout: single
+  7737:
+    image: /images/lionfell/replacements/sandtile_1.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  7738:
+    image: /images/lionfell/replacements/sandtile_2.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  7753:
+    image: /images/lionfell/replacements/tree_062_thorn_snag.png
+    image-layout: single
+  7761:
+    image: /images/lionfell/replacements/tilegrass1_3.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  7764:
+    image: /images/lionfell/replacements/tiledirt_3.png
+    image-layout: single
+    autotile-material: 3 3
+    autotile: /images/lionfell/replacements/tiledirt_edges.png
+  7769:
+    image: /images/lionfell/replacements/wood_floor_0.png
+    image-layout: single
+  7770:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  7867:
+    image: /images/lionfell/replacements/wood_floor_1.png
+    image-layout: single
+  7886:
+    image: /images/lionfell/replacements/wood_floor_2.png
+    image-layout: single
+  7969:
+    image: /images/lionfell/replacements/tree_013_cloud_oak.png
+    image-layout: single
+  7970:
+    image: /images/lionfell/replacements/tree_016_great_canopy_oak.png
+    image-layout: single
+  7971:
+    image: /images/lionfell/replacements/tree_017_puffball_tree.png
+    image-layout: single
+  7989:
+    image: /images/lionfell/replacements/tree_020_broad_oak.png
+    image-layout: single
+  8036:
+    image: /images/lionfell/replacements/tree_068_withered_ball_tree.png
+    image-layout: single
+  8170:
+    image: /images/lionfell/replacements/tree_021_round_oak.png
+    image-layout: single
+  8308:
+    image: /images/lionfell/replacements/wood_floor_3.png
+    image-layout: single
+  8309:
+    image: /images/lionfell/replacements/wood_floor_4.png
+    image-layout: single
+  8310:
+    image: /images/lionfell/replacements/wood_floor_0.png
+    image-layout: single
+  8311:
+    image: /images/lionfell/replacements/wood_floor_1.png
+    image-layout: single
+  8312:
+    image: /images/lionfell/replacements/wood_floor_2.png
+    image-layout: single
+  8313:
+    image: /images/lionfell/replacements/wood_floor_3.png
+    image-layout: single
+  8314:
+    image: /images/lionfell/replacements/wood_floor_4.png
+    image-layout: single
+  8315:
+    image: /images/lionfell/replacements/wood_floor_0.png
+    image-layout: single
+  8316:
+    image: /images/lionfell/replacements/wood_floor_1.png
+    image-layout: single
+  8716:
+    image: /images/lionfell/replacements/swampwater_0.png
+    image-layout: single
+    autotile-material: 4 1
+  8757:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  8838:
+    image: /images/lionfell/replacements/tree_025_green_linden.png
+    image-layout: single
+  8839:
+    image: /images/lionfell/replacements/tree_033_blossom_linden.png
+    image-layout: single
+  8840:
+    image: /images/lionfell/replacements/tree_037_green_elm.png
+    image-layout: single
+  8841:
+    image: /images/lionfell/replacements/tree_061_shrub_oak.png
+    image-layout: single
+  8842:
+    image: /images/lionfell/replacements/tree_081_forked_oak.png
+    image-layout: single
+  8843:
+    image: /images/lionfell/replacements/tree_084_spring_oak.png
+    image-layout: single
+  9225:
+    image: /images/lionfell/replacements/tree_037_green_elm.png
+    image-layout: single
+  9258:
+    image: /images/lionfell/replacements/tiledirt_4.png
+    image-layout: single
+    autotile-material: 3 3
+    autotile: /images/lionfell/replacements/tiledirt_edges.png
+  9524:
+    image: /images/lionfell/replacements/sandtile_3.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  9525:
+    image: /images/lionfell/replacements/sandtile_0.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  9526:
+    image: /images/lionfell/replacements/sandtile_1.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  9527:
+    image: /images/lionfell/replacements/sandtile_2.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  9528:
+    image: /images/lionfell/replacements/sandtile_3.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  9529:
+    image: /images/lionfell/replacements/sandtile_0.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  9530:
+    image: /images/lionfell/replacements/sandtile_1.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  9531:
+    image: /images/lionfell/replacements/sandtile_2.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  9584:
+    image: /images/lionfell/replacements/tree_070_broken_deadwood.png
+    image-layout: single
+  9587:
+    image: /images/lionfell/replacements/tree_021_round_oak.png
+    image-layout: single
+  9588:
+    image: /images/lionfell/replacements/tree_074_dead_sapling.png
+    image-layout: single
+  9589:
+    image: /images/lionfell/replacements/tree_014_dead_oak.png
+    image-layout: single
+  9700:
+    image: /images/lionfell/replacements/sandtile_3.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  9701:
+    image: /images/lionfell/replacements/sandtile_0.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  9702:
+    image: /images/lionfell/replacements/sandtile_1.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  9703:
+    image: /images/lionfell/replacements/sandtile_2.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  9704:
+    image: /images/lionfell/replacements/sandtile_3.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  9705:
+    image: /images/lionfell/replacements/sandtile_0.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  9706:
+    image: /images/lionfell/replacements/sandtile_1.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  9707:
+    image: /images/lionfell/replacements/sandtile_2.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  9720:
+    image: /images/lionfell/replacements/sandtile_3.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  9811:
+    image: /images/lionfell/replacements/tree_097_starroot_oak.png
+    image-layout: single
+  9812:
+    image: /images/lionfell/replacements/tree_093_emerald_oak.png
+    image-layout: single
+  9813:
+    image: /images/lionfell/replacements/tree_081_forked_oak.png
+    image-layout: single
+  9814:
+    image: /images/lionfell/replacements/tree_020_broad_oak.png
+    image-layout: single
+  9848:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  9849:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  9850:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  9851:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  9852:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  9853:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  9854:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  9855:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  9856:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  9857:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  9929:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  9930:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  9931:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  9932:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  9933:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  9934:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  9935:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  9936:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  9937:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  9938:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  9939:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  9995:
+    image: /images/lionfell/replacements/tree_088_meadow_oak.png
+    image-layout: single
+  9996:
+    image: /images/lionfell/replacements/tree_025_green_linden.png
+    image-layout: single
+  10000:
+    image: /images/lionfell/replacements/tree_004_wild_elm.png
+    image-layout: single
+  10180:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  10220:
+    image: /images/lionfell/replacements/tree_025_green_linden.png
+    image-layout: single
+  11842:
+    image: /images/lionfell/replacements/sandtile_0.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  11925:
+    image: /images/lionfell/replacements/sandtile_1.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  11942:
+    image: /images/lionfell/replacements/sandtile_2.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  12065:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  12066:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  12068:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  12129:
+    image: /images/lionfell/replacements/wood_floor_2.png
+    image-layout: single
+  12846:
+    image: /images/lionfell/replacements/wood_floor_3.png
+    image-layout: single
+  15596:
+    image: /images/lionfell/replacements/wood_floor_4.png
+    image-layout: single
+  15641:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  15642:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  15643:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  15644:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  15645:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  15646:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  15647:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  15648:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  15649:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  15650:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  16300:
+    image: /images/lionfell/replacements/swampwater_1.png
+    image-layout: single
+    autotile-material: 4 1
+  16301:
+    image: /images/lionfell/replacements/swampwater_2.png
+    image-layout: single
+    autotile-material: 4 1
+  16302:
+    image: /images/lionfell/replacements/swampwater_3.png
+    image-layout: single
+    autotile-material: 4 1
+  16303:
+    image: /images/lionfell/replacements/swampwater_4.png
+    image-layout: single
+    autotile-material: 4 1
+  16304:
+    image: /images/lionfell/replacements/swampwater_0.png
+    image-layout: single
+    autotile-material: 4 1
+  16305:
+    image: /images/lionfell/replacements/swampwater_1.png
+    image-layout: single
+    autotile-material: 4 1
+  16306:
+    image: /images/lionfell/replacements/swampwater_2.png
+    image-layout: single
+    autotile-material: 4 1
+  16307:
+    image: /images/lionfell/replacements/swampwater_3.png
+    image-layout: single
+    autotile-material: 4 1
+  16308:
+    image: /images/lionfell/replacements/swampwater_4.png
+    image-layout: single
+    autotile-material: 4 1
+  16309:
+    image: /images/lionfell/replacements/swampwater_0.png
+    image-layout: single
+    autotile-material: 4 1
+  16310:
+    image: /images/lionfell/replacements/swampwater_1.png
+    image-layout: single
+    autotile-material: 4 1
+  16377:
+    image: /images/lionfell/replacements/tree_020_broad_oak.png
+    image-layout: single
+  16378:
+    image: /images/lionfell/replacements/tree_021_round_oak.png
+    image-layout: single
+  16865:
+    image: /images/lionfell/replacements/tilegrass1_4.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  17316:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  17373:
+    image: /images/lionfell/replacements/tree_043_crimson_palm.png
+    image-layout: single
+  17937:
+    image: /images/lionfell/replacements/wood_floor_0.png
+    image-layout: single
+  17950:
+    image: /images/lionfell/replacements/swampwater_2.png
+    image-layout: single
+    autotile-material: 4 1
+  17982:
+    image: /images/lionfell/replacements/wood_floor_1.png
+    image-layout: single
+  17985:
+    image: /images/lionfell/replacements/wood_floor_2.png
+    image-layout: single
+  18442:
+    image: /images/lionfell/replacements/tree_016_great_canopy_oak.png
+    image-layout: single
+  18444:
+    image: /images/lionfell/replacements/tree_025_green_linden.png
+    image-layout: single
+  18578:
+    image: /images/lionfell/replacements/tree_037_green_elm.png
+    image-layout: single
+  18579:
+    image: /images/lionfell/replacements/tree_061_shrub_oak.png
+    image-layout: single
+  18580:
+    image: /images/lionfell/replacements/tree_081_forked_oak.png
+    image-layout: single
+  18581:
+    image: /images/lionfell/replacements/tree_084_spring_oak.png
+    image-layout: single
+  18582:
+    image: /images/lionfell/replacements/tree_088_meadow_oak.png
+    image-layout: single
+  18583:
+    image: /images/lionfell/replacements/tree_092_spiky_oak.png
+    image-layout: single
+  18585:
+    image: /images/lionfell/replacements/tree_093_emerald_oak.png
+    image-layout: single
+  18586:
+    image: /images/lionfell/replacements/tree_096_green_puff_oak.png
+    image-layout: single
+  18587:
+    image: /images/lionfell/replacements/tree_097_starroot_oak.png
+    image-layout: single
+  18588:
+    image: /images/lionfell/replacements/tree_100_grove_oak.png
+    image-layout: single
+  18589:
+    image: /images/lionfell/replacements/tree_004_wild_elm.png
+    image-layout: single
+  18590:
+    image: /images/lionfell/replacements/tree_013_cloud_oak.png
+    image-layout: single
+  18876:
+    image: /images/lionfell/replacements/tree_016_great_canopy_oak.png
+    image-layout: single
+  18877:
+    image: /images/lionfell/replacements/tree_017_puffball_tree.png
+    image-layout: single
+  18878:
+    image: /images/lionfell/replacements/tree_020_broad_oak.png
+    image-layout: single
+  18879:
+    image: /images/lionfell/replacements/tree_021_round_oak.png
+    image-layout: single
+  19099:
+    image: /images/lionfell/replacements/sandtile_3.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  19401:
+    image: /images/lionfell/replacements/sandtile_0.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  19402:
+    image: /images/lionfell/replacements/sandtile_1.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  19403:
+    image: /images/lionfell/replacements/sandtile_2.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  20374:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  20375:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  20376:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  20377:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  20378:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  20379:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  20533:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  20534:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  20535:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  20536:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  20537:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  20538:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  20539:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  20540:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  20541:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  20542:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  20544:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  20545:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  21138:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  21345:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  21406:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  21407:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  21408:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  21409:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  21676:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  21677:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  21678:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  21679:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  21680:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  21681:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  21706:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  21707:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  21708:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  21709:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  21710:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  21711:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  21737:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  21967:
+    image: /images/lionfell/replacements/tilegrass1_0.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  22290:
+    image: /images/lionfell/replacements/tree_025_green_linden.png
+    image-layout: single
+  22291:
+    image: /images/lionfell/replacements/tree_033_blossom_linden.png
+    image-layout: single
+  22292:
+    image: /images/lionfell/replacements/tree_100_grove_oak.png
+    image-layout: single
+  22293:
+    image: /images/lionfell/replacements/tree_100_grove_oak.png
+    image-layout: single
+  22295:
+    image: /images/lionfell/replacements/tree_053_shady_palm.png
+    image-layout: single
+  22296:
+    image: /images/lionfell/replacements/tree_054_dwarf_palm.png
+    image-layout: single
+  22348:
+    image: /images/lionfell/replacements/tilegrass1_1.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  22349:
+    image: /images/lionfell/replacements/tilegrass1_2.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  22350:
+    image: /images/lionfell/replacements/tilegrass1_3.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  22351:
+    image: /images/lionfell/replacements/tilegrass1_4.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  22352:
+    image: /images/lionfell/replacements/tilegrass1_0.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  22353:
+    image: /images/lionfell/replacements/tilegrass1_1.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  22354:
+    image: /images/lionfell/replacements/tilegrass1_2.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  22880:
+    image: /images/lionfell/replacements/tilegrass1_3.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  23465:
+    image: /images/lionfell/replacements/sandtile_3.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  23897:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23898:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23899:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23900:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23901:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23902:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23903:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23904:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23905:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23906:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23907:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23908:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23909:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23910:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23911:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23912:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23913:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23914:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23915:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23916:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23949:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23950:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23951:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23952:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23953:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23954:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23955:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23956:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23957:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23958:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23959:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23960:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23961:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23962:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23963:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23964:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23965:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23966:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23967:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  23968:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  24017:
+    image: /images/lionfell/replacements/tree_037_green_elm.png
+    image-layout: single
+  24018:
+    image: /images/lionfell/replacements/tree_061_shrub_oak.png
+    image-layout: single
+  24019:
+    image: /images/lionfell/replacements/tree_081_forked_oak.png
+    image-layout: single
+  24020:
+    image: /images/lionfell/replacements/tree_084_spring_oak.png
+    image-layout: single
+  24021:
+    image: /images/lionfell/replacements/tree_025_green_linden.png
+    image-layout: single
+  24022:
+    image: /images/lionfell/replacements/tree_033_blossom_linden.png
+    image-layout: single
+  24023:
+    image: /images/lionfell/replacements/tree_037_green_elm.png
+    image-layout: single
+  24024:
+    image: /images/lionfell/replacements/tree_061_shrub_oak.png
+    image-layout: single
+  24025:
+    image: /images/lionfell/replacements/tree_081_forked_oak.png
+    image-layout: single
+  24026:
+    image: /images/lionfell/replacements/tree_084_spring_oak.png
+    image-layout: single
+  24027:
+    image: /images/lionfell/replacements/tree_088_meadow_oak.png
+    image-layout: single
+  24028:
+    image: /images/lionfell/replacements/tree_092_spiky_oak.png
+    image-layout: single
+  24029:
+    image: /images/lionfell/replacements/tree_093_emerald_oak.png
+    image-layout: single
+  24030:
+    image: /images/lionfell/replacements/tree_096_green_puff_oak.png
+    image-layout: single
+  24031:
+    image: /images/lionfell/replacements/tree_097_starroot_oak.png
+    image-layout: single
+  24032:
+    image: /images/lionfell/replacements/tree_100_grove_oak.png
+    image-layout: single
+  24033:
+    image: /images/lionfell/replacements/tree_004_wild_elm.png
+    image-layout: single
+  24034:
+    image: /images/lionfell/replacements/tree_013_cloud_oak.png
+    image-layout: single
+  24035:
+    image: /images/lionfell/replacements/tree_016_great_canopy_oak.png
+    image-layout: single
+  24036:
+    image: /images/lionfell/replacements/tree_017_puffball_tree.png
+    image-layout: single
+  24437:
+    image: /images/lionfell/replacements/sandtile_0.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  24537:
+    image: /images/lionfell/replacements/tree_018_dead_snag.png
+    image-layout: single
+  24538:
+    image: /images/lionfell/replacements/tree_034_brushwood_tree.png
+    image-layout: single
+  24539:
+    image: /images/lionfell/replacements/tree_040_bare_beech.png
+    image-layout: single
+  24590:
+    image: /images/lionfell/replacements/tree_035_golden_larch.png
+    image-layout: single
+  24605:
+    image: /images/lionfell/replacements/tilegrass1_4.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  24647:
+    image: /images/lionfell/replacements/tree_084_spring_oak.png
+    image-layout: single
+  24651:
+    image: /images/lionfell/replacements/tree_097_starroot_oak.png
+    image-layout: single
+  24652:
+    image: /images/lionfell/replacements/tree_035_golden_larch.png
+    image-layout: single
+  24669:
+    image: /images/lionfell/replacements/sandtile_1.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  24682:
+    image: /images/lionfell/replacements/sandtile_2.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  24839:
+    image: /images/lionfell/replacements/tilegrass1_0.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  25405:
+    image: /images/lionfell/replacements/tree_013_cloud_oak.png
+    image-layout: single
+  25406:
+    image: /images/lionfell/replacements/tree_016_great_canopy_oak.png
+    image-layout: single
+  25407:
+    image: /images/lionfell/replacements/tree_017_puffball_tree.png
+    image-layout: single
+  25408:
+    image: /images/lionfell/replacements/tree_004_wild_elm.png
+    image-layout: single
+  25409:
+    image: /images/lionfell/replacements/tree_013_cloud_oak.png
+    image-layout: single
+  25466:
+    image: /images/lionfell/replacements/tree_033_blossom_linden.png
+    image-layout: single
+  25467:
+    image: /images/lionfell/replacements/tree_037_green_elm.png
+    image-layout: single
+  25476:
+    image: /images/lionfell/replacements/tree_033_blossom_linden.png
+    image-layout: single
+  25477:
+    image: /images/lionfell/replacements/tree_037_green_elm.png
+    image-layout: single
+  25478:
+    image: /images/lionfell/replacements/tree_061_shrub_oak.png
+    image-layout: single
+  25479:
+    image: /images/lionfell/replacements/tree_084_spring_oak.png
+    image-layout: single
+  25480:
+    image: /images/lionfell/replacements/tree_088_meadow_oak.png
+    image-layout: single
+  25481:
+    image: /images/lionfell/replacements/tree_004_wild_elm.png
+    image-layout: single
+  25482:
+    image: /images/lionfell/replacements/tree_013_cloud_oak.png
+    image-layout: single
+  25483:
+    image: /images/lionfell/replacements/tree_016_great_canopy_oak.png
+    image-layout: single
+  25484:
+    image: /images/lionfell/replacements/tree_017_puffball_tree.png
+    image-layout: single
+  25491:
+    image: /images/lionfell/replacements/tree_013_cloud_oak.png
+    image-layout: single
+  25492:
+    image: /images/lionfell/replacements/tree_016_great_canopy_oak.png
+    image-layout: single
+  25493:
+    image: /images/lionfell/replacements/tree_017_puffball_tree.png
+    image-layout: single
+  25494:
+    image: /images/lionfell/replacements/tree_020_broad_oak.png
+    image-layout: single
+  26191:
+    image: /images/lionfell/replacements/tree_017_puffball_tree.png
+    image-layout: single
+  26192:
+    image: /images/lionfell/replacements/tree_020_broad_oak.png
+    image-layout: single
+  26193:
+    image: /images/lionfell/replacements/tree_021_round_oak.png
+    image-layout: single
+  26194:
+    image: /images/lionfell/replacements/tree_025_green_linden.png
+    image-layout: single
+  28654:
+    image: /images/lionfell/replacements/sandtile_3.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  29044:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  29045:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  29046:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  29047:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  29048:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  29049:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  29050:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  29051:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  29052:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  29053:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  29290:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  29295:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  29332:
+    image: /images/lionfell/replacements/tree_092_spiky_oak.png
+    image-layout: single
+  29333:
+    image: /images/lionfell/replacements/tree_006_frost_coral_tree.png
+    image-layout: single
+  29968:
+    image: /images/lionfell/replacements/tree_088_meadow_oak.png
+    image-layout: single
+  30237:
+    image: /images/lionfell/replacements/tree_061_shrub_oak.png
+    image-layout: single
+  30238:
+    image: /images/lionfell/replacements/tree_081_forked_oak.png
+    image-layout: single
+  30416:
+    image: /images/lionfell/replacements/tree_021_round_oak.png
+    image-layout: single
+  30417:
+    image: /images/lionfell/replacements/tree_020_broad_oak.png
+    image-layout: single
+  30418:
+    image: /images/lionfell/replacements/tree_049_date_palm.png
+    image-layout: single
+  30419:
+    image: /images/lionfell/replacements/tree_021_round_oak.png
+    image-layout: single
+  30420:
+    image: /images/lionfell/replacements/tree_033_blossom_linden.png
+    image-layout: single
+  30620:
+    image: /images/lionfell/replacements/tree_052_island_palm.png
+    image-layout: single
+  31375:
+    image: /images/lionfell/replacements/tree_051_dry_palm.png
+    image-layout: single
+  31376:
+    image: /images/lionfell/replacements/tree_048_coiled_palm.png
+    image-layout: single
+  31722:
+    image: /images/lionfell/replacements/tree_044_withered_palm.png
+    image-layout: single
+  31727:
+    image: /images/lionfell/replacements/tiledirt_0.png
+    image-layout: single
+    autotile-material: 3 3
+    autotile: /images/lionfell/replacements/tiledirt_edges.png
+  31728:
+    image: /images/lionfell/replacements/sandtile_0.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  31729:
+    image: /images/lionfell/replacements/tilestone_0.png
+    image-layout: single
+  32351:
+    image: /images/lionfell/replacements/tilegrass1_1.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  32352:
+    image: /images/lionfell/replacements/tilegrass1_2.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  32353:
+    image: /images/lionfell/replacements/tilegrass1_3.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  32354:
+    image: /images/lionfell/replacements/tilegrass1_4.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  32355:
+    image: /images/lionfell/replacements/tilegrass1_0.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  32356:
+    image: /images/lionfell/replacements/tilegrass1_1.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  32357:
+    image: /images/lionfell/replacements/tilegrass1_2.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  32358:
+    image: /images/lionfell/replacements/tilegrass1_3.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  32359:
+    image: /images/lionfell/replacements/tilegrass1_4.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  32360:
+    image: /images/lionfell/replacements/tilegrass1_0.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  32361:
+    image: /images/lionfell/replacements/tilegrass1_1.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  32362:
+    image: /images/lionfell/replacements/tilegrass1_2.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  32363:
+    image: /images/lionfell/replacements/tilegrass1_3.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  32364:
+    image: /images/lionfell/replacements/tilegrass1_4.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  32365:
+    image: /images/lionfell/replacements/tilegrass1_0.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  32366:
+    image: /images/lionfell/replacements/tilegrass1_1.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  32367:
+    image: /images/lionfell/replacements/tilegrass1_2.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  32368:
+    image: /images/lionfell/replacements/tilegrass1_3.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  32369:
+    image: /images/lionfell/replacements/tilegrass1_4.png
+    image-layout: single
+    autotile-material: 1 5
+    autotile: /images/lionfell/replacements/tilegrass1_edges.png
+  32614:
+    image: /images/lionfell/replacements/swampwater_3.png
+    image-layout: single
+    autotile-material: 4 1
+  32649:
+    image: /images/lionfell/replacements/tree_014_dead_oak.png
+    image-layout: single
+  32650:
+    image: /images/lionfell/replacements/tree_018_dead_snag.png
+    image-layout: single
+  32651:
+    image: /images/lionfell/replacements/tree_034_brushwood_tree.png
+    image-layout: single
+  32652:
+    image: /images/lionfell/replacements/tree_040_bare_beech.png
+    image-layout: single
+  32653:
+    image: /images/lionfell/replacements/tree_042_driftwood_snag.png
+    image-layout: single
+  32654:
+    image: /images/lionfell/replacements/tree_046_hooked_deadwood.png
+    image-layout: single
+  32655:
+    image: /images/lionfell/replacements/tree_062_thorn_snag.png
+    image-layout: single
+  32656:
+    image: /images/lionfell/replacements/tree_068_withered_ball_tree.png
+    image-layout: single
+  32657:
+    image: /images/lionfell/replacements/tree_070_broken_deadwood.png
+    image-layout: single
+  32658:
+    image: /images/lionfell/replacements/tree_061_shrub_oak.png
+    image-layout: single
+  33065:
+    image: /images/lionfell/replacements/wood_floor_3.png
+    image-layout: single
+  35060:
+    image: /images/lionfell/replacements/wood_floor_4.png
+    image-layout: single
+  35061:
+    image: /images/lionfell/replacements/wood_floor_0.png
+    image-layout: single
+  35062:
+    image: /images/lionfell/replacements/wood_floor_1.png
+    image-layout: single
+  35063:
+    image: /images/lionfell/replacements/wood_floor_2.png
+    image-layout: single
+  35064:
+    image: /images/lionfell/replacements/wood_floor_3.png
+    image-layout: single
+  35065:
+    image: /images/lionfell/replacements/wood_floor_4.png
+    image-layout: single
+  35066:
+    image: /images/lionfell/replacements/wood_floor_0.png
+    image-layout: single
+  35067:
+    image: /images/lionfell/replacements/wood_floor_1.png
+    image-layout: single
+  35068:
+    image: /images/lionfell/replacements/wood_floor_2.png
+    image-layout: single
+  35069:
+    image: /images/lionfell/replacements/wood_floor_3.png
+    image-layout: single
+  35070:
+    image: /images/lionfell/replacements/wood_floor_4.png
+    image-layout: single
+  35071:
+    image: /images/lionfell/replacements/wood_floor_0.png
+    image-layout: single
+  35072:
+    image: /images/lionfell/replacements/wood_floor_1.png
+    image-layout: single
+  35073:
+    image: /images/lionfell/replacements/wood_floor_2.png
+    image-layout: single
+  35074:
+    image: /images/lionfell/replacements/wood_floor_3.png
+    image-layout: single
+  36834:
+    image: /images/lionfell/replacements/sandtile_1.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  37037:
+    image: /images/lionfell/replacements/sandtile_2.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  37038:
+    image: /images/lionfell/replacements/sandtile_3.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  37039:
+    image: /images/lionfell/replacements/sandtile_0.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  37040:
+    image: /images/lionfell/replacements/sandtile_1.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  37041:
+    image: /images/lionfell/replacements/sandtile_2.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  37042:
+    image: /images/lionfell/replacements/sandtile_3.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  37043:
+    image: /images/lionfell/replacements/sandtile_0.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  37044:
+    image: /images/lionfell/replacements/sandtile_1.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  37045:
+    image: /images/lionfell/replacements/sandtile_2.png
+    image-layout: single
+    autotile-material: 2 4
+    autotile: /images/lionfell/replacements/sandtile_edges.png
+  304:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  307:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  308:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  309:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  310:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  311:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  312:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  313:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  314:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  315:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  407:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  618:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  979:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  980:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  981:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  983:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  984:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  985:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  986:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  987:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  988:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  989:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  990:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  991:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  1005:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  1703:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  1704:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  1705:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  1706:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  1707:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  1708:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  1709:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  1710:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  1711:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  1712:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  1713:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  1714:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  1715:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4434:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4435:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4436:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4437:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4438:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4439:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4440:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4441:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4442:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4443:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4444:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4531:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4532:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4533:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4534:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4535:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4536:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4537:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4538:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4539:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4540:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4541:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4542:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4556:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4557:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4558:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4585:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4586:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4587:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4588:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4589:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4590:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4591:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4592:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4593:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4594:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4595:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4596:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4603:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4604:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4605:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4606:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4607:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4608:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4656:
+    retexture: /images/lionfell/replacements/tiledirt_0.png
+    retexture-outline: #000000
+    autotile-border: 3 3
+  4657:
+    retexture: /images/lionfell/replacements/tiledirt_0.png
+    retexture-outline: #000000
+    autotile-border: 3 3
+  4658:
+    retexture: /images/lionfell/replacements/tiledirt_0.png
+    retexture-outline: #000000
+    autotile-border: 3 3
+  4659:
+    retexture: /images/lionfell/replacements/tiledirt_0.png
+    retexture-outline: #000000
+    autotile-border: 3 3
+  4660:
+    retexture: /images/lionfell/replacements/tiledirt_0.png
+    retexture-outline: #000000
+    autotile-border: 3 3
+  4661:
+    retexture: /images/lionfell/replacements/tiledirt_0.png
+    retexture-outline: #000000
+    autotile-border: 3 3
+  4662:
+    retexture: /images/lionfell/replacements/tiledirt_0.png
+    retexture-outline: #000000
+    autotile-border: 3 3
+  4663:
+    retexture: /images/lionfell/replacements/tiledirt_0.png
+    retexture-outline: #000000
+    autotile-border: 3 3
+  4664:
+    retexture: /images/lionfell/replacements/tiledirt_0.png
+    retexture-outline: #000000
+    autotile-border: 3 3
+  4665:
+    retexture: /images/lionfell/replacements/tiledirt_0.png
+    retexture-outline: #000000
+    autotile-border: 3 3
+  4666:
+    retexture: /images/lionfell/replacements/tiledirt_0.png
+    retexture-outline: #000000
+    autotile-border: 3 3
+  4667:
+    retexture: /images/lionfell/replacements/tiledirt_0.png
+    retexture-outline: #000000
+    autotile-border: 3 3
+  4668:
+    retexture: /images/lionfell/replacements/tiledirt_0.png
+    retexture-outline: #000000
+    autotile-border: 3 3
+  4669:
+    retexture: /images/lionfell/replacements/tiledirt_0.png
+    retexture-outline: #000000
+    autotile-border: 3 3
+  4670:
+    retexture: /images/lionfell/replacements/tiledirt_0.png
+    retexture-outline: #000000
+    autotile-border: 3 3
+  4671:
+    retexture: /images/lionfell/replacements/tiledirt_0.png
+    retexture-outline: #000000
+    autotile-border: 3 3
+  4672:
+    retexture: /images/lionfell/replacements/tiledirt_0.png
+    retexture-outline: #000000
+    autotile-border: 3 3
+  4673:
+    retexture: /images/lionfell/replacements/tiledirt_0.png
+    retexture-outline: #000000
+    autotile-border: 3 3
+  4674:
+    retexture: /images/lionfell/replacements/tiledirt_0.png
+    retexture-outline: #000000
+    autotile-border: 3 3
+  4675:
+    retexture: /images/lionfell/replacements/tiledirt_0.png
+    retexture-outline: #000000
+    autotile-border: 3 3
+  4676:
+    retexture: /images/lionfell/replacements/tiledirt_0.png
+    retexture-outline: #000000
+    autotile-border: 3 3
+  4677:
+    retexture: /images/lionfell/replacements/tiledirt_0.png
+    retexture-outline: #000000
+    autotile-border: 3 3
+  4678:
+    retexture: /images/lionfell/replacements/tiledirt_0.png
+    retexture-outline: #000000
+    autotile-border: 3 3
+  4679:
+    retexture: /images/lionfell/replacements/tiledirt_0.png
+    retexture-outline: #000000
+    autotile-border: 3 3
+  4702:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  4703:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  4704:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  4705:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  4706:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  4707:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  4708:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  4709:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  4710:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  4711:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  4712:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  4713:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  4714:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  4715:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  4716:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  4717:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  4718:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  4719:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  4720:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  4721:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  4722:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  4723:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  4724:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  4725:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  4745:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4746:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4749:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4750:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4751:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4752:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4753:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4754:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4755:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4756:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4757:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4758:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4759:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4760:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4761:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4762:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4763:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4764:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4765:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4766:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4767:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4768:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4769:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4770:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4771:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4772:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  4773:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4774:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4775:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4776:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4777:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4778:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4779:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4780:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4781:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4782:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4783:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4784:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  4874:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  4876:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  4877:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  4878:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  4879:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  7550:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  7551:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  7552:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  7553:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  7554:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  7555:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  9721:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  9722:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  9723:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  9724:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  9725:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  9726:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  9727:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  9728:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  9729:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  9730:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  9731:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  9732:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  11719:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  11720:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  11721:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  11722:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  11723:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  11724:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  11725:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  11727:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  11728:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  11729:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  11730:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  11740:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  11741:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  11742:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  11743:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  11744:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  11745:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  11746:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  11748:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  11749:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  11750:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  12516:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  16313:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  16314:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  16315:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  16316:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  16317:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  16318:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  16319:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  16320:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  16321:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  16322:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  16323:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  16324:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  17601:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  17602:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  17603:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  17604:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  17605:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  17606:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  17607:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  17608:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  17609:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  17610:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  17611:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  17612:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  17613:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  17614:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  17615:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  17616:
+    retexture: /images/lionfell/replacements/swampwater_0.png
+    retexture-outline: #0d1808
+    autotile-border: 4 1
+  18453:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  24606:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  24607:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  24608:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  24609:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  24610:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  24611:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  24612:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  24613:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  24614:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  24615:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  24616:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  24617:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  24670:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  24671:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  24672:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  24673:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  24674:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  24675:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  24676:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  24677:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  24678:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  24679:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  24680:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  24681:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  24683:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  24684:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  24685:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  24686:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  24687:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  24688:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  24689:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  24690:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  24691:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  24692:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  24693:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  24694:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  28952:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  28964:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  28965:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  28966:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  28967:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  28968:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  28969:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  28970:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  28971:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  28972:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  28973:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  28974:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  28975:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  31227:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  31228:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  31229:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  31230:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  31231:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  31232:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  31233:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  31235:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  31236:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  31237:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  31238:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  32032:
+    retexture: /images/lionfell/replacements/tiledirt_0.png
+    retexture-outline: #000000
+    autotile-border: 3 3
+  32033:
+    retexture: /images/lionfell/replacements/tiledirt_0.png
+    retexture-outline: #000000
+    autotile-border: 3 3
+  32034:
+    retexture: /images/lionfell/replacements/tiledirt_0.png
+    retexture-outline: #000000
+    autotile-border: 3 3
+  32035:
+    retexture: /images/lionfell/replacements/tiledirt_0.png
+    retexture-outline: #000000
+    autotile-border: 3 3
+  32370:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  32371:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  32372:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  32373:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  32374:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  32375:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  32376:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  32377:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  32378:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  32379:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  32380:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  32381:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  33826:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  33827:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  33828:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  33829:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  33830:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  33831:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  33832:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  33833:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  33834:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  33835:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  33836:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  33837:
+    retexture: /images/lionfell/replacements/sandtile_0.png
+    retexture-outline: #220602
+    autotile-border: 2 4
+  37020:
+    retexture: /images/lionfell/replacements/tilegrass1_0.png
+    retexture-outline: #0a0f06
+    autotile-border: 1 5
+  622:
+    water: true
+  629:
+    water: true
+  630:
+    water: true
+  631:
+    water: true
+  632:
+    water: true
+  633:
+    water: true
+  634:
+    water: true
+  880:
+    water: true
+  881:
+    water: true
+  882:
+    water: true
+  883:
+    water: true
+  884:
+    water: true
+  885:
+    water: true
+  886:
+    water: true
+  887:
+    water: true
+  888:
+    water: true
+  889:
+    water: true
+  890:
+    water: true
+  891:
+    water: true
+  4597:
+    water: true
+  4598:
+    water: true
+  4599:
+    water: true
+  4600:
+    water: true
+  4601:
+    water: true
+  4602:
+    water: true
+  4609:
+    water: true
+  4610:
+    water: true
+  4611:
+    water: true
+  4612:
+    water: true
+  4613:
+    water: true
+  4614:
+    water: true
+  4621:
+    water: true
+  4622:
+    water: true
+  4623:
+    water: true
+  4624:
+    water: true
+  4625:
+    water: true
+  4626:
+    water: true
+  4627:
+    water: true
+  4628:
+    water: true
+  4629:
+    water: true
+  4630:
+    water: true
+  4631:
+    water: true
+  4632:
+    water: true
+  4633:
+    water: true
+  4634:
+    water: true
+  4635:
+    water: true
+  4636:
+    water: true
+  4637:
+    water: true
+  4638:
+    water: true
+  4639:
+    water: true
+  4640:
+    water: true
+  4641:
+    water: true
+  4642:
+    water: true
+  4643:
+    water: true
+  4644:
+    water: true
+  4645:
+    water: true
+  4646:
+    water: true
+  4647:
+    water: true
+  4648:
+    water: true
+  4649:
+    water: true
+  4650:
+    water: true
+  4651:
+    water: true
+  4652:
+    water: true
+  4654:
+    water: true
+  4655:
+    water: true
+  4809:
+    water: true
+  4810:
+    water: true
+  4811:
+    water: true
+  4812:
+    water: true
+  4813:
+    water: true
+  4814:
+    water: true
+  4817:
+    water: true
+  4818:
+    water: true
+  4819:
+    water: true
+  4820:
+    water: true
+  6627:
+    water: true
+  6628:
+    water: true
+  6629:
+    water: true
+  6630:
+    water: true
+  6631:
+    water: true
+  6632:
+    water: true
+  6633:
+    water: true
+  6634:
+    water: true
+  6635:
+    water: true
+  6636:
+    water: true
+  6637:
+    water: true
+  6638:
+    water: true
+  6639:
+    water: true
+  6640:
+    water: true
+  6641:
+    water: true
+  6642:
+    water: true
+  6643:
+    water: true
+  6644:
+    water: true
+  6645:
+    water: true
+  6646:
+    water: true
+  6647:
+    water: true
+  6648:
+    water: true
+  6649:
+    water: true
+  6650:
+    water: true
+  6651:
+    water: true
+  6652:
+    water: true
+  6653:
+    water: true
+  6654:
+    water: true
+  6655:
+    water: true
+  6656:
+    water: true
+  6657:
+    water: true
+  6658:
+    water: true
+  6659:
+    water: true
+  6660:
+    water: true
+  6661:
+    water: true
+  6662:
+    water: true
+  6663:
+    water: true
+  6664:
+    water: true
+  6665:
+    water: true
+  6666:
+    water: true
+  6667:
+    water: true
+  6668:
+    water: true
+  6669:
+    water: true
+  6670:
+    water: true
+  6671:
+    water: true
+  6672:
+    water: true
+  6673:
+    water: true
+  6674:
+    water: true
+  6675:
+    water: true
+  6676:
+    water: true
+  6677:
+    water: true
+  6678:
+    water: true
+  6679:
+    water: true
+  6680:
+    water: true
+  6681:
+    water: true
+  6682:
+    water: true
+  6687:
+    water: true
+  6688:
+    water: true
+  6689:
+    water: true
+  6690:
+    water: true
+  6691:
+    water: true
+  6692:
+    water: true
+  6693:
+    water: true
+  6694:
+    water: true
+  8035:
+    water: true
+  10113:
+    water: true
+  10114:
+    water: true
+  10115:
+    water: true
+  10116:
+    water: true
+  10117:
+    water: true
+  10118:
+    water: true
+  10119:
+    water: true
+  10120:
+    water: true
+  10121:
+    water: true
+  10122:
+    water: true
+  10123:
+    water: true
+  10124:
+    water: true
+  10125:
+    water: true
+  12564:
+    water: true
+  12565:
+    water: true
+  12566:
+    water: true
+  12567:
+    water: true
+  12568:
+    water: true
+  12569:
+    water: true
+  12583:
+    water: true
+  12584:
+    water: true
+  12585:
+    water: true
+  12586:
+    water: true
+  12587:
+    water: true
+  12588:
+    water: true
+  12589:
+    water: true
+  12590:
+    water: true
+  12591:
+    water: true
+  12592:
+    water: true
+  12593:
+    water: true
+  12594:
+    water: true
+  12706:
+    water: true
+  12707:
+    water: true
+  12708:
+    water: true
+  12709:
+    water: true
+  12710:
+    water: true
+  12712:
+    water: true
+  13557:
+    water: true
+  13988:
+    water: true
+  13989:
+    water: true
+  14913:
+    water: true
+  14914:
+    water: true
+  14915:
+    water: true
+  14916:
+    water: true
+  14917:
+    water: true
+  14918:
+    water: true
+  14919:
+    water: true
+  14920:
+    water: true
+  14921:
+    water: true
+  14922:
+    water: true
+  14923:
+    water: true
+  14924:
+    water: true
+  15488:
+    water: true
+  15489:
+    water: true
+  15490:
+    water: true
+  15491:
+    water: true
+  15492:
+    water: true
+  15493:
+    water: true
+  15494:
+    water: true
+  15495:
+    water: true
+  15496:
+    water: true
+  15497:
+    water: true
+  15498:
+    water: true
+  15499:
+    water: true
+  15616:
+    water: true
+  15617:
+    water: true
+  15618:
+    water: true
+  15619:
+    water: true
+  18854:
+    water: true
+  18855:
+    water: true
+  18856:
+    water: true
+  18857:
+    water: true
+  18858:
+    water: true
+  18859:
+    water: true
+  18860:
+    water: true
+  18861:
+    water: true
+  19477:
+    water: true
+  19478:
+    water: true
+  19491:
+    water: true
+  19492:
+    water: true
+  20012:
+    water: true
+  20013:
+    water: true
+  20014:
+    water: true
+  20015:
+    water: true
+  20016:
+    water: true
+  20017:
+    water: true
+  20018:
+    water: true
+  20019:
+    water: true
+  20020:
+    water: true
+  20021:
+    water: true
+  20022:
+    water: true
+  20023:
+    water: true
+  20024:
+    water: true
+  20025:
+    water: true
+  20137:
+    water: true
+  21302:
+    water: true
+  21303:
+    water: true
+  21304:
+    water: true
+  21305:
+    water: true
+  21306:
+    water: true
+  21307:
+    water: true
+  21311:
+    water: true
+  21312:
+    water: true
+  21313:
+    water: true
+  21314:
+    water: true
+  21315:
+    water: true
+  21316:
+    water: true
+  21317:
+    water: true
+  21318:
+    water: true
+  21319:
+    water: true
+  21320:
+    water: true
+  21321:
+    water: true
+  21322:
+    water: true
+  21414:
+    water: true
+  24749:
+    water: true
+  25510:
+    water: true
+  25851:
+    water: true
+  25852:
+    water: true
+  25853:
+    water: true
+  25854:
+    water: true
+  25855:
+    water: true
+  25856:
+    water: true
+  25857:
+    water: true
+  25858:
+    water: true
+  25859:
+    water: true
+  25860:
+    water: true
+  25861:
+    water: true
+  25862:
+    water: true
+  26168:
+    water: true
+  31171:
+    water: true
+  31172:
+    water: true
+  31173:
+    water: true
+  31174:
+    water: true
+  31175:
+    water: true
+  31176:
+    water: true
+  31177:
+    water: true
+  31178:
+    water: true
+  31179:
+    water: true
+  31180:
+    water: true
+  31181:
+    water: true
+  31182:
+    water: true
+  31454:
+    water: true
+  31455:
+    water: true
+  31456:
+    water: true
+  31457:
+    water: true
+  31458:
+    water: true
+  31459:
+    water: true
+  31460:
+    water: true
+  31461:
+    water: true
+  35218:
+    water: true
+  35219:
+    water: true
+  35220:
+    water: true
+  35221:
+    water: true
+  35222:
+    water: true
+  35223:
+    water: true
+  35224:
+    water: true
+  35225:
+    water: true
+  35348:
+    water: true
+  35349:
+    water: true
+  35350:
+    water: true
+  35351:
+    water: true
+  35352:
+    water: true
+  35353:
+    water: true
+  35354:
+    water: true
+  35355:
+    water: true
+  35356:
+    water: true
+  35357:
+    water: true
+  35367:
+    water: true
+  35390:
+    water: true
+  35391:
+    water: true
+  35392:
+    water: true
+  35393:
+    water: true
+  35394:
+    water: true
+  35395:
+    water: true
+  35396:
+    water: true
+  35397:
+    water: true
+  35398:
+    water: true
+  35399:
+    water: true
+  35400:
+    water: true
+  35401:
+    water: true
+  35402:
+    water: true
+  35403:
+    water: true
+  35404:
+    water: true
+  35405:
+    water: true
+  35406:
+    water: true
+  35407:
+    water: true
+  35408:
+    water: true
+  35409:
+    water: true
+  35410:
+    water: true
+  35411:
+    water: true
+  35412:
+    water: true
+  35413:
+    water: true
+  35414:
+    water: true
+  35415:
+    water: true
+  35416:
+    water: true
+  35417:
+    water: true
+  35418:
+    water: true
+  35419:
+    water: true
+  35420:
+    water: true
+  35421:
+    water: true
+  35422:
+    water: true
+  35423:
+    water: true
+  35424:
+    water: true
+  35425:
+    water: true
+  35426:
+    water: true
+  35427:
+    water: true
+  35428:
+    water: true
+  35429:
+    water: true
+  35434:
+    water: true
+  35435:
+    water: true
+  35436:
+    water: true
+  35437:
+    water: true
+  35438:
+    water: true
+  35439:
+    water: true
+  35440:
+    water: true
+  35441:
+    water: true
+  35442:
+    water: true
+  35443:
+    water: true
+  35444:
+    water: true
+  35445:
+    water: true
+  35673:
+    water: true
+  35674:
+    water: true
+  35675:
+    water: true
+  35676:
+    water: true
+  35677:
+    water: true
+  35678:
+    water: true
+  35679:
+    water: true
+  35680:
+    water: true
+  35681:
+    water: true
+  35682:
+    water: true
+  35683:
+    water: true
+  35684:
+    water: true
+  35698:
+    water: true
+  35699:
+    water: true
+  35700:
+    water: true
+  35701:
+    water: true
+  35702:
+    water: true
+  35703:
+    water: true
+  35704:
+    water: true
+  35705:
+    water: true
+  35706:
+    water: true
+  35707:
+    water: true

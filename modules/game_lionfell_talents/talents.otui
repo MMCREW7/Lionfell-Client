@@ -1,0 +1,156 @@
+// Lionfell talent tree window: a pannable, zoomable map of the tree. Nodes and links are created
+// by talents.lua inside `world`; drag to pan, mouse wheel to zoom.
+
+LfTalentNode < UIWidget
+  image-source: /images/lionfell/talent_node
+  image-smooth: true
+  focusable: false
+
+LfTalentLink < UIWidget
+  height: 3
+  phantom: true
+  focusable: false
+
+LfTalentChip < LfChip
+  text-auto-resize: false
+  text-horizontal-auto-resize: true
+  height: 26
+  padding: 0 10 0 10
+  ttf-font-size: 11
+  color: #cfccc7
+
+LfTalentTool < LfPillButton
+  height: 26
+  padding: 0 10 0 10
+  ttf-font-size: 11
+
+LfWindow
+  id: talentWindow
+  size: 1180 780
+  anchors.centerIn: parent
+  padding: 18
+  image-color: #101112f8
+  visible: false
+
+  // header: title + help on the left, Reset / Close on the right
+  LfTitle
+    id: title
+    !text: tr('Talents')
+    anchors.top: parent.top
+    anchors.left: parent.left
+
+  LfMuted
+    id: subtitle
+    !text: tr('Click a talent next to your tree to learn it, right-click to unlearn it (costs gold). Drag to move, scroll to zoom.')
+    anchors.top: title.bottom
+    anchors.left: parent.left
+    margin-top: 2
+
+  LfPillButton
+    id: close
+    !text: tr('Close')
+    anchors.top: parent.top
+    anchors.right: parent.right
+    @onClick: modules.game_lionfell_talents.hide()
+
+  LfPillButton
+    id: reset
+    !text: tr('Reset tree')
+    anchors.top: close.top
+    anchors.right: close.left
+    margin-right: 8
+    @onClick: modules.game_lionfell_talents.confirmReset()
+
+  // bar: counters on the left, map controls on the right
+  UIWidget
+    id: bar
+    anchors.top: subtitle.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 14
+    height: 26
+    phantom: true
+
+  LfTalentChip
+    id: pointsChip
+    anchors.top: bar.top
+    anchors.left: bar.left
+
+  LfTalentChip
+    id: keystoneChip
+    anchors.top: bar.top
+    anchors.left: pointsChip.right
+    margin-left: 6
+
+  LfTalentChip
+    id: ascendancyChip
+    anchors.top: bar.top
+    anchors.left: keystoneChip.right
+    margin-left: 6
+
+  LfTalentTool
+    id: centerStart
+    !text: tr('My start')
+    !tooltip: tr('Centre the map on your starting point')
+    anchors.top: bar.top
+    anchors.right: bar.right
+    @onClick: modules.game_lionfell_talents.centerOnStart()
+
+  LfTalentTool
+    id: fitTree
+    !text: tr('Fit')
+    !tooltip: tr('Show the whole tree')
+    anchors.top: bar.top
+    anchors.right: centerStart.left
+    margin-right: 6
+    @onClick: modules.game_lionfell_talents.fitTree()
+
+  LfTalentTool
+    id: zoomIn
+    text: +
+    !tooltip: tr('Zoom in')
+    anchors.top: bar.top
+    anchors.right: fitTree.left
+    margin-right: 6
+    width: 30
+    @onClick: modules.game_lionfell_talents.zoomBy(1.25)
+
+  LfTalentTool
+    id: zoomOut
+    text: -
+    !tooltip: tr('Zoom out')
+    anchors.top: bar.top
+    anchors.right: zoomIn.left
+    margin-right: 4
+    width: 30
+    @onClick: modules.game_lionfell_talents.zoomBy(0.8)
+
+  UIWidget
+    id: canvas
+    anchors.top: bar.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-top: 12
+    background-color: #0b0c0d
+    clipping: true
+    focusable: false
+
+  LfMono
+    id: message
+    anchors.bottom: parent.bottom
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-bottom: 10
+    color: #d9a29b
+    visible: false
+
+// hover card (created by talents.lua)
+LfTalentTip < LfWindow
+  width: 300
+  padding: 10 12 10 12
+  phantom: true
+  focusable: false
+  layout:
+    type: verticalBox
+    spacing: 4
+    fit-children: true

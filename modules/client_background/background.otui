@@ -1,0 +1,31 @@
+Panel
+  id: background
+  image-source: /images/lionfell/keyart
+  image-smooth: true
+  image-fixed-ratio: true
+  anchors.top: parent.top
+  anchors.left: parent.left
+  anchors.right: parent.right
+  anchors.bottom: parent.bottom
+  focusable: false
+  background-color: #0c0d0d
+
+  UILabel
+    id: clientVersionLabel
+    background-color: alpha
+    visible: false
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    text-align: center
+    text-auto-resize: true
+    width: 120
+    padding: 2
+    color: #ffffff
+    font: verdana-11px-monochrome
+
+  UIParticles
+    id: particles
+    effect: background-effect
+    anchors.fill: parent
+    phantom: true
+    visible: false

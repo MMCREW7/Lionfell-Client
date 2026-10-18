@@ -1,0 +1,439 @@
+InviteNameWindow < NewMainWindow
+  id: inviteCharacterName
+  !text: tr('Invite player to selected chat channel')
+  anchors.horizontalCenter: parent.horizontalCenter
+  size: 360 121
+
+  Panel
+    id: contentPanel
+    anchors.fill: parent
+    margin: 12 12 12 13
+
+    Label
+      id: nameLabel
+      anchors.top: parent.top
+      anchors.left: parent.left
+      !text: tr('Please Enter a character name:')
+
+    TextEdit
+      id: characterName
+      size: 328 16
+      focusable: true
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 7
+
+    HorizontalSeparator
+      id: separator
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 10
+
+    Button
+      id: cancel
+      anchors.bottom: parent.bottom
+      anchors.right: parent.right
+      !text: tr('Cancel')
+      size: 43 20
+
+    Button
+      id: ok
+      anchors.bottom: parent.bottom
+      anchors.right: prev.left
+      !text: tr('Ok')
+      size: 43 20
+      margin-right: 10
+
+ExcludeNameWindow < NewMainWindow
+  id: excludeCharacterName
+  !text: tr('Exclude player from selected chat channel')
+  anchors.horizontalCenter: parent.horizontalCenter
+  size: 360 121
+
+  Panel
+    id: contentPanel
+    anchors.fill: parent
+    margin: 12 12 12 13
+
+    Label
+      id: nameLabel
+      anchors.top: parent.top
+      anchors.left: parent.left
+      !text: tr('Please Enter a character name:')
+
+    TextEdit
+      id: characterName
+      size: 328 16
+      focusable: true
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 7
+
+    HorizontalSeparator
+      id: separator
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 10
+
+    Button
+      id: cancel
+      anchors.bottom: parent.bottom
+      anchors.right: parent.right
+      !text: tr('Cancel')
+      size: 43 20
+
+    Button
+      id: ok
+      anchors.bottom: parent.bottom
+      anchors.right: prev.left
+      !text: tr('Ok')
+      size: 43 20
+      margin-right: 10
+
+// Lionfell chat (mockup: underlined tabs with unread counts, muted buffer, input bar with
+// the channel chip). Every id console.lua uses is kept.
+ConsoleLabel < UITextEdit
+  ttf-font: Geist-Regular
+  ttf-font-size: 13
+  height: 18
+  color: #cfccc7
+  margin-left: 2
+  text-wrap: true
+  text-auto-resize: true
+  selection-color: #111111
+  selection-background-color: #cfccc7
+  change-cursor-image: false
+  cursor-visible: false
+  editable: false
+  draggable: true
+  selectable: false
+  focusable: false
+
+ConsolePhantomLabel < UILabel
+  ttf-font: Geist-Regular
+  ttf-font-size: 13
+  height: 18
+  color: #cfccc7
+  text-wrap: true
+  text-auto-resize: true
+  selection-color: #111111
+  selection-background-color: #cfccc7
+
+ConsoleTabBar < MoveableTabBar
+  height: 30
+  phantom: true
+
+ConsoleTabBarPanel < MoveableTabBarPanel
+  id: consoleTab
+
+  ScrollablePanel
+    id: consoleBuffer
+    anchors.fill: parent
+    padding: 6 14 6 8
+    vertical-scrollbar: consoleScrollBar
+    layout:
+      type: verticalBox
+      align-bottom: true
+      spacing: 3
+    inverted-scroll: true
+
+  LfScrollBar
+    id: consoleScrollBar
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    step: 14
+    pixels-scroll: true
+    margin-top: 4
+    margin-right: 2
+    margin-bottom: 4
+
+ConsoleTabBarButton < UIButton
+  size: 96 30
+  ttf-font: Geist-Medium
+  ttf-font-size: 12
+  color: #7d7a76
+  text-offset: 0 0
+  anchors.top: parent.top
+  anchors.left: parent.left
+  padding: 7 12 8 12
+  tab-spacing: 0
+  border-width-bottom: 1
+  border-color-bottom: alpha
+  &tabWidth: 95
+
+  $hover:
+    color: #cfccc7
+
+  $checked:
+    color: #f1efec
+    border-color-bottom: #e7e5e2
+
+  $on !checked:
+    color: #e7a99f
+
+// Stock header buttons console.lua still talks to; zero-size and phantom so they never show
+// (setExtendedView calls :show() on two of them).
+LfHiddenConsoleButton < UIButton
+  size: 0 0
+  phantom: true
+  visible: false
+  anchors.top: parent.top
+  anchors.left: parent.left
+
+Panel
+  id: consolePanel
+  anchors.fill: parent
+
+  // hairline under the tab row
+  UIWidget
+    id: tabRule
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 36
+    height: 1
+    background-color: #ffffff0d
+    phantom: true
+
+  Panel
+    id: consoleContentPanel
+    anchors.top: tabRule.bottom
+    anchors.left: parent.left
+    anchors.right: parent.horizontalCenter
+    anchors.bottom: inputBar.top
+    margin-left: 6
+    margin-right: 2
+    margin-bottom: 4
+    focusable: false
+
+  Panel
+    id: readOnlyPanel
+    anchors.top: tabRule.bottom
+    anchors.left: parent.horizontalCenter
+    anchors.right: parent.right
+    anchors.bottom: inputBar.top
+    margin-left: 2
+    margin-right: 6
+    margin-bottom: 4
+    focusable: false
+    ScrollablePanel
+      id: panel
+      anchors.fill: parent
+      vertical-scrollbar: consoleScrollBarReadOnlyPanel
+      padding: 6 14 6 8
+      inverted-scroll: true
+      layout:
+        type: verticalBox
+        align-bottom: true
+        spacing: 3
+    LfScrollBar
+      id: consoleScrollBarReadOnlyPanel
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      anchors.right: parent.right
+      step: 14
+      pixels-scroll: true
+      margin-top: 4
+      margin-bottom: 4
+      margin-right: 2
+  
+  ConsoleTabBar
+    id: consoleTabBar
+    anchors.left: prevChannelButton.right
+    anchors.top: parent.top
+    anchors.right: channelsButton.left
+    margin-top: 6
+    margin-right: 8
+    tab-spacing: 2
+    movable: true
+
+  TabButton
+    id: prevChannelButton
+    image-source: /images/ui/console_flash_left
+    image-clip: 36 0 18 18
+    anchors.left: parent.left
+    anchors.top: parent.top
+    margin-left: 6
+    margin-top: 12
+    size: 0 18
+    enabled: false
+    opacity: 0.5
+    &dynamicNavigation: 96
+
+    $disabled:
+      image-clip: 36 0 18 18
+      width: 0
+
+    $!disabled:
+      image-clip: 0 0 18 18
+      width: 18
+
+    $pressed !disabled:
+      image-clip: 18 0 18 18
+
+  TabButton
+    id: nextChannelButton
+    image-source: /images/ui/console_flash_right
+    image-clip: 36 0 18 18
+    anchors.left: consoleTabBar.right
+    anchors.top: prevChannelButton.top
+    margin-right: 1
+    size: 0 18
+    enabled: false
+    opacity: 0.5
+    &dynamicNavigation: 96
+
+    $disabled:
+      image-clip: 36 0 18 18
+      width: 0
+
+    $!disabled:
+      image-clip: 0 0 18 18
+      width: 18
+
+    $pressed !disabled:
+      image-clip: 18 0 18 18
+
+  // Header controls (mockup: "+" to open a channel). Everything else lives in the "..." menu
+  // (modules.game_console.showChatMenu); the stock buttons below stay for console.lua, which
+  // addresses them by id, but take no space.
+  LfHeaderButton
+    id: chatMenuButton
+    !tooltip: tr('Chat options')
+    anchors.right: parent.right
+    anchors.top: parent.top
+    margin-top: 13
+    margin-right: 10
+    icon-source: /images/lionfell/glyph_menu
+    @onClick: modules.game_console.showChatMenu(self)
+
+  UIButton
+    id: channelsButton
+    !tooltip: tr('Open new channel') .. ' (Ctrl+O)'
+    text: +
+    anchors.right: chatMenuButton.left
+    anchors.top: parent.top
+    margin-top: 8
+    margin-right: 4
+    size: 22 22
+    ttf-font: GeistMono-Medium
+    ttf-font-size: 14
+    color: #6f6c68
+    change-cursor-image: true
+    cursor: pointer
+    @onClick: g_game.requestChannels()
+
+    $hover:
+      color: #f1efec
+
+  LfHiddenConsoleButton
+    id: closeChannelButton
+    @onClick: removeCurrentTab()
+
+  LfHiddenConsoleButton
+    id: ignoreButton
+    @onClick: onClickIgnoreButton()
+
+  LfHiddenConsoleButton
+    id: exivaOption
+    @onClick: |
+      if self:isOn() then
+        modules.game_console.onRequestExivaOptions()
+      end
+
+  LfHiddenConsoleButton
+    id: readOnlyButton
+    &tabWidth: 95
+
+  LfHiddenConsoleButton
+    id: extendedViewDraggable
+    checked: true
+
+  LfHiddenConsoleButton
+    id: extendedViewHide
+
+  // input bar: channel chip, text field, chat on/off
+  UIWidget
+    id: inputBar
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin: 0 8 8 8
+    height: 34
+    image-source: /images/lionfell/input
+    image-border: 5
+    image-color: #ffffffd0
+    phantom: true
+
+  UIButton
+    id: sayModeButton
+    anchors.left: inputBar.left
+    anchors.verticalCenter: inputBar.verticalCenter
+    margin-left: 8
+    height: 18
+    padding: 0 6 0 6
+    text-horizontal-auto-resize: true
+    text: SAY
+    ttf-font: GeistMono-Medium
+    ttf-font-size: 10
+    color: #8d8a86
+    image-source: /images/lionfell/chip
+    image-border: 3
+    image-color: #1d1f20
+    !tooltip: tr('Set talk type')
+    &sayMode: 2
+    &textMode: true
+    change-cursor-image: true
+    cursor: pointer
+    @onClick: sayModeChange()
+
+    $hover:
+      color: #f1efec
+
+  TextEdit
+    id: consoleTextEdit
+    anchors.left: sayModeButton.right
+    anchors.right: toggleChat.left
+    anchors.verticalCenter: inputBar.verticalCenter
+    margin-left: 10
+    margin-right: 8
+    height: 20
+    padding: 2 0 0 0
+    shift-navigation: true
+    max-length: 255
+    ttf-font: Geist-Regular
+    ttf-font-size: 13
+    color: #f1efec
+    image-source: ""
+    placeholder: "Press Enter to chat"
+    placeholder-color: #55534f
+    @onTextChange: onTextChange(self:getText())
+
+  UIButton
+    id: toggleChat
+    anchors.right: inputBar.right
+    anchors.verticalCenter: inputBar.verticalCenter
+    margin-right: 8
+    height: 18
+    padding: 0 6 0 6
+    text-horizontal-auto-resize: true
+    ttf-font: GeistMono-Medium
+    ttf-font-size: 10
+    color: #6f6c68
+    image-source: /images/lionfell/chip
+    image-border: 3
+    image-color: alpha
+    !text: tr('CHAT OFF')
+    &isChecked: false
+    change-cursor-image: true
+    cursor: pointer
+    @onClick: toggleChat()
+
+    $hover:
+      color: #f1efec
+      image-color: #1d1f20

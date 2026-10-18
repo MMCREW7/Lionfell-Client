@@ -1,0 +1,9 @@
+Module
+  name: game_lionfell_hud
+  description: Lionfell map-first HUD (vitals, dock, floating panels, widescreen map)
+  author: Lionfell
+  sandboxed: true
+  scripts: [ hud ]
+  dependencies: [ game_interface, client_lionfell ]
+  @onLoad: init()
+  @onUnload: terminate()

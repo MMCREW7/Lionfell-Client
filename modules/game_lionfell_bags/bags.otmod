@@ -1,0 +1,9 @@
+Module
+  name: game_lionfell_bags
+  description: Lionfell bags: the adventurer's pack and its 4 bags in one window (B)
+  author: Lionfell
+  sandboxed: true
+  scripts: [ bags ]
+  dependencies: [ game_interface, game_containers, client_lionfell ]
+  @onLoad: init()
+  @onUnload: terminate()

@@ -1,0 +1,384 @@
+// Lionfell character select. Full screen over the blurred key art.
+// characterlist.lua looks up: characters, characterTable (+ *Sort buttons), autoReconnect,
+// checkBoxHidden, checkBoxOutfit, accountStatusLabel, buttonOk, buttonCancel. Row widgets keep
+// the classic child ids (outfitCreatureBox, name, level, vocation, worldName, pin, ...).
+// Classic layout: characterlist_classic.otui
+
+CharacterWidget < UIWidget
+  height: 88
+  image-source: /images/lionfell/row
+  image-border: 6
+  focusable: true
+  change-cursor-image: true
+  cursor: pointer
+  &updateOnStates: |
+    function(self)
+      local focused = self:isFocused()
+      for _, child in ipairs(self:getChildren()) do
+        child:setOn(focused)
+      end
+      self:setBackgroundColor('alpha')
+      if focused then
+        self:setImageSource('/images/lionfell/row_selected')
+      elseif self:isHovered() then
+        self:setImageSource('/images/lionfell/row_hover')
+      else
+        self:setImageSource('/images/lionfell/row')
+      end
+      local pin = self:getChildById('pin')
+      if pin then
+        pin:setVisible(focused and g_game.getFeature(GameEnterGameShowAppearance))
+      end
+    end
+  @onFocusChange: self:updateOnStates()
+  @onHoverChange: self:updateOnStates()
+  @onSetup: self:updateOnStates()
+
+  UIWidget
+    id: outfitBackdrop
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: 12
+    margin-left: 12
+    size: 64 64
+    image-source: /images/lionfell/fill_r4
+    image-border: 4
+    image-color: #242526
+    phantom: true
+
+  UICreature
+    id: outfitCreatureBox
+    anchors.top: outfitBackdrop.top
+    anchors.left: outfitBackdrop.left
+    size: 64 64
+    fixed-creature-size: true
+    phantom: true
+    @onSetup: |
+      if not g_game.getFeature(GameEnterGameShowAppearance) then
+        self:hide()
+      end
+
+  UILabel
+    id: name
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: 24
+    margin-left: 96
+    ttf-font: Geist-Medium
+    ttf-font-size: 17
+    color: #e7e5e2
+    text-auto-resize: true
+    phantom: true
+
+    $on:
+      color: #f1efec
+
+  UIWidget
+    id: mainCharacter
+    anchors.left: name.right
+    anchors.verticalCenter: name.verticalCenter
+    margin-left: 8
+    size: 9 8
+    image-clip: 0 0 9 8
+    phantom: true
+    !tooltip: tr('Main character')
+
+  UILabel
+    id: vocation
+    anchors.top: name.bottom
+    anchors.left: name.left
+    margin-top: 4
+    ttf-font: Geist-Regular
+    ttf-font-size: 13
+    color: #8d8a86
+    text-auto-resize: true
+    phantom: true
+
+  UILabel
+    id: level
+    anchors.top: vocation.top
+    anchors.left: vocation.right
+    ttf-font: Geist-Regular
+    ttf-font-size: 13
+    color: #8d8a86
+    text-auto-resize: true
+    phantom: true
+    &baseText: '  \183  Level %s'
+
+  // WORLD column (140px), then STATUS column (120px), as in the design grid
+  UILabel
+    id: worldCaption
+    !text: tr('WORLD')
+    anchors.top: parent.top
+    anchors.right: parent.right
+    margin-top: 24
+    margin-right: 160
+    width: 140
+    ttf-font: GeistMono-Medium
+    ttf-font-size: 11
+    color: #6f6c68
+    phantom: true
+
+  UIWidget
+    id: worldDot
+    anchors.left: worldCaption.left
+    anchors.top: worldCaption.bottom
+    margin-top: 10
+    size: 6 6
+    image-source: /images/lionfell/dot
+    image-color: #8fb08a
+    phantom: true
+
+  UILabel
+    id: worldName
+    anchors.left: worldDot.right
+    anchors.top: worldCaption.bottom
+    margin-top: 5
+    margin-left: 6
+    width: 130
+    ttf-font: Geist-Regular
+    ttf-font-size: 13
+    color: #cfccc7
+    text-wrap: true
+    text-vertical-auto-resize: true
+    phantom: true
+    &baseText: '%s'
+
+  UILabel
+    id: statusCaption
+    !text: tr('STATUS')
+    anchors.top: parent.top
+    anchors.right: parent.right
+    margin-top: 24
+    margin-right: 20
+    width: 120
+    text-align: right
+    ttf-font: GeistMono-Medium
+    ttf-font-size: 11
+    color: #6f6c68
+    phantom: true
+
+  UIWidget
+    id: statusHidden
+    anchors.right: parent.right
+    anchors.top: statusCaption.bottom
+    margin-top: 6
+    margin-right: 20
+    size: 11 19
+    image-clip: 0 0 11 19
+    phantom: true
+    !tooltip: tr('Hidden character')
+
+  UIWidget
+    id: statusDailyReward
+    anchors.right: statusHidden.left
+    anchors.top: statusHidden.top
+    margin-right: 6
+    size: 11 19
+    image-clip: 0 0 11 19
+    phantom: true
+    !tooltip: tr('Daily reward')
+
+  CheckBoxButton
+    id: pin
+    anchors.right: statusDailyReward.left
+    anchors.top: statusHidden.top
+    margin-right: 8
+    margin-top: 3
+    size: 12 12
+    visible: false
+    tooltip: Pin this character to have it always shown at the top of the list.
+    icon-source: /game_questlog/images/icon-pin
+    @onCheckChange: onPinCharacter(self, self:isChecked())
+    $checked:
+      tooltip: Remove pin from this character.
+      image-color: #c9a56b
+
+UIWindow
+  id: charactersWindow
+  &modernLayout: true
+  anchors.fill: parent
+  draggable: false
+  focusable: true
+  color: alpha
+  visible: false
+  background-color: #0c0d0d
+  @onEnter: CharacterList.doLogin()
+  @onEscape: CharacterList.hide(true)
+  @onSetup: |
+    g_keyboard.bindKeyPress('Up', function() self:getChildById('characters'):focusPreviousChild(KeyboardFocusReason) end, self)
+    g_keyboard.bindKeyPress('Down', function() self:getChildById('characters'):focusNextChild(KeyboardFocusReason) end, self)
+
+  UIWidget
+    id: backdrop
+    anchors.fill: parent
+    image-source: /images/lionfell/keyart_blur
+    image-smooth: true
+    image-fixed-ratio: true
+    phantom: true
+
+  UIWidget
+    id: scrim
+    anchors.fill: parent
+    image-source: /images/lionfell/grad_charselect
+    image-smooth: true
+    phantom: true
+
+  UIWidget
+    id: column
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 160
+    width: 760
+    height: 640
+    phantom: true
+
+  // header
+  UILabel
+    id: accountNameLabel
+    anchors.top: column.top
+    anchors.left: column.left
+    ttf-font: GeistMono-Medium
+    ttf-font-size: 11
+    color: #7d7a76
+    text-auto-resize: true
+    text-only-upper-case: true
+    phantom: true
+
+  UILabel
+    id: accountStatusLabel
+    !text: tr('Free Account')
+    anchors.top: accountNameLabel.top
+    anchors.left: accountNameLabel.right
+    margin-left: 10
+    ttf-font: GeistMono-Medium
+    ttf-font-size: 11
+    color: #7d7a76
+    text-auto-resize: true
+    text-only-upper-case: true
+    phantom: true
+
+    $on:
+      color: #d9a29b
+
+  UILabel
+    id: title
+    !text: tr('Choose a character')
+    anchors.top: accountNameLabel.bottom
+    anchors.left: column.left
+    margin-top: 8
+    ttf-font: Geist-Medium
+    ttf-font-size: 36
+    color: #f1efec
+    text-auto-resize: true
+    phantom: true
+
+  LfSegmentBar
+    id: characterTable
+    anchors.right: column.right
+    anchors.bottom: title.bottom
+
+    LfSegment
+      id: characterSort
+      !text: tr('Name')
+      @onClick: onSortButtonClick(self, 1)
+
+    LfSegment
+      id: levelSort
+      !text: tr('Level')
+      @onClick: onSortButtonClick(self, 3)
+
+    LfSegment
+      id: vocationSort
+      !text: tr('Vocation')
+      @onClick: onSortButtonClick(self, 4)
+
+    LfSegment
+      id: worldSort
+      !text: tr('World')
+      @onClick: onSortButtonClick(self, 5)
+
+  TextList
+    id: characters
+    anchors.top: title.bottom
+    anchors.left: column.left
+    anchors.right: column.right
+    margin-top: 28
+    height: 476
+    background-color: alpha
+    border-width: 0
+    padding: 0
+    focusable: false
+    vertical-scrollbar: characterListScrollBar
+    auto-focus: first
+    layout:
+      type: verticalBox
+      spacing: 6
+
+  VerticalScrollBar
+    id: characterListScrollBar
+    anchors.top: characters.top
+    anchors.bottom: characters.bottom
+    anchors.left: characters.right
+    margin-left: 8
+    step: 94
+    pixels-scroll: true
+    opacity: 0.4
+
+  // list options
+  LfCheckBox
+    id: checkBoxOutfit
+    !text: tr('Show outfits')
+    anchors.top: characters.bottom
+    anchors.left: column.left
+    margin-top: 16
+    @onCheckChange: onShowOutfits(self, self:isChecked())
+
+  LfCheckBox
+    id: checkBoxHidden
+    !text: tr('Show hidden characters')
+    anchors.top: checkBoxOutfit.top
+    anchors.left: checkBoxOutfit.right
+    margin-left: 24
+    checked: true
+    @onCheckChange: onShowHiddenCharacters(self, self:isChecked())
+
+  // footer
+  LfButton
+    id: buttonCancel
+    !text: tr('Log out')
+    anchors.top: checkBoxOutfit.bottom
+    anchors.left: column.left
+    margin-top: 28
+    @onClick: CharacterList.hide(true)
+
+  LfButton
+    id: autoReconnect
+    anchors.top: buttonCancel.top
+    anchors.left: buttonCancel.right
+    margin-left: 8
+    $!on:
+      color: #8d8a86
+    $on:
+      color: #a8c3a3
+
+  LfPrimaryButton
+    id: buttonOk
+    !text: tr('Enter')
+    anchors.top: buttonCancel.top
+    anchors.right: column.right
+    padding: 0 32 0 32
+    text-horizontal-auto-resize: true
+    @onClick: CharacterList.doLogin()
+
+  UILabel
+    id: enterHint
+    text: ENTER
+    anchors.right: buttonOk.left
+    anchors.verticalCenter: buttonOk.verticalCenter
+    margin-right: 16
+    ttf-font: GeistMono-Regular
+    ttf-font-size: 12
+    color: #6f6c68
+    text-auto-resize: true
+    phantom: true

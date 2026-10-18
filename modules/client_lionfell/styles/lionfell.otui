@@ -1,0 +1,495 @@
+// Lionfell UI kit. Palette (from the design):
+//   strong #f1efec  text #e7e5e2  body #cfccc7  muted #8d8a86  faint #7d7a76  fainter #6f6c68
+//   hp #b9625a  mp #6a83a8  ok #8fb08a  warn #c2a46a  gold #c9a56b  xp #a8a49e
+// Surfaces: one flat panel (rgba(16,17,18,.86), 1px hairline, 6px corners) as a 9-slice.
+
+LfPanel < UIWidget
+  image-source: /images/lionfell/panel
+  image-border: 6
+  focusable: false
+
+LfWindow < UIWindow
+  image-source: /images/lionfell/panel
+  image-border: 6
+  focusable: false
+
+LfLabel < UILabel
+  ttf-font: Geist-Regular
+  ttf-font-size: 13
+  color: #cfccc7
+  text-auto-resize: true
+  phantom: true
+
+LfTitle < LfLabel
+  ttf-font: Geist-SemiBold
+  ttf-font-size: 15
+  color: #f1efec
+
+LfMuted < LfLabel
+  ttf-font-size: 12
+  color: #8d8a86
+
+LfMono < LfLabel
+  ttf-font: GeistMono-Regular
+  ttf-font-size: 11
+  color: #8d8a86
+
+// small caps section header, e.g. BATTLE / EQUIPMENT
+LfCaps < LfLabel
+  ttf-font: GeistMono-Medium
+  ttf-font-size: 10
+  color: #7d7a76
+
+LfField < UILabel
+  ttf-font: GeistMono-Medium
+  ttf-font-size: 11
+  color: #7d7a76
+  text-auto-resize: true
+
+LfTextEdit < UITextEdit
+  ttf-font: Geist-Regular
+  ttf-font-size: 15
+  color: #f1efec
+  height: 46
+  padding: 0 14 0 14
+  text-align: left
+  image-source: /images/lionfell/input
+  image-border: 5
+  selection-color: #111111
+  selection-background-color: #cfccc7
+  cursor: text
+  change-cursor-image: true
+
+  $focus:
+    image-source: /images/lionfell/input_focus
+
+  $disabled:
+    opacity: 0.5
+
+LfPasswordEdit < LfTextEdit
+  text-hidden: true
+
+LfButton < UIButton
+  ttf-font: Geist-Medium
+  ttf-font-size: 14
+  color: #cfccc7
+  height: 46
+  padding: 0 20 0 20
+  text-horizontal-auto-resize: true
+  image-source: /images/lionfell/button
+  image-border: 5
+  change-cursor-image: true
+  cursor: pointer
+
+  $hover !disabled:
+    image-source: /images/lionfell/button_hover
+    color: #f1efec
+
+  $pressed:
+    text-offset: 0 1
+
+  $disabled:
+    opacity: 0.5
+
+LfPrimaryButton < UIButton
+  ttf-font: Geist-SemiBold
+  ttf-font-size: 15
+  color: #111111
+  height: 48
+  image-source: /images/lionfell/button_primary
+  image-border: 5
+  image-color: #e7e5e2
+  change-cursor-image: true
+  cursor: pointer
+
+  $hover !disabled:
+    image-color: #ffffff
+
+  $pressed:
+    text-offset: 0 1
+
+  $disabled:
+    image-color: #8d8a86
+
+// Small top-right pill, e.g. EN / Settings / Exit
+LfPillButton < LfButton
+  ttf-font-size: 12
+  height: 32
+  padding: 0 12 0 12
+  image-source: /images/lionfell/chip
+  image-border: 3
+  image-color: #101112dc
+
+  $hover !disabled:
+    image-source: /images/lionfell/chip
+    image-color: #25272a
+
+LfLinkButton < UIButton
+  ttf-font: Geist-Regular
+  ttf-font-size: 13
+  color: #cfccc7
+  text-auto-resize: true
+  change-cursor-image: true
+  cursor: pointer
+
+  $hover !disabled:
+    color: #ffffff
+
+LfCheckBox < UICheckBox
+  ttf-font: Geist-Regular
+  ttf-font-size: 13
+  color: #9a9792
+  height: 16
+  text-align: left
+  text-offset: 24 0
+  text-auto-resize: true
+  image-source: /images/lionfell/checkbox
+  image-rect: 0 0 16 16
+  image-clip: 0 0 16 16
+  change-cursor-image: true
+  cursor: pointer
+
+  $checked:
+    image-clip: 0 16 16 16
+
+  $hover !disabled:
+    color: #cfccc7
+
+// Text toggle that sits inside a field, e.g. password SHOW
+LfFieldToggle < UICheckBox
+  ttf-font: GeistMono-Medium
+  ttf-font-size: 11
+  color: #6f6c68
+  text-auto-resize: true
+  !text: tr('SHOW')
+  change-cursor-image: true
+  cursor: pointer
+
+  $hover:
+    color: #cfccc7
+
+  $checked:
+    !text: tr('HIDE')
+
+// Tag chip, e.g. HASTE / BATTLE / MON
+LfChip < UILabel
+  ttf-font: GeistMono-Medium
+  ttf-font-size: 10
+  color: #cfccc7
+  text-align: center
+  text-auto-resize: true
+  padding: 3 7 3 7
+  image-source: /images/lionfell/chip
+  image-border: 3
+  image-color: #1d1f20
+
+// Segmented control item (Recent / Level / Name, MON / PLR / NPC)
+LfSegment < UIButton
+  ttf-font: Geist-Medium
+  ttf-font-size: 12
+  color: #7d7a76
+  height: 28
+  padding: 0 10 0 10
+  text-horizontal-auto-resize: true
+  image-source: /images/lionfell/chip
+  image-border: 3
+  image-color: alpha
+  change-cursor-image: true
+  cursor: pointer
+
+  $hover:
+    color: #cfccc7
+
+  $on:
+    color: #f1efec
+    image-color: #25272a
+
+LfSegmentBar < LfPanel
+  height: 34
+  padding: 3
+  image-source: /images/lionfell/chip
+  image-border: 3
+  image-color: #101112dc
+  layout:
+    type: horizontalBox
+    spacing: 4
+    fit-children: true
+
+// Thin bar: a dark track with a fill child sized from Lua (setPercent).
+LfBar < UIWidget
+  height: 8
+  background-color: #0b0c0c
+  phantom: true
+
+  UIWidget
+    id: fill
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    width: 0
+    phantom: true
+
+LfSlot < UIWidget
+  size: 44 44
+  image-source: /images/lionfell/slot
+  image-border: 4
+  phantom: false
+
+  $hover:
+    image-source: /images/lionfell/slot_hover
+
+LfDockButton < UIButton
+  size: 34 26
+  ttf-font: GeistMono-Medium
+  ttf-font-size: 10
+  color: #8d8a86
+  image-source: /images/lionfell/fill_r4
+  image-border: 4
+  image-color: alpha
+  change-cursor-image: true
+  cursor: pointer
+
+  $hover:
+    image-color: #25272a
+    color: #f1efec
+
+  $on:
+    image-color: #1d1f20
+    color: #e7e5e2
+
+  $on hover:
+    image-color: #25272a
+    color: #f1efec
+
+// The little grip line used as a drag handle on dock / action bar.
+LfGrip < UIWidget
+  height: 6
+  phantom: true
+
+  UIWidget
+    anchors.centerIn: parent
+    size: 16 2
+    background-color: #3a3b3d
+    phantom: true
+
+// Flat restyle of the stock Button used across the game windows. Same default size and
+// padding as data/styles/10-buttons.otui so fixed-size layouts keep fitting; instances
+// that set their own image-source/clip are unaffected.
+Button < UIButton
+  ttf-font: Geist-Medium
+  ttf-font-size: 11
+  color: #cfccc7
+  size: 43 20
+  text-offset: 0 0
+  image-source: /images/lionfell/button
+  image-border: 5
+  padding: 10
+  opacity: 1.0
+  click-sound: 2774
+  change-cursor-image: true
+  cursor: pointer
+
+  $hover !disabled:
+    image-source: /images/lionfell/button_hover
+    color: #f1efec
+
+  $pressed:
+    text-offset: 0 1
+
+  $on:
+    image-source: /images/lionfell/button_hover
+    color: #f1efec
+
+  $checked:
+    image-source: /images/lionfell/button_hover
+    color: #f1efec
+
+  $disabled:
+    color: #cfccc777
+    opacity: 0.7
+    change-cursor-image: false
+
+// Top menu (dock MNU): flat buttons instead of the bevelled stone ones. Same sizes and child
+// ids as data/styles/20-topmenu.otui; icons are kept.
+TopButton < UIButton
+  size: 26 26
+  image-source: /images/lionfell/fill_r4
+  image-border: 4
+  image-color: alpha
+  icon-color: #cfccc7
+
+  $on:
+    image-color: #3a2f1f
+
+  $hover !disabled:
+    image-color: #25272a
+    icon-color: #ffffff
+
+  $pressed:
+    image-color: #1d1f20
+
+  $disabled:
+    icon-color: #ffffff44
+
+TopToggleButton < UIButton
+  size: 26 26
+  image-source: /images/lionfell/fill_r4
+  image-border: 4
+  image-color: alpha
+  icon-offset: 0 0
+
+  $hover !disabled:
+    image-color: #25272a
+
+  $pressed:
+    image-color: #1d1f20
+    icon-offset: 1 1
+
+  $disabled:
+    image-color: #1d1f20
+    icon-offset: 1 1
+
+MainToggleButton < UIButton
+  size: 20 20
+  image-source: /images/lionfell/fill_r4
+  image-border: 4
+  image-color: alpha
+
+  $hover:
+    image-color: #25272a
+
+  $pressed:
+    image-color: #1d1f20
+
+  $on:
+    image-color: #1d1f20
+
+  UIWidget
+    id: brightButton
+    size: 20 20
+    anchors.top: prev.top
+    anchors.left: prev.left
+    phantom: true
+    visible: false
+    image-source: /images/ui/bright-x20
+
+  UIWidget
+    id: highlight
+    size: 22 22
+    visible: false
+    margin-top: -1
+    phantom: true
+    image-source: /images/ui/highlight
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.verticalCenter: parent.verticalCenter
+
+TopMenuPanel < Panel
+  height: 36
+  image-source: /images/lionfell/fill_r4
+  image-border: 4
+  image-color: #101112e6
+  border-width-bottom: 1
+  border-color-bottom: #ffffff0f
+  focusable: false
+
+// Context / popup menus (right-click menus, the chat "..." menu): flat panel, Geist rows
+PopupMenuButton < UIButton
+  height: 24
+  size: 0 24
+  text-offset: 10 0
+  text-align: left
+  ttf-font: Geist-Regular
+  ttf-font-size: 12
+  color: #cfccc7
+  image-source: /images/lionfell/fill_r4
+  image-border: 4
+  image-color: alpha
+
+  $hover !disabled:
+    image-color: #25272a
+    color: #f1efec
+
+  $disabled:
+    color: #6f6c68
+
+PopupMenuShortcutLabel < Label
+  ttf-font: GeistMono-Regular
+  ttf-font-size: 10
+  color: #6f6c68
+  text-align: right
+  anchors.fill: parent
+  margin-right: 8
+  margin-left: 5
+
+PopupMenuSeparator < UIWidget
+  margin: 4 6 4 6
+  height: 1
+  background-color: #ffffff12
+  phantom: true
+
+PopupMenu < UIPopupMenu
+  width: 80
+  image-source: /images/lionfell/panel
+  image-border: 6
+  padding: 5
+
+// Flat dropdowns (replaces data/styles/10-comboboxes.otui): text centred vertically, a small
+// triangle on the right instead of the stone arrow box.
+ComboBoxPopupScrollMenuButton < UIButton
+  height: 24
+  ttf-font: Geist-Regular
+  ttf-font-size: 12
+  text-align: left
+  text-offset: 10 0
+  color: #cfccc7
+  background-color: alpha
+
+  $hover !disabled:
+    color: #f1efec
+    background-color: #25272a
+
+  $disabled:
+    color: #6f6c68
+
+ComboBoxPopupScrollMenu < UIPopupScrollMenu
+  image-source: /images/lionfell/panel
+  image-border: 6
+  padding: 4
+
+ComboBoxPopupMenuButton < ComboBoxPopupScrollMenuButton
+
+ComboBoxPopupMenu < UIPopupMenu
+  image-source: /images/lionfell/panel
+  image-border: 6
+  padding: 4
+
+ComboBox < UIComboBox
+  ttf-font: Geist-Regular
+  ttf-font-size: 12
+  color: #cfccc7
+  size: 120 28
+  text-align: left
+  text-offset: 10 0
+  image-source: /images/lionfell/input
+  image-border: 5
+  change-cursor-image: true
+  cursor: pointer
+
+  $hover !disabled:
+    image-source: /images/lionfell/input_focus
+
+  $on:
+    image-source: /images/lionfell/input_focus
+
+  $disabled:
+    color: #6f6c68
+    opacity: 0.8
+
+  UIWidget
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-right: 10
+    size: 9 6
+    image-source: /images/lionfell/tri_down
+    image-color: #7d7a76
+    phantom: true

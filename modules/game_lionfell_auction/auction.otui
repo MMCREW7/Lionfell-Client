@@ -1,0 +1,402 @@
+// Lionfell auction house window (palette and kit: modules/client_lionfell/styles/lionfell.otui)
+
+AuctionRow < UIWidget
+  height: 46
+  image-source: /images/lionfell/slot
+  image-border: 4
+  image-color: #ffffff22
+  margin-bottom: 4
+  focusable: false
+
+  $hover:
+    image-color: #ffffff44
+
+  UIItem
+    id: item
+    size: 34 34
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 6
+    phantom: true
+    virtual: true
+
+  LfLabel
+    id: name
+    anchors.left: item.right
+    anchors.top: parent.top
+    margin-left: 10
+    margin-top: 6
+    ttf-font: Geist-Medium
+    ttf-font-size: 13
+
+  LfMuted
+    id: seller
+    anchors.left: name.left
+    anchors.top: name.bottom
+    margin-top: 2
+    ttf-font-size: 11
+
+  LfButton
+    id: action
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-right: 6
+    height: 30
+    ttf-font-size: 12
+    padding: 0 14 0 14
+
+  LfMono
+    id: price
+    anchors.right: action.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-right: 14
+    ttf-font-size: 13
+    color: #c9a56b
+
+AuctionField < UITextEdit
+  ttf-font: Geist-Regular
+  ttf-font-size: 13
+  color: #f1efec
+  height: 32
+  padding: 8 10 0 10
+  image-source: /images/lionfell/input
+  image-border: 5
+  selection-color: #111111
+  selection-background-color: #cfccc7
+  cursor: text
+  change-cursor-image: true
+
+  $focus:
+    image-source: /images/lionfell/input_focus
+
+AuctionCombo < ComboBox
+  height: 32
+
+LfWindow
+  id: auctionWindow
+  size: 880 600
+  anchors.centerIn: parent
+  padding: 18
+  visible: false
+
+  LfTitle
+    id: title
+    text: Auction House
+    anchors.top: parent.top
+    anchors.left: parent.left
+
+  LfMuted
+    id: subtitle
+    text: Quality items only (uncommon and better) - common items trade on the market.
+    anchors.top: title.bottom
+    anchors.left: parent.left
+    margin-top: 2
+
+  LfMono
+    id: balance
+    anchors.top: parent.top
+    anchors.right: closeButton.left
+    margin-right: 14
+    margin-top: 8
+    color: #c9a56b
+
+  LfPillButton
+    id: closeButton
+    text: Close
+    anchors.top: parent.top
+    anchors.right: parent.right
+    @onClick: modules.game_lionfell_auction.hide()
+
+  LfSegmentBar
+    id: tabs
+    anchors.top: subtitle.bottom
+    anchors.left: parent.left
+    margin-top: 14
+    width: 360
+    height: 34
+
+    LfSegment
+      id: browseTab
+      text: Browse
+      width: 120
+      @onClick: modules.game_lionfell_auction.showTab('browse')
+
+    LfSegment
+      id: mineTab
+      text: My listings
+      width: 120
+      @onClick: modules.game_lionfell_auction.showTab('mine')
+
+    LfSegment
+      id: sellTab
+      text: Sell
+      width: 120
+      @onClick: modules.game_lionfell_auction.showTab('sell')
+
+  LfMuted
+    id: status
+    anchors.verticalCenter: tabs.verticalCenter
+    anchors.right: parent.right
+    text-align: right
+
+  // ------------------------------------------------------------------ browse
+  UIWidget
+    id: browsePanel
+    anchors.top: tabs.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-top: 14
+
+    AuctionField
+      id: search
+      anchors.top: parent.top
+      anchors.left: parent.left
+      width: 230
+      placeholder: Search items...
+      @onEnter: modules.game_lionfell_auction.browse(0)
+
+    AuctionCombo
+      id: category
+      anchors.top: parent.top
+      anchors.left: search.right
+      margin-left: 8
+      width: 130
+
+    AuctionCombo
+      id: quality
+      anchors.top: parent.top
+      anchors.left: category.right
+      margin-left: 8
+      width: 130
+
+    AuctionCombo
+      id: sort
+      anchors.top: parent.top
+      anchors.left: quality.right
+      margin-left: 8
+      width: 140
+
+    LfButton
+      id: searchButton
+      text: Search
+      anchors.top: parent.top
+      anchors.left: sort.right
+      margin-left: 8
+      height: 32
+      ttf-font-size: 13
+      @onClick: modules.game_lionfell_auction.browse(0)
+
+    UIWidget
+      id: statRow
+      anchors.top: search.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 8
+      height: 32
+
+      LfField
+        id: statLabel
+        text: MODIFIERS
+        anchors.left: parent.left
+        anchors.verticalCenter: parent.verticalCenter
+
+      AuctionCombo
+        id: stat1
+        anchors.left: statLabel.right
+        anchors.verticalCenter: parent.verticalCenter
+        margin-left: 10
+        width: 160
+
+      AuctionField
+        id: min1
+        anchors.left: stat1.right
+        anchors.verticalCenter: parent.verticalCenter
+        margin-left: 4
+        width: 56
+        placeholder: min
+
+      AuctionCombo
+        id: stat2
+        anchors.left: min1.right
+        anchors.verticalCenter: parent.verticalCenter
+        margin-left: 12
+        width: 160
+
+      AuctionField
+        id: min2
+        anchors.left: stat2.right
+        anchors.verticalCenter: parent.verticalCenter
+        margin-left: 4
+        width: 56
+        placeholder: min
+
+      AuctionCombo
+        id: stat3
+        anchors.left: min2.right
+        anchors.verticalCenter: parent.verticalCenter
+        margin-left: 12
+        width: 160
+
+      AuctionField
+        id: min3
+        anchors.left: stat3.right
+        anchors.verticalCenter: parent.verticalCenter
+        margin-left: 4
+        width: 56
+        placeholder: min
+
+    ScrollablePanel
+      id: list
+      anchors.top: statRow.bottom
+      anchors.left: parent.left
+      anchors.right: listScroll.left
+      anchors.bottom: pager.top
+      margin-top: 12
+      margin-bottom: 8
+      margin-right: 6
+      vertical-scrollbar: listScroll
+      layout:
+        type: verticalBox
+
+    LfScrollBar
+      id: listScroll
+      anchors.top: statRow.bottom
+      anchors.bottom: pager.top
+      anchors.right: parent.right
+      margin-top: 12
+      margin-bottom: 8
+      step: 50
+      pixels-scroll: true
+
+    UIWidget
+      id: pager
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      height: 32
+
+      LfButton
+        id: prev
+        text: < Prev
+        anchors.left: parent.left
+        anchors.verticalCenter: parent.verticalCenter
+        height: 30
+        ttf-font-size: 12
+        @onClick: modules.game_lionfell_auction.page(-1)
+
+      LfMono
+        id: pageLabel
+        anchors.centerIn: parent
+
+      LfButton
+        id: next
+        text: Next >
+        anchors.right: parent.right
+        anchors.verticalCenter: parent.verticalCenter
+        height: 30
+        ttf-font-size: 12
+        @onClick: modules.game_lionfell_auction.page(1)
+
+  // ------------------------------------------------------------------ my listings
+  UIWidget
+    id: minePanel
+    anchors.top: tabs.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-top: 14
+    visible: false
+
+    ScrollablePanel
+      id: list
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: mineScroll.left
+      anchors.bottom: parent.bottom
+      margin-right: 6
+      vertical-scrollbar: mineScroll
+      layout:
+        type: verticalBox
+
+    LfScrollBar
+      id: mineScroll
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      anchors.right: parent.right
+      step: 50
+      pixels-scroll: true
+
+  // ------------------------------------------------------------------ sell
+  UIWidget
+    id: sellPanel
+    anchors.top: tabs.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-top: 20
+    visible: false
+
+    LfCaps
+      id: sellHint
+      text: DRAG AN ITEM FROM YOUR BACKPACK INTO THE SLOT
+      anchors.top: parent.top
+      anchors.left: parent.left
+
+    UIItem
+      id: sellItem
+      size: 64 64
+      padding: 16
+      anchors.top: sellHint.bottom
+      anchors.left: parent.left
+      margin-top: 12
+      image-source: /images/lionfell/slot
+      image-border: 4
+      virtual: true
+
+    LfLabel
+      id: sellName
+      anchors.top: sellItem.top
+      anchors.left: sellItem.right
+      margin-left: 14
+      ttf-font: Geist-Medium
+      ttf-font-size: 14
+
+    LfMuted
+      id: sellDescription
+      anchors.top: sellName.bottom
+      anchors.left: sellName.left
+      anchors.right: parent.right
+      margin-top: 6
+      text-wrap: true
+      text-auto-resize: true
+
+    LfField
+      id: priceLabel
+      text: PRICE (GOLD)
+      anchors.top: sellItem.bottom
+      anchors.left: parent.left
+      margin-top: 24
+
+    AuctionField
+      id: price
+      anchors.top: priceLabel.bottom
+      anchors.left: parent.left
+      margin-top: 6
+      width: 200
+      @onTextChange: modules.game_lionfell_auction.updateFee()
+
+    LfMuted
+      id: fee
+      anchors.verticalCenter: price.verticalCenter
+      anchors.left: price.right
+      margin-left: 14
+
+    LfPrimaryButton
+      id: listButton
+      text: List item
+      anchors.top: price.bottom
+      anchors.left: parent.left
+      margin-top: 18
+      width: 200
+      @onClick: modules.game_lionfell_auction.sell()

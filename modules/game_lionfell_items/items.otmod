@@ -1,0 +1,9 @@
+Module
+  name: game_lionfell_items
+  description: Lionfell quality item tooltips (server side: data/scripts/lionfell/items/lf_tooltip.lua)
+  author: Lionfell
+  sandboxed: true
+  scripts: [ items ]
+  dependencies: [ game_interface, client_lionfell ]
+  @onLoad: init()
+  @onUnload: terminate()
