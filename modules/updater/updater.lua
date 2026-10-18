@@ -235,6 +235,7 @@ end
 
 function Updater.terminate()
   loadModulesFunction = nil
+  sessionCallback = nil -- the client is closing (e.g. to install an update): nothing to report back
   finish()
 end
 
