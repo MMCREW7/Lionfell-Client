@@ -75,16 +75,10 @@ function init()
     if userLocaleName ~= 'false' and setLocale(userLocaleName) then
         pdebug('Using configured locale: ' .. userLocaleName)
     else
+        -- Lionfell: English without asking (the first-start language picker only offered Polish
+        -- and English); the language can still be changed in the options
         setLocale(defaultLocaleName)
-        if g_app.hasUpdater() then
-            connect(g_app, {
-                onUpdateFinished = createWindow,
-            })
-        else
-            connect(g_app, {
-                onRun = createWindow,
-            })
-        end
+        g_settings.set('locale', defaultLocaleName)
     end
 
     ProtocolGame.registerExtendedOpcode(ExtendedIds.Locale, onExtendedLocales)
