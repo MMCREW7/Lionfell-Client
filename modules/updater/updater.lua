@@ -93,15 +93,31 @@ end
 local function restart()
   local workDir = g_resources.getWorkDir()
   local started = false
+  local options = {}
+  for option in (g_app.getStartupOptions() or ""):gmatch("%S+") do
+    table.insert(options, option)
+  end
   if g_app.getOs() == "windows" then
-    if g_resources.fileExistsInWorkDir("lionfell.bat") then
-      local cmd = os.getenv("COMSPEC") or "C:\\Windows\\System32\\cmd.exe"
-      started = g_platform.spawnProcess(cmd, { "/c", workDir .. "lionfell.bat", "--updated" })
+    -- Windows: no cmd.exe / lionfell.bat in between (its quoting broke the restart and players
+    -- were left with a closed client). A running program can be renamed on Windows, so a new one
+    -- is swapped in here (the old one is deleted at the next start) and the client is started
+    -- again directly, with the options it was started with.
+    local exe = workDir .. "otclient.exe"
+    if g_resources.fileExistsInWorkDir("otclient.exe.new") then
+      os.remove(exe .. ".old")
+      local moved = os.rename(exe, exe .. ".old")
+      if not moved or not os.rename(exe .. ".new", exe) then
+        if moved then
+          os.rename(exe .. ".old", exe) -- put the old one back; the update is tried again next start
+        end
+        g_logger.warning("Lionfell update: couldn't swap in the new client program")
+      end
     end
+    started = g_platform.spawnProcess(exe, options)
   elseif g_resources.fileExistsInWorkDir("lionfell.sh") then
     -- the client starts again with the options it was started with (e.g. --user-dir)
     local args = { workDir .. "lionfell.sh", "--updated" }
-    for option in (g_app.getStartupOptions() or ""):gmatch("%S+") do
+    for _, option in ipairs(options) do
       table.insert(args, option)
     end
     started = g_platform.spawnProcess("/bin/sh", args)
@@ -230,6 +246,10 @@ end
 
 function Updater.init(loadModulesFunc)
   loadModulesFunction = loadModulesFunc
+  -- the program a Windows update replaced (still running when it was renamed): gone now
+  if g_app.getOs() == "windows" and g_resources.fileExistsInWorkDir("otclient.exe.old") then
+    os.remove(g_resources.getWorkDir() .. "otclient.exe.old")
+  end
   Updater.check()
 end
 
