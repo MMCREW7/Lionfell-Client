@@ -90,9 +90,14 @@ local function forgetLogin()
     g_settings.save()
 end
 
--- one try: from the character list when this client has one, else through the login screen
+local playedThisRun = false -- this client has been in game (its character list is filled)
+
+-- one try: from the character list when this client has one (in game earlier, or the list is up
+-- after the login screen worked), else through the login screen. A freshly restarted client has an
+-- empty list: logging in from it only says "select a character".
 local function login()
-    if CharacterList and CharacterList.doLogin and pcall(CharacterList.doLogin) then
+    local listReady = CharacterList and CharacterList.isVisible and (CharacterList.isVisible() or playedThisRun)
+    if listReady and CharacterList.doLogin and pcall(CharacterList.doLogin) then
         return
     end
     local enterGame = rootWidget:recursiveGetChildById('enterGame')
@@ -186,6 +191,7 @@ local function resumeAfterClientUpdate()
 end
 
 local function onGameStart()
+    playedThisRun = true
     if pending or (banner and banner:isVisible()) then
         stop()
         account, password = nil, nil
