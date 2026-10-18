@@ -2078,7 +2078,7 @@
   "modules/game_console/exiva_option.lua": "7f618b2",
   "modules/game_console/violationwindow.otui": "56becc57",
   "modules/game_containers/container.otui": "577322b1",
-  "modules/game_containers/containers.lua": "21b4b2fc",
+  "modules/game_containers/containers.lua": "b3dba984",
   "modules/game_containers/containers.otmod": "e936aa5b",
   "modules/game_cooldown/cooldown.lua": "33e94ed2",
   "modules/game_cooldown/cooldown.otmod": "b265bd58",
@@ -2940,6 +2940,6 @@
   "modules/updater/updater.otui": "517debaf",
   "otclientrc.lua": "176c66ea"
  },
- "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/2205f3fbf87078c27972c0c846e637731bf5792e/",
- "version": "2026-10-18 00:37:10"
+ "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/f45d0f9ee7ef88f47a7c0b7ba888fc05a450cfdb/",
+ "version": "2026-10-18 01:50:08"
 }
