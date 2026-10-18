@@ -938,6 +938,61 @@ function refreshContainerPages(container)
     end
 end
 
+local function availablePanelHeight(panel)
+    local free = panel:getHeight() - panel:getPaddingTop() - panel:getPaddingBottom()
+    for _, child in ipairs(panel:getChildren()) do
+        if child:isVisible() then
+            free = free - child:getHeight()
+        end
+    end
+    return free
+end
+
+local function findContainerPanel(window)
+    local interface = modules.game_interface
+    local panels = {
+        interface.getSelectedPanel() or interface.getRightPanel(), interface.getRightPanel(), interface.getRightExtraPanel(),
+        interface.getLeftPanel(), interface.getLeftExtraPanel()
+    }
+    local firstWithMinimum, minimumRoom
+    local roomiest, mostRoom = nil, -math.huge
+    local minimum = window:getMinimumHeight()
+    local desired = math.max(window:getHeight(), minimum)
+    local seen = {}
+
+    for _, panel in ipairs(panels) do
+        if panel and not seen[panel] and panel:isVisible() and panel:getHeight() > 0 then
+            seen[panel] = true
+            local free = availablePanelHeight(panel)
+            if free >= desired then
+                return panel, free
+            end
+            if free >= minimum and not firstWithMinimum then
+                firstWithMinimum, minimumRoom = panel, free
+            end
+            if free > mostRoom then
+                roomiest, mostRoom = panel, free
+            end
+        end
+    end
+    if firstWithMinimum then
+        return firstWithMinimum, minimumRoom
+    end
+    return roomiest or interface.getRightPanel(), mostRoom
+end
+
+local function fitContainerWindow(window)
+    local panel = window:getParent()
+    if not panel or panel:getClassName() ~= 'UIMiniWindowContainer' then
+        return
+    end
+    local visibleHeight = panel:getHeight() - panel:getPaddingTop() - panel:getPaddingBottom()
+    if not window:isOn() and window:getMinimumHeight() > visibleHeight then
+        window:minimize(true)
+    end
+    panel:fitAll(window)
+end
+
 function onContainerOpen(container, previousContainer)
     local containerWindow
     if previousContainer then
@@ -1126,11 +1181,6 @@ function onContainerOpen(container, previousContainer)
         end
     end
 
-    if not previousContainer then
-        local panel = modules.game_interface.findContentPanelAvailable(containerWindow, cellSize.height)
-        panel:addChild(containerWindow)
-    end
-
     if not previousContainer or previousContainer:getCapacity() >= container:getCapacity() then
         -- Always set the content height based on the current container's content, with a minimum of one row
         local minRows = 1
@@ -1144,10 +1194,20 @@ function onContainerOpen(container, previousContainer)
         end
     end
 
+    if not previousContainer then
+        local panel, free = findContainerPanel(containerWindow)
+        if free < containerWindow:getMinimumHeight() then
+            containerWindow:minimize(true)
+        end
+        panel:addChild(containerWindow)
+        fitContainerWindow(containerWindow)
+    end
+
     containerWindow:setup()
     if isLionfellPack(container) then
         modules.game_lionfell_bags.sizePack(container)
     end
+    fitContainerWindow(containerWindow)
     
     -- Apply current sorting mode if one is active and manual sort mode is disabled
     local currentSortMode = containerSettings and containerSettings['currentSortMode']
@@ -1176,6 +1236,7 @@ function onContainerChangeSize(container, size)
         container.window:setHeight(preservedHeight)
         container.window.preservedHeight = nil -- Clear the preserved height
     end
+    fitContainerWindow(container.window)
 end
 
 function onContainerUpdateItem(container, slot, item, oldItem)
