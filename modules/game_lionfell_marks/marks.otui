@@ -1,0 +1,43 @@
+// Map mark: the tile the mouse pointed at, and a note for it (Ctrl+Shift+K)
+LfWindow
+  id: markWindow
+  focusable: true
+  width: 360
+  height: 176
+  anchors.centerIn: parent
+  padding: 14 16 14 16
+  draggable: true
+  visible: false
+  @onEnter: modules.game_lionfell_marks.save()
+  @onEscape: modules.game_lionfell_marks.hide()
+
+  LfTitle
+    id: title
+    !text: tr('Mark this spot')
+    anchors.top: parent.top
+    anchors.left: parent.left
+
+  LfMono
+    id: position
+    anchors.top: title.bottom
+    anchors.left: parent.left
+    margin-top: 6
+    color: #c9a56b
+
+  LfTextEdit
+    id: note
+    anchors.top: position.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 12
+    height: 36
+    ttf-font-size: 13
+    max-length: 200
+    placeholder: What goes here? e.g. armor shop NPC
+
+  LfMuted
+    id: hint
+    !text: tr('Enter saves the mark and copies the coordinates.')
+    anchors.top: note.bottom
+    anchors.left: parent.left
+    margin-top: 10

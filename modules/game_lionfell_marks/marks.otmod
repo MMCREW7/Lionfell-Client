@@ -1,0 +1,9 @@
+Module
+  name: game_lionfell_marks
+  description: Lionfell map marks - point at a tile, Ctrl+Shift+K, note what goes there (data/scripts/lionfell/lf_marks.lua)
+  author: Lionfell
+  sandboxed: true
+  scripts: [ marks ]
+  dependencies: [ game_interface, client_lionfell ]
+  @onLoad: init()
+  @onUnload: terminate()
