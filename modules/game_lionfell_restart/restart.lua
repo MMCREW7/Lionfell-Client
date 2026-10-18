@@ -14,8 +14,8 @@ local GIVE_UP_MS = 180000 -- after the countdown: how long the server may take t
 
 local debugLines = {} -- TEMP DEBUG
 local function dbg(text)
-    debugLines[#debugLines + 1] = os.date('%H:%M:%S ') .. text
-    g_resources.writeFileContents('/lfrestart_debug.txt', table.concat(debugLines, '\n'))
+    local old = g_resources.fileExists('/lfrestart_debug.txt') and g_resources.readFileContents('/lfrestart_debug.txt') or ''
+    g_resources.writeFileContents('/lfrestart_debug.txt', old .. os.date('%H:%M:%S ') .. text .. '\n')
 end
 
 local RELOGIN_KEY = 'lionfell-relogin'
@@ -87,12 +87,15 @@ local function keepLogin()
         return
     end
     dbg('keepLogin for ' .. tostring(account))
+    local kept = true
     g_settings.set(RELOGIN_KEY, table.concat({ tostring(os.time() + RELOGIN_SECONDS), g_crypt.encrypt(account),
         g_crypt.encrypt(password or '') }, '|'))
     g_settings.save()
+    dbg('kept: ' .. tostring(#(g_settings.getString(RELOGIN_KEY) or '')))
 end
 
 local function forgetLogin()
+    dbg('forgetLogin')
     g_settings.remove(RELOGIN_KEY)
     g_settings.save()
 end
@@ -183,7 +186,7 @@ end
 -- a client that just restarted for an update during a server update: log in with the kept login
 local function resumeAfterClientUpdate()
     local kept = g_settings.getString(RELOGIN_KEY)
-    dbg('resume: kept=' .. tostring(kept and #kept))
+    dbg('resume: kept=' .. tostring(kept and #kept) .. ' settings ' .. tostring(g_settings.exists and g_settings.exists(RELOGIN_KEY)))
     if not kept or kept == '' then
         return
     end
