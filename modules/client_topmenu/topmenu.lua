@@ -95,6 +95,8 @@ function init()
     })
 
     topMenu = g_ui.displayUI('topmenu')
+    -- Lionfell: no top bar on the login screen (in game it stays behind the MNU dock button)
+    topMenu:hide()
 
     topLeftButtonsPanel = topMenu:getChildById('topLeftButtonsPanel')
     topLeftTogglesPanel = topMenu:getChildById('topLeftTogglesPanel')
@@ -235,6 +237,7 @@ end
 
 function offline()
     hideGameButtons()
+    topMenu:hide()
     pingLabel:hide()
     if pingPanel then
         pingPanel:hide()
