@@ -12,6 +12,12 @@ local OPCODE = 125
 local RETRY_MS = 4000
 local GIVE_UP_MS = 180000 -- after the countdown: how long the server may take to come back
 
+local debugLines = {} -- TEMP DEBUG
+local function dbg(text)
+    debugLines[#debugLines + 1] = os.date('%H:%M:%S ') .. text
+    g_resources.writeFileContents('/lfrestart_debug.txt', table.concat(debugLines, '\n'))
+end
+
 local RELOGIN_KEY = 'lionfell-relogin'
 local RELOGIN_SECONDS = 300
 
@@ -80,6 +86,7 @@ local function keepLogin()
     if not account or account == '' then
         return
     end
+    dbg('keepLogin for ' .. tostring(account))
     g_settings.set(RELOGIN_KEY, table.concat({ tostring(os.time() + RELOGIN_SECONDS), g_crypt.encrypt(account),
         g_crypt.encrypt(password or '') }, '|'))
     g_settings.save()
@@ -97,6 +104,7 @@ local playedThisRun = false -- this client has been in game (its character list 
 -- empty list: logging in from it only says "select a character".
 local function login()
     local listReady = CharacterList and CharacterList.isVisible and (CharacterList.isVisible() or playedThisRun)
+    dbg('login: listReady=' .. tostring(listReady) .. ' account=' .. tostring(account) .. ' enterGame=' .. tostring(rootWidget:recursiveGetChildById('enterGame')))
     if listReady and CharacterList.doLogin and pcall(CharacterList.doLogin) then
         return
     end
@@ -152,6 +160,7 @@ local function onGameEnd()
         return
     end
     account, password = G and G.account, G and G.password
+    dbg('gameEnd pending, account=' .. tostring(account) .. ' Updater=' .. tostring(Updater) .. ' hasUpdater=' .. tostring(g_app.hasUpdater()))
     removeEvent(retryEvent)
     -- a client update first, if there is one: it restarts the client, which logs in again by itself
     if Updater and Updater.checkDuringSession then
@@ -174,6 +183,7 @@ end
 -- a client that just restarted for an update during a server update: log in with the kept login
 local function resumeAfterClientUpdate()
     local kept = g_settings.getString(RELOGIN_KEY)
+    dbg('resume: kept=' .. tostring(kept and #kept))
     if not kept or kept == '' then
         return
     end
