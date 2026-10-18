@@ -2938,11 +2938,11 @@
   "modules/modulelib/watchlist.lua": "2b2637b1",
   "modules/startup/startup.lua": "ce798daa",
   "modules/startup/startup.otmod": "de6a601f",
-  "modules/updater/updater.lua": "96b39282",
+  "modules/updater/updater.lua": "90aab0f7",
   "modules/updater/updater.otmod": "8df5882b",
   "modules/updater/updater.otui": "517debaf",
   "otclientrc.lua": "176c66ea"
  },
- "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/2a5fad1fdc8f9706b1deb1d9e9f088afff241e73/",
- "version": "2026-10-18 10:44:12"
+ "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/f3d1f304da7469f53b2b21edd3ec514e54559238/",
+ "version": "2026-10-18 10:46:17"
 }
