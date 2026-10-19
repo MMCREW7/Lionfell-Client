@@ -1,6 +1,6 @@
 {
  "binary": {
-  "checksum": "b8e2085",
+  "checksum": "7507efae",
   "file": "otclient"
  },
  "binary_windows": {
@@ -1839,6 +1839,7 @@
   "data/styles/html.css": "edf91b7d",
   "init.lua": "f7b63b97",
   "lionfell-debug.bat": "b5e64247",
+  "lionfell-report.bat": "cf6b2bd3",
   "lionfell-update.bat": "fab5bab9",
   "lionfell.bat": "bb4c8df6",
   "lionfell.sh": "cc6499d6",
@@ -2950,11 +2951,11 @@
   "modules/modulelib/watchlist.lua": "2b2637b1",
   "modules/startup/startup.lua": "ce798daa",
   "modules/startup/startup.otmod": "de6a601f",
-  "modules/updater/updater.lua": "1240b512",
+  "modules/updater/updater.lua": "6586488e",
   "modules/updater/updater.otmod": "8df5882b",
   "modules/updater/updater.otui": "517debaf",
   "otclientrc.lua": "176c66ea"
  },
- "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/704834399e25e6a771b4799097c9a63a20b95125/",
- "version": "2026-10-18 18:01:54"
+ "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/e755773f17068c0665ac2968e2a3161194d25557/",
+ "version": "2026-10-18 19:45:26"
 }
