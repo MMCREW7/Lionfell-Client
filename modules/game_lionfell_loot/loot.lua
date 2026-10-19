@@ -7,10 +7,12 @@
 
 local OPCODE = 123
 local QUALITIES = { { -1, 'Off' }, { 0, 'Common' }, { 1, 'Uncommon' }, { 2, 'Rare' }, { 3, 'Epic' }, { 4, 'Legendary' } }
+-- valuables: anything that isn't gear and an NPC pays at least this much for (gems, scales, ...)
+local VALUES = { { 0, 'Off' }, { 25, '25' }, { 50, '50' }, { 100, '100' }, { 250, '250' }, { 1000, '1000' } }
 
 window = nil
 local state = { enabled = true, gold = true, quality = 0, supplies = true, stackables = false, other = false,
-    always = {}, never = {} }
+    always = {}, never = {}, valuables = 50 }
 local sendEvent
 local MENU_CATEGORY = 'lionfellLoot'
 
@@ -33,7 +35,7 @@ end
 local function encode()
     return table.concat({ 'set', state.enabled and 1 or 0, state.gold and 1 or 0, state.quality,
         state.supplies and 1 or 0, state.stackables and 1 or 0, state.other and 1 or 0,
-        listText(state.always), listText(state.never) }, '|')
+        listText(state.always), listText(state.never), state.valuables }, '|')
 end
 
 local function parseList(text)
@@ -104,6 +106,9 @@ local function refresh()
     end
     for _, segment in ipairs(window:recursiveGetChildById('quality'):getChildren()) do
         segment:setOn(segment.quality == state.quality)
+    end
+    for _, segment in ipairs(window:recursiveGetChildById('valuables'):getChildren()) do
+        segment:setOn(segment.value == state.valuables)
     end
     refreshList('always', 'alwaysHint', state.always)
     refreshList('never', 'neverHint', state.never)
@@ -202,6 +207,7 @@ local function onMessage(protocol, opcode, buffer)
     state.other = fields[7] == '1'
     state.always = parseList(fields[8])
     state.never = parseList(fields[9])
+    state.valuables = tonumber(fields[10]) or 50
     refresh()
 end
 
@@ -234,6 +240,18 @@ function init()
         segment.quality = entry[1]
         segment.onClick = function()
             state.quality = entry[1]
+            save()
+            refresh()
+        end
+    end
+
+    local valueBar = window:recursiveGetChildById('valuables')
+    for _, entry in ipairs(VALUES) do
+        local segment = g_ui.createWidget('LfSegment', valueBar)
+        segment:setText(entry[1] == 0 and tr(entry[2]) or entry[2]) -- (tr() puts separators in numbers)
+        segment.value = entry[1]
+        segment.onClick = function()
+            state.valuables = entry[1]
             save()
             refresh()
         end

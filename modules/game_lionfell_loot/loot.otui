@@ -42,7 +42,7 @@ LfLootItem < UIItem
 LfWindow
   id: lootWindow
   width: 420
-  height: 585
+  height: 650
   anchors.top: parent.top
   anchors.right: parent.right
   margin-top: 80
@@ -99,15 +99,29 @@ LfWindow
 
   LfLootCheck
     id: supplies
-    !text: tr('Potions and runes')
+    !text: tr('Potions, runes, arrows and bolts')
 
   LfLootCheck
     id: stackables
-    !text: tr('Creature products, gems, ammo')
+    !text: tr('Other stackables (food, bones, ...)')
 
   LfLootCheck
     id: other
     !text: tr('Everything else')
+
+  LfLootSectionTitle
+    !text: tr('VALUABLES: AN NPC PAYS AT LEAST (GOLD)')
+
+  UIWidget
+    id: valuablesRow
+    height: 34
+    margin-top: 8
+    phantom: true
+
+    LfSegmentBar
+      id: valuables
+      anchors.top: parent.top
+      anchors.left: parent.left
 
   LfLootSectionTitle
     !text: tr('GEAR, FROM QUALITY')
