@@ -54,6 +54,12 @@ local function setStatus(text)
 end
 
 local function localChecksum(path)
+  -- never ask the engine to read a file that isn't there: the read throws, and on the Windows build
+  -- turning that C++ exception into a Lua error corrupted the heap (the client died while
+  -- checking files, before it could download them)
+  if not g_resources.fileExistsInWorkDir(path) then
+    return nil
+  end
   local ok, contents = pcall(g_resources.readFileContentsFromWorkDir, path)
   if not ok or not contents then
     return nil
