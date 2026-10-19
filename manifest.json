@@ -1,10 +1,10 @@
 {
  "binary": {
-  "checksum": "8786e2ab",
+  "checksum": "20234479",
   "file": "otclient"
  },
  "binary_windows": {
-  "checksum": "505e3f8f",
+  "checksum": "b2119c24",
   "file": "otclient.exe"
  },
  "files": {
@@ -1785,7 +1785,7 @@
   "data/images/ui/window_headless.png": "2dc4625",
   "data/images/ui/window_new.png": "93c4ae91",
   "data/json/SkillwheelStringsJsonLibrary.json": "413b768c",
-  "data/lionfell/ammo.txt": "59e13155",
+  "data/lionfell/ammo.txt": "2567681c",
   "data/lionfell/classified.txt": "49ecf37e",
   "data/lionfell/replacements.otml": "8b42b9bf",
   "data/locales/de.lua": "536d0c54",
@@ -2456,7 +2456,7 @@
   "modules/game_lionfell_auction/auction.lua": "c89b5e52",
   "modules/game_lionfell_auction/auction.otmod": "47031038",
   "modules/game_lionfell_auction/auction.otui": "3780f13e",
-  "modules/game_lionfell_bags/bags.lua": "18faeb79",
+  "modules/game_lionfell_bags/bags.lua": "f9971f11",
   "modules/game_lionfell_bags/bags.otmod": "f8177282",
   "modules/game_lionfell_bags/bags.otui": "4777073c",
   "modules/game_lionfell_hud/hud.lua": "bf7f4458",
@@ -2956,6 +2956,6 @@
   "modules/updater/updater.otui": "517debaf",
   "otclientrc.lua": "176c66ea"
  },
- "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/57302cd6210ddf9a3a4ca3b0a77ab05fe96160de/",
- "version": "2026-10-18 22:45:18"
+ "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/15549e19442e6be6b3c2b7f2c8c92b58190edb43/",
+ "version": "2026-10-19 01:51:59"
 }
