@@ -11,6 +11,10 @@ local packCid
 local bagCids = {}       -- [container id] = pack slot, for the bags shown here
 local adopted = {}       -- [container id] = true: bags that were already open in their own window
 local refreshEvent
+local scheduleRebuild    -- (defined below; openBags needs it)
+local view               -- what the window shows: widgets kept between updates (see rebuild)
+local bagCache = {}      -- [pack slot] = { id, name, capacity, items }: a bag's last open view, shown
+                         -- while it is being opened again so its section never vanishes
 
 local function player()
     return g_game.getLocalPlayer()
@@ -281,7 +285,48 @@ end
 -- container number only once the server has answered, so two at once would share a number.
 local pendingOpen
 
+-- Which open container is which bag, worked out again from the pack as it is now. Bags were
+-- remembered by their slot in the pack, but the slots shift whenever an item goes in or out (the
+-- server puts new items first): the window then took an open bag for a closed one and "used" it
+-- again, which closes it - bags vanished and came back on every loot pickup. Now the open bag
+-- containers are matched to the pack's bags by item type, in order.
+local function remapBags(pack)
+    local open = {} -- [item id] = sorted container ids
+    for cid, container in pairs(g_game.getContainers()) do
+        local containerItem = container:getContainerItem()
+        if cid ~= pack:getId() and containerItem and (bagCids[cid] or adopted[cid]) then
+            local list = open[containerItem:getId()] or {}
+            open[containerItem:getId()] = list
+            list[#list + 1] = cid
+        end
+    end
+    for _, list in pairs(open) do
+        table.sort(list)
+    end
+    local mapped = {}
+    for slot = 0, pack:getItemsCount() - 1 do
+        local item = pack:getItem(slot)
+        local list = item and item:isContainer() and open[item:getId()]
+        if list and #list > 0 then
+            mapped[table.remove(list, 1)] = slot
+        end
+    end
+    -- the bag still on its way (asked for, not open yet)
+    if pendingOpen and bagCids[pendingOpen] and not mapped[pendingOpen] then
+        mapped[pendingOpen] = bagCids[pendingOpen]
+    end
+    -- bags this window opened that left the pack: close them (their stock window is hidden)
+    for cid in pairs(bagCids) do
+        local container = g_game.getContainer(cid)
+        if not mapped[cid] and container and not adopted[cid] and cid ~= pendingOpen then
+            g_game.close(container)
+        end
+    end
+    bagCids = mapped
+end
+
 local function openBags(pack)
+    remapBags(pack)
     if pendingOpen then
         return
     end
@@ -315,16 +360,31 @@ local function openBags(pack)
                     -- no answer: the server already had it open (after a reconnect), so that "use"
                     -- closed it there; using it once more opens it
                     scheduleEvent(function()
-                        if pendingOpen == cid and window:isVisible() then
-                            bagCids[cid] = nil
-                            pendingOpen = nil
-                            local again = g_game.open(item, nil)
-                            if again then
-                                bagCids[again] = slot
-                                pendingOpen = again
+                        if pendingOpen ~= cid or not window:isVisible() then
+                            return
+                        end
+                        bagCids[cid] = nil
+                        pendingOpen = nil
+                        -- a slow answer (busy server) is not "no answer": if the bag is open by now,
+                        -- keep it. Using an open bag again closes it, which made bags vanish and
+                        -- come back.
+                        for openCid, container in pairs(g_game.getContainers()) do
+                            local containerItem = container:getContainerItem()
+                            if containerItem and containerItem:getId() == item:getId() and openCid ~= pack:getId()
+                                and not bagCids[openCid] then
+                                bagCids[openCid] = slot
+                                hideStockWindow(container)
+                                scheduleRebuild()
+                                openBags(pack)
+                                return
                             end
                         end
-                    end, 700)
+                        local again = g_game.open(item, nil)
+                        if again then
+                            bagCids[again] = slot
+                            pendingOpen = again
+                        end
+                    end, 2500)
                 end
                 return
             end
@@ -332,6 +392,85 @@ local function openBags(pack)
     end
 end
 
+-- What the window shows, section by section: { title, cells = { { item, position } }, socket }.
+local function describe(pack)
+    local bags, items = splitPack(pack)
+    local append = pack:getSlotPosition(pack:getItemsCount())
+    local sections = {}
+
+    local sockets = {}
+    for i = 1, BAG_SOCKETS do
+        local entry = bags[i]
+        sockets[i] = { entry and entry.item, entry and pack:getSlotPosition(entry.slot) or append }
+    end
+    sections[1] = { title = tr('BAGS  %d / %d', #bags, BAG_SOCKETS), cells = sockets, socket = true }
+
+    local slots = {}
+    for i = 1, PACK_SLOTS do
+        local entry = items[i]
+        slots[i] = { entry and entry.item, entry and pack:getSlotPosition(entry.slot) or append }
+    end
+    sections[2] = { title = tr('PACK  %d / %d', #items, PACK_SLOTS), cells = slots }
+
+    local used, total = #items, PACK_SLOTS
+    for _, entry in ipairs(bags) do
+        local bag
+        for cid, slot in pairs(bagCids) do
+            local container = g_game.getContainer(cid)
+            if container and slot == entry.slot then
+                bag = container
+            end
+        end
+        local name = entry.item:getMarketData() and entry.item:getMarketData().name or tr('bag')
+        if bag then
+            hideStockWindow(bag)
+            local cached = { id = entry.item:getId(), name = name, capacity = bag:getCapacity(), items = {} }
+            local cells = {}
+            for slot = 0, bag:getCapacity() - 1 do
+                cells[#cells + 1] = { bag:getItem(slot), bag:getSlotPosition(slot) }
+                cached.items[slot + 1] = cells[#cells]
+            end
+            bagCache[entry.slot] = cached
+            sections[#sections + 1] = { title = string.upper(string.format('%s  %d / %d', name, bag:getItemsCount(), bag:getCapacity())),
+                cells = cells }
+            used, total = used + bag:getItemsCount(), total + bag:getCapacity()
+        else
+            -- not open (yet, or again): its last view, so the section doesn't vanish meanwhile
+            local cached = bagCache[entry.slot]
+            if cached and cached.id == entry.item:getId() then
+                local count = 0
+                for _, c in ipairs(cached.items) do
+                    count = count + (c[1] and 1 or 0)
+                end
+                sections[#sections + 1] = { title = string.upper(string.format('%s  %d / %d', cached.name, count, cached.capacity)),
+                    cells = cached.items }
+                used, total = used + count, total + cached.capacity
+            end
+        end
+    end
+    return sections, tr('%d / %d', used, total)
+end
+
+local function shapeOf(sections)
+    local parts = {}
+    for _, section in ipairs(sections) do
+        parts[#parts + 1] = #section.cells
+    end
+    return table.concat(parts, ',')
+end
+
+local function setCell(widget, item, position)
+    widget:setItem(item)
+    widget.position = position
+    ItemsDatabase.setRarityItem(widget, item)
+    ItemsDatabase.setTier(widget, item)
+    if item then
+        widget:setShowCharges(true)
+    end
+end
+
+-- Builds the window, or when only items changed (the same sections and sizes), updates the cells it
+-- already has: tearing everything down on every loot pickup made the window flash.
 local function rebuild()
     refreshEvent = nil
     if not window:isVisible() then
@@ -342,58 +481,59 @@ local function rebuild()
         refreshEvent = scheduleEvent(rebuild, 150)
         return
     end
-    content:destroyChildren()
     local pack = packContainer()
     if not pack then
-        summary:setText('')
-        local label = g_ui.createWidget('LfBagSectionTitle', content)
-        label:setText(tr('Opening your pack...'))
-        return
+        if not view then
+            content:destroyChildren()
+            summary:setText('')
+            local label = g_ui.createWidget('LfBagSectionTitle', content)
+            label:setText(tr('Opening your pack...'))
+        end
+        return -- keep showing the last view while the pack reopens
     end
     hideStockWindow(pack)
 
-    local bags, items = splitPack(pack)
-    local append = pack:getSlotPosition(pack:getItemsCount())
-
-    local sockets = section(tr('BAGS  %d / %d', #bags, BAG_SOCKETS))
-    for i = 1, BAG_SOCKETS do
-        local entry = bags[i]
-        local widget = cell(sockets, entry and entry.item, entry and pack:getSlotPosition(entry.slot) or append)
-        styleSocket(widget, i, entry and entry.item)
-    end
-    purseSocket(sockets)
-    rockSocket(sockets)
-
-    local slots = section(tr('PACK  %d / %d', #items, PACK_SLOTS))
-    for i = 1, PACK_SLOTS do
-        local entry = items[i]
-        cell(slots, entry and entry.item, entry and pack:getSlotPosition(entry.slot) or append)
-    end
-
-    -- each bag
-    local used, total = #items, PACK_SLOTS
-    for _, entry in ipairs(bags) do
-        local bag
-        for cid, slot in pairs(bagCids) do
-            local container = g_game.getContainer(cid)
-            if container and slot == entry.slot then
-                bag = container
+    local sections, total = describe(pack)
+    local shape = shapeOf(sections)
+    if view and view.shape == shape and not view.stale then
+        for s, section in ipairs(sections) do
+            local built = view.sections[s]
+            built.label:setText(section.title)
+            for c, data in ipairs(section.cells) do
+                setCell(built.cells[c], data[1], data[2])
+                if section.socket then
+                    styleSocket(built.cells[c], c, data[1])
+                end
             end
         end
-        if bag then
-            hideStockWindow(bag)
-            local name = entry.item:getMarketData() and entry.item:getMarketData().name or tr('bag')
-            local grid = section(string.upper(string.format('%s  %d / %d', name, bag:getItemsCount(), bag:getCapacity())))
-            for slot = 0, bag:getCapacity() - 1 do
-                cell(grid, bag:getItem(slot), bag:getSlotPosition(slot))
-            end
-            used, total = used + bag:getItemsCount(), total + bag:getCapacity()
-        end
+        summary:setText(total)
+        return
     end
-    summary:setText(tr('%d / %d', used, total))
+
+    content:destroyChildren()
+    view = { shape = shape, sections = {} }
+    for s, section in ipairs(sections) do
+        local label = g_ui.createWidget('LfBagSectionTitle', content)
+        label:setText(section.title)
+        local grid = g_ui.createWidget('LfBagGrid', content)
+        local built = { label = label, cells = {} }
+        for c, data in ipairs(section.cells) do
+            local widget = cell(grid, data[1], data[2])
+            if section.socket then
+                styleSocket(widget, c, data[1])
+            end
+            built.cells[c] = widget
+        end
+        if section.socket then
+            purseSocket(grid)
+            rockSocket(grid)
+        end
+        view.sections[s] = built
+    end
+    summary:setText(total)
 end
 
-local function scheduleRebuild()
+scheduleRebuild = function()
     if window and window:isVisible() and not refreshEvent then
         refreshEvent = scheduleEvent(rebuild, 50)
     end
@@ -482,6 +622,7 @@ end
 
 function hide()
     window:hide()
+    view = nil
     -- close what this window opened; bags that were open before get their own windows back
     for cid in pairs(bagCids) do
         local container = g_game.getContainer(cid)
@@ -517,6 +658,7 @@ end
 
 local function onGameEnd()
     window:hide()
+    view, bagCache = nil, {}
     bagCids, packCid, pendingOpen, adopted = {}, nil, nil, {}
 end
 
