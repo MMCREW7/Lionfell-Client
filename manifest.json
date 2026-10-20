@@ -1843,9 +1843,12 @@
   "lionfell-update.bat": "fab5bab9",
   "lionfell.bat": "bb4c8df6",
   "lionfell.sh": "cc6499d6",
-  "mobile/modules/game_lionfell_hud/hud.lua": "9a0da87d",
+  "mobile/modules/game_joystick/joystick.lua": "f727ec9b",
+  "mobile/modules/game_joystick/joystick.otmod": "d05c0fe3",
+  "mobile/modules/game_joystick/joystick.otui": "664e5212",
+  "mobile/modules/game_lionfell_hud/hud.lua": "33238301",
   "mobile/modules/game_lionfell_hud/hud.otmod": "20f2f7cf",
-  "mobile/modules/game_lionfell_hud/hud.otui": "dcb5de53",
+  "mobile/modules/game_lionfell_hud/hud.otui": "6e406770",
   "mods/README.txt": "d0847694",
   "mods/client_mods/mods.otmod": "166f143e",
   "mods/client_profiles/profiles.lua": "58f55098",
@@ -2963,6 +2966,6 @@
   "modules/updater/updater.otui": "517debaf",
   "otclientrc.lua": "176c66ea"
  },
- "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/7095edb516e8aae74929acd1a1a5d35f6827ae18/",
- "version": "2026-10-20 08:45:22"
+ "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/02c0045a5067e5b0f63df6247dac919c6c8cf5d0/",
+ "version": "2026-10-20 09:37:00"
 }
