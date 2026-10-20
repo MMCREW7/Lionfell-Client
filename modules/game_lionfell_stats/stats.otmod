@@ -1,0 +1,9 @@
+Module
+  name: game_lionfell_stats
+  description: Lionfell stats (items, gems, talents), armor and resistances in the Skills window (talks to data/scripts/lionfell/lf_stats.lua)
+  author: Lionfell
+  sandboxed: true
+  scripts: [ stats ]
+  dependencies: [ game_interface, game_skills ]
+  @onLoad: init()
+  @onUnload: terminate()

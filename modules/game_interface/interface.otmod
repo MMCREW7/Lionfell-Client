@@ -69,6 +69,7 @@ Module
     - game_lionfell_marks
     - game_lionfell_teleport
     - game_lionfell_npcchat
+    - game_lionfell_stats
 
   @onLoad: init()
   @onUnload: terminate()
