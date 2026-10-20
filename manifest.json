@@ -2441,7 +2441,7 @@
   "modules/game_inspect/template/html/inspect.html": "976d6b3c",
   "modules/game_interface/gameinterface.lua": "bc5f70f5",
   "modules/game_interface/gameinterface.otui": "65cc4f63",
-  "modules/game_interface/interface.otmod": "130550c2",
+  "modules/game_interface/interface.otmod": "7e86fa96",
   "modules/game_interface/styles/countStashWindow.otui": "a45411ec",
   "modules/game_interface/styles/countwindow.otui": "15c5d197",
   "modules/game_interface/widgets/statsbar.lua": "99e53aa3",
@@ -2480,6 +2480,8 @@
   "modules/game_lionfell_restart/restart.lua": "ef122af2",
   "modules/game_lionfell_restart/restart.otmod": "a62ff7fe",
   "modules/game_lionfell_restart/restart.otui": "eb720e38",
+  "modules/game_lionfell_stats/stats.lua": "602e56a6",
+  "modules/game_lionfell_stats/stats.otmod": "3bb74478",
   "modules/game_lionfell_talents/talents.lua": "3c1f148f",
   "modules/game_lionfell_talents/talents.otmod": "e3ee5290",
   "modules/game_lionfell_talents/talents.otui": "5da206ae",
@@ -2956,6 +2958,6 @@
   "modules/updater/updater.otui": "517debaf",
   "otclientrc.lua": "176c66ea"
  },
- "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/382dcdde945a9948762fff26b752f6558d4b1e34/",
- "version": "2026-10-19 02:36:00"
+ "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/17ce7adfdf0ca8442aa2eeaf7e093a3e937c1099/",
+ "version": "2026-10-19 21:56:54"
 }
