@@ -551,9 +551,36 @@ function onMouseGrabberRelease(self, mousePosition, mouseButton)
     return true
 end
 
+-- Lionfell: runes that hit one creature (not area, field, wall or bomb runes, which may be aimed at
+-- the ground on purpose)
+local AREA_RUNE_WORDS = { 'ball', 'avalanche', 'explosion', 'field', 'wall', 'bomb', 'storm', 'shower',
+    'growth', 'destroy', 'disintegrate', 'convince', 'animate', 'chameleon', 'cure', 'healing', 'wave' }
+local function singleTargetRune(thing)
+    local itemType = thing and g_things.getThingType(thing:getId(), ThingCategoryItem)
+    local name = itemType and itemType:getName():lower() or ''
+    if not name:find('rune') then
+        return false
+    end
+    for _, word in ipairs(AREA_RUNE_WORDS) do
+        if name:find(word, 1, true) then
+            return false
+        end
+    end
+    return true
+end
+
 function onUseWith(clickedWidget, mousePosition)
     if clickedWidget:getClassName() == 'UIGameMap' then
         local tile = clickedWidget:getTile(mousePosition)
+        -- a single-target rune aimed at a tile with no creature: the creature drawn over it (or
+        -- walking through it), as the crosshair showed it
+        if tile and not tile:getTopCreature() and singleTargetRune(selectedThing) then
+            local near = clickedWidget.creatureNear(tile:getPosition())
+            if near then
+                g_game.useWith(selectedThing, near)
+                return
+            end
+        end
         if tile then
             if selectedThing:isFluidContainer() or selectedThing:isMultiUse() then
                 g_game.useWith(selectedThing, tile:getTopMultiUseThing())

@@ -92,14 +92,16 @@ function UIGameMap:onDrop(widget, mousePos)
     return true
 end
 
--- Lionfell: the creature a tap at pos most likely meant - on the tiles right of / below it (the
--- tiles whose creatures are drawn over pos), then one walking within a tile; nil when none
-function UIGameMap.creatureNear(pos)
+-- Lionfell: the creature a click/tap at pos most likely meant - on the tiles right of / below it
+-- (creatures are drawn up and left of their own tile, so theirs overlap pos), then one walking
+-- within a tile (it belongs to the tile it walks to). strict (PC clicks): neighbours only when
+-- big enough to really cover pos. nil when none.
+function UIGameMap.creatureNear(pos, strict)
     local player = g_game.getLocalPlayer()
     for _, d in ipairs({ { 1, 0 }, { 0, 1 }, { 1, 1 } }) do
         local tile = g_map.getTile({ x = pos.x + d[1], y = pos.y + d[2], z = pos.z })
         local creature = tile and tile:getTopCreature()
-        if creature and creature ~= player then
+        if creature and creature ~= player and (not strict or creature:isWalking() or creature:getExactSize() > 40) then
             return creature
         end
     end
@@ -159,11 +161,28 @@ function UIGameMap:onMouseRelease(mousePosition, mouseButton)
         attackCreature = autoWalkTile:getTopCreature()
     end
 
-    -- Lionfell, phones: a finger rarely lands on a creature's own tile (creatures are drawn up and
-    -- left of it, and a walking one belongs to the tile it walks to): a tap next to one counts
-    if g_platform.isMobile() and not attackCreature and not (creatureThing and creatureThing ~= g_game.getLocalPlayer()) then
+    -- Lionfell: a click rarely lands on a creature's own tile (creatures are drawn up and left of
+    -- it, and a walking one belongs to the tile it walks to). Phones: a tap next to one counts. PC:
+    -- only for an attack click (Alt, smart left-click, classic right-click) on a tile with nothing
+    -- to click for (no corpse, container, door or other usable thing: grass and stones are fine),
+    -- and only a creature that covers that spot - walking or looting beside a monster stays that.
+    local noCreature = not attackCreature and not (creatureThing and creatureThing ~= g_game.getLocalPlayer())
+    if noCreature and g_platform.isMobile() then
         local near = UIGameMap.creatureNear(autoWalkPos)
         if near then
+            creatureThing = near
+            attackCreature = near
+        end
+    elseif noCreature and not (useThing and not useThing:isGround() and (useThing:isContainer()
+            or useThing:isLyingCorpse() or useThing:isUsable() or useThing:isForceUse())) then
+        local options = modules.client_options
+        local classic = options.getOption('classicControl')
+        local plain = g_keyboard.getModifiers() == KeyboardNoModifier
+        local attackClick = g_keyboard.isAltPressed()
+            or (classic and mouseButton == MouseRightButton and plain and options.getOption('lootControlMode') == 0)
+            or (not classic and options.getOption('smartLeftClick') and mouseButton == MouseLeftButton and plain)
+        local near = attackClick and UIGameMap.creatureNear(autoWalkPos, true)
+        if near and not near:isNpc() then
             creatureThing = near
             attackCreature = near
         end

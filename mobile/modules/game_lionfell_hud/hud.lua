@@ -531,6 +531,74 @@ local function buildModes()
 end
 
 -- ---------------------------------------------------------------------------------------------
+-- Second finger: the engine (AndroidWindow) lets one finger drive the mouse (the joystick, most
+-- of the time) and reports any other finger here, so skills and ATTACK work while walking
+
+local secondary -- { target, at }
+
+local function phoneTarget(pos)
+    for _, widget in ipairs(rootWidget:recursiveGetChildrenByPos(pos)) do
+        local id = widget:getId()
+        if id:find('^skill%d') or id == 'attack' or id:find('^mode_') or id == 'menuButton' then
+            return widget
+        end
+        if widget:getClassName() == 'UIGameMap' then
+            return widget
+        end
+    end
+end
+
+local function onSecondaryTouch(down, pos)
+    if not active or not hud or not hud:isVisible() then
+        return
+    end
+    if down then
+        secondary = { target = phoneTarget(pos), at = g_clock.millis() }
+        local target = secondary.target
+        if target and target:getId() == 'attack' then
+            attackNext() -- on touch, as with the first finger
+            secondary = nil
+        end
+        return
+    end
+    local tap = secondary
+    secondary = nil
+    local target = tap and tap.target
+    if not target or target ~= phoneTarget(pos) then
+        return
+    end
+    local id = target:getId()
+    local slot = tonumber(id:match('^skill(%d)$'))
+    if slot then
+        if g_clock.millis() - tap.at >= LONG_PRESS_MS then
+            showAssign(true, slot)
+        else
+            local real = barButton(slot)
+            if real and modules.game_actionbar.onExecuteAction then
+                modules.game_actionbar.onExecuteAction(real, false)
+            end
+        end
+    elseif target:getClassName() == 'UIGameMap' then
+        -- a second finger on a creature: attack a monster, look at anyone else (walking goes on)
+        local tilePos = target:getPosition(pos)
+        local tile = tilePos and g_map.getTile(tilePos)
+        local creature = tile and tile:getTopCreature()
+        if not creature and tilePos and target.creatureNear then
+            creature = target.creatureNear(tilePos)
+        end
+        if creature and creature ~= g_game.getLocalPlayer() then
+            if creature:isMonster() then
+                g_game.attack(creature)
+            else
+                g_game.look(creature)
+            end
+        end
+    elseif target.onClick then
+        target.onClick(target)
+    end
+end
+
+-- ---------------------------------------------------------------------------------------------
 -- Layout
 
 local function hideWidget(widget)
@@ -664,7 +732,12 @@ function init()
 
     hud:getChildById('menuButton').onClick = function() showSheet(true) end
     sheet:getChildById('sheetClose').onClick = function() showSheet(false) end
-    actions:getChildById('attack').onClick = attackNext
+    -- ATTACK acts on touch (a held touch is released as a right click on phones)
+    actions:getChildById('attack').onMousePress = function(self, pos, button)
+        attackNext()
+        return true
+    end
+    g_window.onSecondaryTouch = onSecondaryTouch
 
     drawerClose = g_ui.createWidget('LfRoundButton', hud)
     drawerClose:setText('X')
@@ -692,6 +765,9 @@ end
 
 function terminate()
     removeEvent(refreshEvent)
+    if g_window.onSecondaryTouch == onSecondaryTouch then
+        g_window.onSecondaryTouch = nil
+    end
     disconnect(g_game, { onGameStart = onGameStart, onGameEnd = onGameEnd })
     disconnect(LocalPlayer, {
         onHealthChange = refreshStatus,
