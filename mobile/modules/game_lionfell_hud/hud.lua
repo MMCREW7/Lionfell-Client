@@ -180,6 +180,16 @@ local function refreshStatus()
     setBar(status:getChildById('mp'), maxMana > 0 and player:getMana() / maxMana or 0, '#5b7fbf')
 end
 
+-- a short gold flash on touch (the button acts on touch: a held "pressed" look read as stuck)
+function flash(widget)
+    widget:setImageColor('#c9a56b')
+    scheduleEvent(function()
+        if widget and not widget:isDestroyed() then
+            widget:setImageColor('white')
+        end
+    end, 150)
+end
+
 -- ---------------------------------------------------------------------------------------------
 -- Attack: the next monster on screen, nearest first (tap again for the one after)
 
@@ -557,6 +567,7 @@ local function onSecondaryTouch(down, pos)
         local target = secondary.target
         if target and target:getId() == 'attack' then
             attackNext() -- on touch, as with the first finger
+            flash(target)
             secondary = nil
         end
         return
@@ -735,6 +746,7 @@ function init()
     -- ATTACK acts on touch (a held touch is released as a right click on phones)
     actions:getChildById('attack').onMousePress = function(self, pos, button)
         attackNext()
+        flash(self)
         return true
     end
     g_window.onSecondaryTouch = onSecondaryTouch

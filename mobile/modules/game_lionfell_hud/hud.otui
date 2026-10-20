@@ -206,8 +206,6 @@ UIWidget
       font: verdana-11px-monochrome
       color: #0b0b0c
       text: ATTACK
-      $pressed:
-        image-color: #c9a56b
 
   UIWidget
     id: modes
