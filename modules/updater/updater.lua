@@ -148,6 +148,14 @@ local function install(toUpdate, version)
     -- files that were written stay; the next start retries the rest
     g_logger.error("Lionfell update: could not write " .. table.concat(failed, ", "))
   end
+  if g_app.getOs() == "android" then
+    -- phones can't start the client again from here (no launcher script, no second process): the
+    -- modules haven't loaded yet, so they load now from the new files; a changed init.lua takes
+    -- effect at the next start
+    g_logger.info(("Lionfell update %s installed (%d files)"):format(version, #toUpdate - #failed))
+    scheduledEvent = scheduleEvent(finish, 200)
+    return
+  end
   g_logger.info(("Lionfell update %s installed (%d files), restarting"):format(version, #toUpdate - #failed))
   scheduledEvent = scheduleEvent(restart, 200)
 end

@@ -1098,6 +1098,25 @@ function processMouseAction(menuPosition, mouseButton, autoWalkPos, lookThing, u
             createThingMenu(menuPosition, lookThing, useThing, creatureThing)
             return true
         end
+        -- Lionfell, phones: a plain tap on a creature acts on it like a phone game (attack a
+        -- monster, greet a nearby NPC, look at anyone else); a tap on the ground walks
+        local tapped = attackCreature or creatureThing
+        local me = g_game.getLocalPlayer()
+        if mouseButton == MouseLeftButton and shortcut == "" and tapped and tapped ~= me then
+            if tapped:isMonster() then
+                g_game.attack(tapped)
+            elseif tapped:isNpc() and me then
+                local a, b = me:getPosition(), tapped:getPosition()
+                if a.z == b.z and math.max(math.abs(a.x - b.x), math.abs(a.y - b.y)) <= 3 then
+                    g_game.talk("hi")
+                else
+                    g_game.look(tapped)
+                end
+            else
+                g_game.look(tapped)
+            end
+            return true
+        end
     elseif not modules.client_options.getOption('classicControl') then
         local smartLeftClick = modules.client_options.getOption('smartLeftClick')
 

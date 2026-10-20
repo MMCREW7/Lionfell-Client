@@ -69,6 +69,51 @@ LfMenuTile < UIButton
     margin-left: 14
     phantom: true
 
+LfAssignTile < UIButton
+  size: 228 56
+  image-source: /images/lionfell/panel
+  image-border: 6
+  $pressed:
+    image-color: #c9a56b
+  $checked:
+    image-color: #c9a56b
+  $disabled:
+    opacity: 0.4
+
+  UIWidget
+    id: icon
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 12
+    size: 32 32
+    phantom: true
+
+  UIItem
+    id: item
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 12
+    size: 32 32
+    phantom: true
+    virtual: true
+
+  LfLabel
+    id: name
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: parent.top
+    margin-left: 54
+    margin-top: 11
+    phantom: true
+
+  LfMuted
+    id: sub
+    anchors.left: name.left
+    anchors.right: parent.right
+    anchors.top: name.bottom
+    margin-top: 3
+    phantom: true
+
 UIWidget
   id: lionfellMobileHud
   anchors.fill: parent
@@ -210,3 +255,92 @@ UIWidget
         cell-spacing: 12
         num-columns: 5
         flow: true
+
+  // long press on a skill button: what it does (saved in action bar 1, as on PC)
+  UIWidget
+    id: assign
+    anchors.fill: parent
+    background-color: #0b0b0cf0
+    visible: false
+    focusable: true
+
+    LfTitle
+      id: assignTitle
+      anchors.top: parent.top
+      anchors.left: parent.left
+      margin-top: 18
+      margin-left: 24
+
+    LfPillButton
+      id: tabSpells
+      anchors.top: assignTitle.bottom
+      anchors.left: parent.left
+      margin-top: 12
+      margin-left: 24
+      size: 110 36
+      text: Spells
+
+    LfPillButton
+      id: tabItems
+      anchors.top: tabSpells.top
+      anchors.left: tabSpells.right
+      margin-left: 8
+      size: 110 36
+      text: Items
+
+    LfButton
+      id: assignClear
+      anchors.top: tabSpells.top
+      anchors.left: tabItems.right
+      margin-left: 24
+      size: 110 36
+      text: Clear
+
+    LfRoundButton
+      id: assignClose
+      anchors.top: parent.top
+      anchors.right: parent.right
+      margin-top: 10
+      margin-right: 10
+      text: X
+
+    ScrollablePanel
+      id: assignList
+      anchors.top: tabSpells.bottom
+      anchors.left: parent.left
+      anchors.right: assignScroll.left
+      anchors.bottom: assignModes.top
+      margin-top: 14
+      margin-left: 24
+      margin-right: 8
+      margin-bottom: 10
+      vertical-scrollbar: assignScroll
+      layout:
+        type: grid
+        cell-size: 228 56
+        cell-spacing: 10
+        flow: true
+
+    VerticalScrollBar
+      id: assignScroll
+      anchors.top: tabSpells.bottom
+      anchors.bottom: assignModes.top
+      anchors.right: parent.right
+      margin-top: 14
+      margin-bottom: 10
+      margin-right: 24
+      step: 66
+      pixels-scroll: true
+
+    UIWidget
+      id: assignModes
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      margin-left: 24
+      margin-bottom: 16
+      height: 44
+      visible: false
+      layout:
+        type: horizontalBox
+        spacing: 10

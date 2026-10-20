@@ -6,8 +6,8 @@
 --   under it      tap modes for the map: LOOK, USE, FOLLOW (stock game_shortcuts), CHAT
 --   bottom left   the stock joystick (game_joystick)
 --   bottom right  ATTACK (next monster, nearest first) and six skill buttons: action bar 1,
---                 slots 1-6, set up as on PC (tap = use it, long press = assign: spell, rune or
---                 item, on target or on self ...)
+--                 slots 1-6 (tap = use it, long press = a phone picker: spells, or items from the
+--                 open bags on target / self / aim; saved in action bar 1, so PC sees it too)
 
 local hud, status, sheet, tiles, drawerClose, actions, modes
 local refreshEvent
@@ -233,8 +233,15 @@ local function refreshSkills()
         local realItem = real and real:getChildById('item')
         if realItem then
             item:setItemId(realItem:getItemId())
-            icon:setImageSource(realItem:getImageSource())
-            icon:setImageClip(realItem:getImageClip())
+            -- spells draw their icon on the slot item's "text" child (game_actionbar updateButton)
+            local text = realItem:getChildById('text')
+            local source = text and text:getImageSource() or ''
+            if source ~= '' and realItem:getItemId() == 0 then
+                icon:setImageSource(source)
+                icon:setImageClip(text:getImageClip())
+            else
+                icon:setImageSource('')
+            end
             local cooldown = real:getChildById('cooldown')
             shade:setVisible(cooldown and cooldown:isVisible() or false)
         else
@@ -271,15 +278,9 @@ local function buildSkills()
             local real = barButton(slot)
             local held = g_clock.millis() - (self.pressedAt or g_clock.millis())
             self.pressedAt = nil
-            if not real then
-                return true
-            end
             if held >= LONG_PRESS_MS or mouseButton == MouseRightButton then
-                -- the action bar's own menu: assign a spell, rune or item, on target or self ...
-                if real.onMouseRelease then
-                    real.onMouseRelease(real, pos, MouseRightButton)
-                end
-            elseif modules.game_actionbar.onExecuteAction then
+                showAssign(true, slot) -- the phone picker (saves into action bar 1)
+            elseif real and modules.game_actionbar.onExecuteAction then
                 modules.game_actionbar.onExecuteAction(real, false)
             end
             return true
@@ -287,6 +288,206 @@ local function buildSkills()
         skillButtons[slot] = button
     end
     refreshSkills()
+end
+
+-- ---------------------------------------------------------------------------------------------
+-- Assign (long press on a skill button): a phone-sized picker that saves into action bar 1
+-- through the action bar's own storage (game_actionbar ApiJson), exactly as its PC menus do
+
+local assignSheet, assignList, assignModes
+local assignSlot, assignTab = nil, 'spells'
+
+local function actionbar()
+    return modules.game_actionbar
+end
+
+local function saveAndRefresh(slot)
+    local ab = actionbar()
+    local real = barButton(slot)
+    if ab and real and ab.updateButton then
+        ab.updateButton(real)
+    end
+    showAssign(false)
+    scheduleEvent(refreshSkills, 100)
+end
+
+local function assignSpellWords(slot, words)
+    local ab = actionbar()
+    if ab and ab.ApiJson then
+        ab.ApiJson.createOrUpdateText(1, slot, words, true)
+        saveAndRefresh(slot)
+    end
+end
+
+local function assignItem(slot, itemId, useType)
+    local ab = actionbar()
+    if ab and ab.ApiJson then
+        ab.ApiJson.createOrUpdateAction(1, slot, useType, itemId, 0)
+        saveAndRefresh(slot)
+    end
+end
+
+local function clearSlot(slot)
+    local ab = actionbar()
+    if ab and ab.ApiJson then
+        ab.ApiJson.removeAction(1, slot)
+        saveAndRefresh(slot)
+    end
+end
+
+local function playerSpells()
+    local player = g_game.getLocalPlayer()
+    local spells = modules.gamelib and modules.gamelib.SpellInfo and modules.gamelib.SpellInfo['Default'] or SpellInfo['Default']
+    local vocation = translateVocation and translateVocation(player:getVocation()) or player:getVocation()
+    local list = {}
+    for name, spell in pairs(spells or {}) do
+        if vocation == 0 or table.contains(spell.vocations or {}, vocation) then
+            list[#list + 1] = { name = name, spell = spell }
+        end
+    end
+    table.sort(list, function(a, b)
+        if (a.spell.level or 0) ~= (b.spell.level or 0) then
+            return (a.spell.level or 0) < (b.spell.level or 0)
+        end
+        return a.name < b.name
+    end)
+    return list
+end
+
+-- items in the open bags (one tile per kind)
+local function bagItems()
+    local seen, list = {}, {}
+    for _, container in pairs(g_game.getContainers()) do
+        for _, item in ipairs(container:getItems()) do
+            local id = item:getId()
+            if not seen[id] and not item:isContainer() then
+                seen[id] = true
+                list[#list + 1] = item
+            end
+        end
+    end
+    return list
+end
+
+local function showModes(item)
+    assignModes:destroyChildren()
+    assignModes:setVisible(true)
+    local ab = actionbar()
+    local types = ab and ab.UseTypes or UseTypes
+    local choices
+    if item:isMultiUse() then
+        choices = { { 'On target', types.UseOnTarget }, { 'On self', types.UseOnYourself }, { 'Aim', types.SelectUseTarget } }
+    else
+        choices = { { 'Use', types.Use } }
+    end
+    for _, choice in ipairs(choices) do
+        local button = g_ui.createWidget('LfPrimaryButton', assignModes)
+        button:setText(choice[1])
+        button:setWidth(150)
+        button.onClick = function() assignItem(assignSlot, item:getId(), choice[2]) end
+    end
+end
+
+local function fillAssign()
+    assignList:destroyChildren()
+    assignModes:setVisible(false)
+    assignSheet:getChildById('tabSpells'):setOn(assignTab == 'spells')
+    assignSheet:getChildById('tabItems'):setOn(assignTab == 'items')
+    local player = g_game.getLocalPlayer()
+    if assignTab == 'spells' then
+        local settings = SpelllistSettings and SpelllistSettings['Default']
+        for _, entry in ipairs(playerSpells()) do
+            local tile = g_ui.createWidget('LfAssignTile', assignList)
+            local spell = entry.spell
+            tile:getChildById('name'):setText(entry.name)
+            tile:getChildById('sub'):setText(spell.words .. '   lvl ' .. (spell.level or 0))
+            if settings and Spells and spell.clientId and spell.clientId > 0 then
+                local icon = tile:getChildById('icon')
+                icon:setImageSource(settings.iconFile)
+                icon:setImageClip(Spells.getImageClip(spell.clientId, 'Default'))
+            end
+            tile:setEnabled((spell.level or 0) <= player:getLevel())
+            tile.onClick = function() assignSpellWords(assignSlot, spell.words) end
+        end
+    else
+        local items = bagItems()
+        for _, item in ipairs(items) do
+            local tile = g_ui.createWidget('LfAssignTile', assignList)
+            tile:getChildById('item'):setItemId(item:getId())
+            local name = item.getName and item:getName() or nil
+            if not name or name == '' then
+                local thing = g_things.getThingType(item:getId(), ThingCategoryItem)
+                name = thing and thing:getName() or ''
+                if name == '' then
+                    local market = thing and thing:getMarketData()
+                    name = market and market.name ~= '' and market.name or ('item ' .. item:getId())
+                end
+            end
+            tile:getChildById('name'):setText(name)
+            tile:getChildById('sub'):setText(item:isMultiUse() and 'on target / self / aim' or 'use')
+            tile.onClick = function()
+                for _, other in ipairs(assignList:getChildren()) do
+                    other:setChecked(other == tile)
+                end
+                showModes(item)
+            end
+        end
+        if #items == 0 then
+            -- nothing open yet: open the backpack and list it once it arrives
+            local player = g_game.getLocalPlayer()
+            local backpack = player and player:getInventoryItem(InventorySlotBack)
+            assignSheet.waits = (assignSheet.waits or 0) + 1
+            if backpack and assignSheet.waits == 1 then
+                g_game.open(backpack)
+            end
+            if assignSheet.waits == 1 then
+                assignSheet.openedBags = not callModule('game_lionfell_bags', 'isVisible')
+            end
+            if backpack and assignSheet.waits <= 6 then
+                scheduleEvent(function()
+                    if assignSheet:isVisible() and assignTab == 'items' then
+                        fillAssign()
+                    end
+                end, 500)
+            end
+            local note = g_ui.createWidget('LfMuted', assignList)
+            note:setText(backpack and 'Opening the backpack ...' or 'No backpack.')
+        end
+    end
+end
+
+function showAssign(show, slot)
+    if show then
+        assignSlot = slot
+        assignSheet.waits = 0
+        -- on the top layer: windows that open meanwhile (the bags, for the item list) stay under it
+        if assignSheet:getParent() ~= rootWidget then
+            assignSheet:setParent(rootWidget)
+        end
+        assignSheet:getChildById('assignTitle'):setText('Skill button ' .. slot)
+        fillAssign()
+        assignSheet:show()
+        assignSheet:raise()
+        assignSheet:focus()
+        callModule('game_joystick', 'hide')
+    else
+        assignSheet:hide()
+        if assignSheet.openedBags then
+            assignSheet.openedBags = nil
+            callModule('game_lionfell_bags', 'hide') -- opened only for the item list
+        end
+        callModule('game_joystick', 'show')
+    end
+end
+
+local function setupAssign()
+    assignSheet = hud:getChildById('assign')
+    assignList = assignSheet:getChildById('assignList')
+    assignModes = assignSheet:getChildById('assignModes')
+    assignSheet:getChildById('assignClose').onClick = function() showAssign(false) end
+    assignSheet:getChildById('tabSpells').onClick = function() assignTab = 'spells'; fillAssign() end
+    assignSheet:getChildById('tabItems').onClick = function() assignTab = 'items'; fillAssign() end
+    assignSheet:getChildById('assignClear').onClick = function() clearSlot(assignSlot) end
 end
 
 -- ---------------------------------------------------------------------------------------------
@@ -476,6 +677,7 @@ function init()
 
     buildSheet()
     buildModes()
+    setupAssign()
 
     connect(g_game, { onGameStart = onGameStart, onGameEnd = onGameEnd })
     connect(LocalPlayer, {
@@ -496,6 +698,9 @@ function terminate()
         onManaChange = refreshStatus,
         onLevelChange = refreshStatus
     })
+    if assignSheet and assignSheet:getParent() == rootWidget then
+        assignSheet:destroy() -- moved out of the HUD (top layer)
+    end
     if hud then
         hud:destroy()
         hud = nil

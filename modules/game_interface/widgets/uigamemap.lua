@@ -92,6 +92,25 @@ function UIGameMap:onDrop(widget, mousePos)
     return true
 end
 
+-- Lionfell: the creature a tap at pos most likely meant - on the tiles right of / below it (the
+-- tiles whose creatures are drawn over pos), then one walking within a tile; nil when none
+function UIGameMap.creatureNear(pos)
+    local player = g_game.getLocalPlayer()
+    for _, d in ipairs({ { 1, 0 }, { 0, 1 }, { 1, 1 } }) do
+        local tile = g_map.getTile({ x = pos.x + d[1], y = pos.y + d[2], z = pos.z })
+        local creature = tile and tile:getTopCreature()
+        if creature and creature ~= player then
+            return creature
+        end
+    end
+    for _, creature in ipairs(g_map.getSpectatorsInRange(pos, false, 1, 1)) do
+        if creature ~= player and creature:isWalking() then
+            return creature
+        end
+    end
+    return nil
+end
+
 function UIGameMap:onMousePress()
     if not self:isDragging() then
         self.allowNextRelease = true
@@ -138,6 +157,16 @@ function UIGameMap:onMouseRelease(mousePosition, mouseButton)
     local autoWalkTile = g_map.getTile(autoWalkPos)
     if autoWalkTile then
         attackCreature = autoWalkTile:getTopCreature()
+    end
+
+    -- Lionfell, phones: a finger rarely lands on a creature's own tile (creatures are drawn up and
+    -- left of it, and a walking one belongs to the tile it walks to): a tap next to one counts
+    if g_platform.isMobile() and not attackCreature and not (creatureThing and creatureThing ~= g_game.getLocalPlayer()) then
+        local near = UIGameMap.creatureNear(autoWalkPos)
+        if near then
+            creatureThing = near
+            attackCreature = near
+        end
     end
 
     local ret = modules.game_interface.processMouseAction(mousePosition, mouseButton, autoWalkPos, lookThing, useThing,

@@ -84,10 +84,12 @@ local LIONFELL_UPDATE_REPO = "MMCREW7/Lionfell-Client" -- "owner/repo"
 local LIONFELL_UPDATE_BRANCH = "main"
 do
     local updateUrl = os.getenv("LIONFELL_UPDATE_URL")
-    if not updateUrl and g_app.getOs() == "windows" then
+    if not updateUrl and (g_app.getOs() == "windows" or g_app.getOs() == "android") then
         -- Windows: plain HTTP from the Lionfell website (over Tailscale), not GitHub's HTTPS: the
         -- Windows build's HTTPS stack (ixwebsocket + mbedTLS) corrupts the heap and crashes the
         -- client. The site serves the same release (lionfell_web UpdateController).
+        -- Android too: phones have no certificate store the client can use, so GitHub's HTTPS
+        -- check failed and phones never updated (2026-10-20).
         local host = next(Servers_init) or "127.0.0.1"
         updateUrl = "http://" .. host .. ":4000/updates/"
     elseif not updateUrl and LIONFELL_UPDATE_REPO ~= "" then
