@@ -1,0 +1,9 @@
+Module
+  name: client_lionfell_mobile
+  description: Lionfell on phones: interface size that fits the screen (login included)
+  author: Lionfell
+  sandboxed: true
+  scripts: [ mobile ]
+  dependencies: [ client_lionfell ]
+  @onLoad: init()
+  @onUnload: terminate()

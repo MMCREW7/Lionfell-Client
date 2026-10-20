@@ -459,6 +459,13 @@ return {
             end
 
             options.hudScale.event = scheduleEvent(function()
+                -- Lionfell: on phones the size fits the screen (client_lionfell_mobile)
+                local lionfellMobile = g_platform.isMobile() and modules.client_lionfell_mobile
+                if lionfellMobile and lionfellMobile.apply then
+                    lionfellMobile.apply()
+                    options.hudScale.event = nil
+                    return
+                end
                 g_app.setHUDScale(math.max(value + 0.5, 1))
                 options.hudScale.event = nil
             end, 250)

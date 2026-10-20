@@ -147,6 +147,15 @@ g_html.addGlobalStyle('/data/styles/custom.css')
 -- try to add mods path too
 g_resources.addSearchPath(g_resources.getWorkDir() .. 'mods', true)
 
+-- Lionfell on phones (g_platform.isMobile(): the Android app, or the PC client started with
+-- -mobile): mobile/modules and mobile/data go in front of everything else, so a file there replaces
+-- the PC one of the same path and phone-only modules exist only on phones. PC never loads mobile/,
+-- so PC interface changes don't reach phones where mobile/ has its own version (docs/codex/mobile.md).
+if g_platform.isMobile() then
+    g_resources.addSearchPath(g_resources.getWorkDir() .. 'mobile/modules', true)
+    g_resources.addSearchPath(g_resources.getWorkDir() .. 'mobile/data', true)
+end
+
 -- setup directory for saving configurations
 g_resources.setupUserWriteDir(('%s/'):format(g_app.getCompactName()))
 

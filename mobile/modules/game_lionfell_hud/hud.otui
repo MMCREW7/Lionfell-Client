@@ -1,0 +1,212 @@
+// Lionfell phone HUD. Loaded into the game root panel; positioned for a landscape phone
+// (~1333x600 UI pixels at the default size, client_lionfell_mobile).
+
+LfRoundButton < UIButton
+  size: 48 48
+  image-source: /images/lionfell/slot
+  image-border: 4
+  image-color: #ffffffdd
+  font: verdana-11px-monochrome
+  color: #e7e5e2
+  text-align: center
+  $pressed:
+    image-color: #c9a56b
+
+LfModeButton < LfRoundButton
+  size: 52 34
+  font: verdana-11px-monochrome
+  $checked:
+    image-color: #c9a56b
+    color: #0b0b0c
+
+LfSkillSlot < UIButton
+  size: 56 56
+  image-source: /images/lionfell/slot
+  image-border: 4
+  $pressed:
+    image-color: #c9a56b
+
+  UIItem
+    id: item
+    anchors.centerIn: parent
+    size: 40 40
+    phantom: true
+    virtual: true
+
+  UIWidget
+    id: icon
+    anchors.centerIn: parent
+    size: 40 40
+    phantom: true
+
+  UIWidget
+    id: shade
+    anchors.fill: parent
+    background-color: #000000aa
+    phantom: true
+    visible: false
+
+LfMenuTile < UIButton
+  size: 132 84
+  image-source: /images/lionfell/panel
+  image-border: 6
+  $pressed:
+    image-color: #c9a56b
+
+  LfTitle
+    id: key
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: 14
+    margin-left: 14
+    phantom: true
+
+  LfMuted
+    id: label
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    margin-bottom: 12
+    margin-left: 14
+    phantom: true
+
+UIWidget
+  id: lionfellMobileHud
+  anchors.fill: parent
+  phantom: true
+  focusable: false
+
+  // status: name, level, health and mana
+  LfPanel
+    id: status
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: 10
+    margin-left: 10
+    size: 250 74
+    padding: 10 12 10 12
+    phantom: true
+
+    LfTitle
+      id: name
+      anchors.top: parent.top
+      anchors.left: parent.left
+      phantom: true
+
+    LfMono
+      id: level
+      anchors.top: parent.top
+      anchors.right: parent.right
+      margin-top: 2
+      phantom: true
+
+    LfBar
+      id: hp
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: name.bottom
+      margin-top: 8
+      height: 10
+
+    LfBar
+      id: mp
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: hp.bottom
+      margin-top: 6
+      height: 8
+
+  // the menu: three bars, opens the sheet
+  LfRoundButton
+    id: menuButton
+    anchors.top: parent.top
+    anchors.right: parent.right
+    margin-top: 10
+    margin-right: 10
+
+    UIWidget
+      size: 22 3
+      anchors.centerIn: parent
+      margin-top: -8
+      background-color: #e7e5e2
+      phantom: true
+    UIWidget
+      size: 22 3
+      anchors.centerIn: parent
+      background-color: #e7e5e2
+      phantom: true
+    UIWidget
+      size: 22 3
+      anchors.centerIn: parent
+      margin-top: 8
+      background-color: #e7e5e2
+      phantom: true
+
+  // bottom right: attack, skills (action bar 1, slots 1-6) and tap modes
+  UIWidget
+    id: actions
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-right: 12
+    margin-bottom: 12
+    size: 300 260
+    phantom: true
+
+    UIButton
+      id: attack
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      size: 92 92
+      image-source: /images/lionfell/button_primary
+      image-border: 6
+      font: verdana-11px-monochrome
+      color: #0b0b0c
+      text: ATTACK
+      $pressed:
+        image-color: #c9a56b
+
+  UIWidget
+    id: modes
+    anchors.right: parent.right
+    anchors.top: menuButton.bottom
+    margin-right: 10
+    margin-top: 10
+    width: 52
+    height: 160
+    phantom: true
+    layout:
+      type: verticalBox
+      spacing: 6
+
+  // the sheet: every window as a large tile
+  UIWidget
+    id: sheet
+    anchors.fill: parent
+    background-color: #0b0b0ce6
+    visible: false
+    focusable: true
+
+    LfCaps
+      id: sheetTitle
+      anchors.top: parent.top
+      anchors.left: tiles.left
+      margin-top: 24
+      text: MENU
+
+    LfRoundButton
+      id: sheetClose
+      anchors.top: parent.top
+      anchors.right: parent.right
+      margin-top: 10
+      margin-right: 10
+      text: X
+
+    UIWidget
+      id: tiles
+      anchors.centerIn: parent
+      size: 708 284
+      layout:
+        type: grid
+        cell-size: 132 84
+        cell-spacing: 12
+        num-columns: 5
+        flow: true

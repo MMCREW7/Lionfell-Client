@@ -12,6 +12,7 @@ Module
   load-later:
     - client_styles
     - client_lionfell
+    - client_lionfell_mobile
     - client_locales
     - client_topmenu
     - client_bottommenu

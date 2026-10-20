@@ -21,6 +21,8 @@
 !modules/**
 !mods/
 !mods/**
+!mobile/
+!mobile/**
 data/things
 data/sounds
 **/*.log

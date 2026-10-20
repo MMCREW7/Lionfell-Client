@@ -65,6 +65,11 @@ function addOnJoystickMoveListener(callback)
   moveListener = callback
 end
 
+-- Lionfell: the walk handler (for tools/lionfell_testclient tests of joystick walking)
+function getMoveListener()
+  return moveListener
+end
+
 function onKeypadTouchPress(widget, pos, button)
   if button ~= MouseLeftButton then return false end
 

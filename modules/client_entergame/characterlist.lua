@@ -714,6 +714,24 @@ function CharacterList.create(characters, account, otui)
     premiumBenefitsPanel = charactersWindow:getChildById('premiumBenefitsPanel')
     premiumButton = charactersWindow:getChildById('premiumButton')
 
+    -- Lionfell: phones have ~600 UI pixels of height (client_lionfell_mobile), less than this
+    -- screen needs: once laid out, the list shrinks until the buttons under it are on screen
+    local column = charactersWindow:getChildById('column')
+    if g_platform.isMobile() and column and characterList then
+        column:setMarginLeft(math.max(16, math.min(160, math.floor((rootWidget:getWidth() - column:getWidth()) / 2))))
+        column:setHeight(math.min(column:getHeight(), rootWidget:getHeight() - 16))
+        local window, list = charactersWindow, characterList
+        scheduleEvent(function()
+            local okButton = window and not window:isDestroyed() and window:recursiveGetChildById('buttonOk')
+            if okButton then
+                local overflow = okButton:getY() + okButton:getHeight() - (rootWidget:getHeight() - 12)
+                if overflow > 0 then
+                    list:setHeight(math.max(120, list:getHeight() - overflow))
+                end
+            end
+        end, 50)
+    end
+
     characterList.onChildFocusChange = function(self, focusedChild, oldFocusedChild)
         removeAutoReconnectEvent()
         if oldFocusedChild then oldFocusedChild:updateOnStates() end

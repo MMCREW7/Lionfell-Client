@@ -1,0 +1,9 @@
+Module
+  name: game_lionfell_hud
+  description: Lionfell phone HUD (replaces the PC HUD on phones: mobile/ is mounted only there)
+  author: Lionfell
+  sandboxed: true
+  scripts: [ hud ]
+  dependencies: [ game_interface ]
+  @onLoad: init()
+  @onUnload: terminate()

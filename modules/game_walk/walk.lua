@@ -79,13 +79,14 @@ local function chatInputOpen()
     return console and console.isChatEnabled and console.isChatEnabled() or false
 end
 
-local function walk(dir)
+local function walk(dir, joystick)
     local player = g_game.getLocalPlayer()
     if not player or g_game.isDead() or player:isDead() then
         return
     end
 
-    if chatInputOpen() then
+    -- (an open chat only blocks walking keys, which would type; the touch joystick walks anyway)
+    if not joystick and chatInputOpen() then
         nextWalkDir = nil
         return
     end
@@ -290,7 +291,10 @@ function WalkController:onGameStart()
         stopSmartWalk()
         cancelWalkEvent()
     end
-    modules.game_joystick.addOnJoystickMoveListener(function(dir) g_game.walk(dir) end)
+    -- Lionfell: the joystick asks every 20 ms; walk() only sends a step when the character can take
+    -- one (g_game.walk on every call sent ~50 packets a second and the server's flood limit, 25,
+    -- disconnected phones after a few tiles)
+    modules.game_joystick.addOnJoystickMoveListener(function(dir) walk(dir, true) end)
 
     if not g_game.isOfficialTibia() then
         g_game.enableFeature(GameForceFirstAutoWalkStep)
