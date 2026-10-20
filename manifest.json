@@ -1,10 +1,10 @@
 {
  "binary": {
-  "checksum": "20234479",
+  "checksum": "dbf6c095",
   "file": "otclient"
  },
  "binary_windows": {
-  "checksum": "b2119c24",
+  "checksum": "4863e4f5",
   "file": "otclient.exe"
  },
  "files": {
@@ -1843,7 +1843,7 @@
   "lionfell-update.bat": "fab5bab9",
   "lionfell.bat": "bb4c8df6",
   "lionfell.sh": "cc6499d6",
-  "mobile/modules/game_lionfell_hud/hud.lua": "2496d044",
+  "mobile/modules/game_lionfell_hud/hud.lua": "9a0da87d",
   "mobile/modules/game_lionfell_hud/hud.otmod": "20f2f7cf",
   "mobile/modules/game_lionfell_hud/hud.otui": "dcb5de53",
   "mods/README.txt": "d0847694",
@@ -2444,13 +2444,13 @@
   "modules/game_inspect/inspect.lua": "4001c797",
   "modules/game_inspect/inspect.otmod": "7d51c44e",
   "modules/game_inspect/template/html/inspect.html": "976d6b3c",
-  "modules/game_interface/gameinterface.lua": "6c293790",
+  "modules/game_interface/gameinterface.lua": "4eb8ce5e",
   "modules/game_interface/gameinterface.otui": "65cc4f63",
   "modules/game_interface/interface.otmod": "7e86fa96",
   "modules/game_interface/styles/countStashWindow.otui": "a45411ec",
   "modules/game_interface/styles/countwindow.otui": "15c5d197",
   "modules/game_interface/widgets/statsbar.lua": "99e53aa3",
-  "modules/game_interface/widgets/uigamemap.lua": "2b38bc22",
+  "modules/game_interface/widgets/uigamemap.lua": "fa98000a",
   "modules/game_interface/widgets/uiitem.lua": "6668036",
   "modules/game_inventory/inventory.lua": "cfc4d4c5",
   "modules/game_inventory/inventory.otmod": "ee822b9c",
@@ -2963,6 +2963,6 @@
   "modules/updater/updater.otui": "517debaf",
   "otclientrc.lua": "176c66ea"
  },
- "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/bae3e8fec804351aaf8986e6831bb9067ac4da78/",
- "version": "2026-10-20 07:45:04"
+ "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/7095edb516e8aae74929acd1a1a5d35f6827ae18/",
+ "version": "2026-10-20 08:45:22"
 }
