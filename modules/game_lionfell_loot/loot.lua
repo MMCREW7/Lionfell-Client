@@ -221,6 +221,11 @@ end
 
 function init()
     window = g_ui.loadUI('loot', modules.game_interface.getRootPanel())
+    modules.game_lionfell_hud.registerPanel('loot', 'AUTO LOOT', window,
+        { anchor = 'topRight', top = 80, right = 320, show = show, hide = hide })
+    modules.game_lionfell_hud.registerMenuAction({
+        key = 'LT', order = 3, label = 'Auto loot', run = toggle, isOn = isVisible,
+    })
     window:hide()
     window.onEscape = hide
 
@@ -266,6 +271,8 @@ function init()
 end
 
 function terminate()
+    modules.game_lionfell_hud.unregisterMenuAction('LT')
+    modules.game_lionfell_hud.unregisterPanel('loot')
     disconnect(g_game, { onGameStart = onGameStart, onGameEnd = onGameEnd })
     ProtocolGame.unregisterExtendedOpcode(OPCODE)
     modules.game_interface.removeMenuHook(MENU_CATEGORY)

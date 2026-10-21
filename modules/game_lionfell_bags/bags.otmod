@@ -4,6 +4,6 @@ Module
   author: Lionfell
   sandboxed: true
   scripts: [ bags ]
-  dependencies: [ game_interface, game_containers, client_lionfell ]
+  dependencies: [ game_interface, game_containers, client_lionfell, game_lionfell_hud ]
   @onLoad: init()
   @onUnload: terminate()

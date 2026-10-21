@@ -18,6 +18,35 @@ LfVitalsRow < UIWidget
     anchors.verticalCenter: parent.verticalCenter
     color: #e7e5e2
 
+LfDockMenuButton < LfPillButton
+  size: 146 30
+  ttf-font-size: 11
+  text-align: left
+  text-horizontal-auto-resize: false
+  padding: 0 10 0 10
+
+LfLayoutSlot < UIWidget
+  width: 328
+  height: 36
+
+  LfLabel
+    id: name
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+
+  LfPillButton
+    id: load
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    !text: tr('Load')
+
+  LfPillButton
+    id: save
+    anchors.right: load.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-right: 6
+    !text: tr('Save')
+
 UIWidget
   id: lionfellHud
   anchors.fill: parent
@@ -146,7 +175,7 @@ UIWidget
     anchors.top: vitals.bottom
     anchors.left: vitals.left
     margin-top: 16
-    width: 44
+    width: 54
     padding: 5
     draggable: false
     layout:
@@ -156,6 +185,90 @@ UIWidget
 
     LfGrip
       id: grip
+
+  UIWidget
+    id: menuBackdrop
+    anchors.fill: parent
+    phantom: false
+    visible: false
+
+  LfWindow
+    id: menuWindow
+    anchors.top: dock.top
+    anchors.left: dock.right
+    margin-left: 8
+    size: 344 386
+    padding: 12
+    draggable: false
+    visible: false
+
+    LfTitle
+      id: title
+      anchors.top: parent.top
+      anchors.left: parent.left
+      !text: tr('Menu')
+
+    LfPillButton
+      id: close
+      anchors.top: parent.top
+      anchors.right: parent.right
+      !text: tr('Close')
+
+    ScrollablePanel
+      id: menuOptions
+      anchors.top: close.bottom
+      anchors.left: parent.left
+      anchors.right: menuScroll.left
+      margin-top: 8
+      margin-right: 4
+      height: 302
+      vertical-scrollbar: menuScroll
+      layout:
+        type: grid
+        cell-size: 146 30
+        cell-spacing: 4
+        flow: true
+
+    LfScrollBar
+      id: menuScroll
+      anchors.top: menuOptions.top
+      anchors.right: parent.right
+      anchors.bottom: menuOptions.bottom
+      step: 34
+      pixels-scroll: true
+
+  LfWindow
+    id: layoutSlots
+    anchors.top: parent.top
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-top: 120
+    size: 352 196
+    padding: 12
+    draggable: true
+    visible: false
+
+    LfTitle
+      id: title
+      anchors.top: parent.top
+      anchors.left: parent.left
+      !text: tr('Saved layouts')
+
+    LfPillButton
+      id: close
+      anchors.top: parent.top
+      anchors.right: parent.right
+      !text: tr('Close')
+
+    UIWidget
+      id: slots
+      anchors.top: close.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 10
+      height: 112
+      layout:
+        type: verticalBox
+        spacing: 2
 
   // edit-layout bar (LAY in the dock): top centre while panels can be dragged
   LfWindow
@@ -171,7 +284,7 @@ UIWidget
       id: hint
       anchors.left: parent.left
       anchors.verticalCenter: parent.verticalCenter
-      !text: tr('Drag the highlighted panels. Windows move by their title bar.')
+      !text: tr('Drag panels to place them. Changes save for this character.')
       text-auto-resize: true
       ttf-font-size: 12
 

@@ -464,6 +464,11 @@ end
 
 function init()
     window = g_ui.loadUI('talents', modules.game_interface.getRootPanel())
+    modules.game_lionfell_hud.registerPanel('talents', 'TALENTS', window,
+        { anchor = 'center', show = show, hide = hide })
+    modules.game_lionfell_hud.registerMenuAction({
+        key = 'TAL', order = 12, label = 'Talent tree', run = toggle, isOn = isVisible,
+    })
     canvas = window:getChildById('canvas')
     pointsChip = window:getChildById('pointsChip')
     keystoneChip = window:getChildById('keystoneChip')
@@ -495,6 +500,8 @@ function init()
 end
 
 function terminate()
+    modules.game_lionfell_hud.unregisterMenuAction('TAL')
+    modules.game_lionfell_hud.unregisterPanel('talents')
     disconnect(g_game, { onGameEnd = onGameEnd })
     ProtocolGame.unregisterExtendedOpcode(OPCODE)
     if layoutEvent then

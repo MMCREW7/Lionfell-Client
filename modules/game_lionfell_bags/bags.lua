@@ -664,6 +664,11 @@ end
 
 function init()
     window = g_ui.loadUI('bags', modules.game_interface.getRootPanel())
+    modules.game_lionfell_hud.registerPanel('bags', 'BAGS', window,
+        { anchor = 'topRight', top = 80, right = 300, show = show, hide = hide })
+    modules.game_lionfell_hud.registerMenuAction({
+        key = 'BAG', order = 2, label = 'Bags (B)', run = toggle, isOn = isVisible,
+    })
     content = window:getChildById('content')
     summary = window:getChildById('summary')
     window.onEscape = hide
@@ -697,6 +702,8 @@ function init()
 end
 
 function terminate()
+    modules.game_lionfell_hud.unregisterMenuAction('BAG')
+    modules.game_lionfell_hud.unregisterPanel('bags')
     disconnect(Container, {
         onOpen = onContainerOpen,
         onClose = onContainerClose,

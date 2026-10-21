@@ -1,0 +1,9 @@
+Module
+  name: game_lionfell_healing
+  description: Lionfell nearby party healing frames
+  author: Lionfell
+  sandboxed: true
+  scripts: [ healing ]
+  dependencies: [ game_interface, client_lionfell, game_lionfell_hud ]
+  @onLoad: init()
+  @onUnload: terminate()

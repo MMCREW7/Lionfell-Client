@@ -8,12 +8,17 @@
 local hud
 local vitals
 local dock
+local menuBackdrop
+local menuWindow
+local menuOptions
+local layoutSlots
 local vignette
 local active = false
 local layoutEvent
 local movedToColumn = {}
 local layoutEditing = false
 local toggleLayoutEditing
+local openLayoutSlots
 
 -- Zoom is the number of visible rows. The game starts fully zoomed out at 19 rows, the most the
 -- server streams (Map::maxClientViewportX/Y = 18/10, data/setup.otml `viewport`: at most
@@ -70,38 +75,31 @@ local function windowVisible(moduleName, windowName)
     return window and not window:isDestroyed() and window:isVisible() or false
 end
 
--- Dock: toggles for the stock windows. MNU brings back the top menu, which holds every other
--- game button (store, cyclopedia, analysers, ...).
+-- The menu holds the stock window toggles. The top-menu action exposes the remaining game buttons.
 local DOCK = {
-    { key = 'INV', label = 'Inventory', run = function() callModule('game_inventory', 'toggle') end,
+    { key = 'INV', order = 1, label = 'Inventory', run = function() callModule('game_inventory', 'toggle') end,
       isOn = function() return controllerVisible('game_inventory', 'inventoryController') end },
-    { key = 'BAG', label = 'Bags (B)', run = function() callModule('game_lionfell_bags', 'toggle') end,
-      isOn = function() return callModule('game_lionfell_bags', 'isVisible') or false end },
-    { key = 'LT', label = 'Auto loot', run = function() callModule('game_lionfell_loot', 'toggle') end,
-      isOn = function() return callModule('game_lionfell_loot', 'isVisible') or false end },
-    { key = 'SKL', label = 'Skills', run = function() callModule('game_skills', 'toggle') end,
+    { key = 'SKL', order = 4, label = 'Skills', run = function() callModule('game_skills', 'toggle') end,
       isOn = function() return windowVisible('game_skills', 'skillsWindow') end },
-    { key = 'BTL', label = 'Battle list', run = function() callModule('game_battle', 'toggle') end },
-    { key = 'MAP', label = 'Minimap', run = function() callModule('game_minimap', 'toggle') end,
+    { key = 'BTL', order = 5, label = 'Battle list', run = function() callModule('game_battle', 'toggle') end },
+    { key = 'MAP', order = 7, label = 'Minimap', run = function() callModule('game_minimap', 'toggle') end,
       isOn = function() return controllerVisible('game_minimap', 'mapController') end },
-    { key = 'VIP', label = 'VIP list', run = function() callModule('game_viplist', 'toggle') end,
+    { key = 'VIP', order = 8, label = 'VIP list', run = function() callModule('game_viplist', 'toggle') end,
       isOn = function() return windowVisible('game_viplist', 'vipWindow') end },
-    { key = 'QST', label = 'Quest log', run = function() callModule('game_questlog', 'show') end },
-    { key = 'SPL', label = 'Spell list', run = function() callModule('game_spelllist', 'toggle') end },
-    { key = 'AH', label = 'Auction house', run = function() callModule('game_lionfell_auction', 'toggle') end,
-      isOn = function() return callModule('game_lionfell_auction', 'isVisible') or false end },
-    { key = 'TAL', label = 'Talent tree', run = function() callModule('game_lionfell_talents', 'toggle') end,
-      isOn = function() return callModule('game_lionfell_talents', 'isVisible') or false end },
-    { key = 'LAY', label = 'Edit layout: move the HUD panels', run = function() toggleLayoutEditing() end,
+    { key = 'QST', order = 9, label = 'Quest log', run = function() callModule('game_questlog', 'show') end },
+    { key = 'SPL', order = 10, label = 'Spell list', run = function() callModule('game_spelllist', 'toggle') end },
+    { key = 'LAY', order = 13, label = 'Edit layout: move the HUD panels', menuLabel = 'Edit layout', run = function() toggleLayoutEditing() end,
       isOn = function() return layoutEditing end },
-    { key = 'OPT', label = 'Options', run = function() callModule('client_options', 'toggle') end },
-    { key = 'MNU', label = 'Show / hide the top menu', run = function() callModule('client_topmenu', 'toggle') end,
+    { key = 'LAYOUTS', order = 14, label = 'Save or load a layout', menuLabel = 'Saved layouts', run = function() openLayoutSlots() end },
+    { key = 'OPT', order = 15, label = 'Options', run = function() callModule('client_options', 'toggle') end },
+    { key = 'MNU', order = 16, label = 'Show / hide the top menu', menuLabel = 'Top menu', run = function() callModule('client_topmenu', 'toggle') end,
       isOn = function()
           local topMenu = callModule('client_topmenu', 'getTopMenu')
           return topMenu and topMenu:isVisible() or false
       end },
-    { key = 'LOG', label = 'Logout', run = function() callModule('game_interface', 'tryLogout') end },
+    { key = 'LOG', order = 17, label = 'Logout', run = function() callModule('game_interface', 'tryLogout') end },
 }
+local registeredMenuActions = {}
 
 local function formatNumber(value)
     local text = tostring(math.floor(value or 0))
@@ -225,28 +223,95 @@ local function onExperienceChange(player) updateExperience(player) end
 -- Dock
 
 local function refreshDock()
-    if not dock then
+    if not menuOptions then
         return
     end
-    for _, button in ipairs(dock:getChildren()) do
+    for _, button in ipairs(menuOptions:getChildren()) do
         if button.entry and button.entry.isOn then
             button:setOn(button.entry.isOn())
         end
     end
 end
 
-local function buildDock()
-    for _, entry in ipairs(DOCK) do
-        local button = g_ui.createWidget('LfDockButton', dock)
-        button:setId('dock' .. entry.key)
-        button:setText(entry.key)
+local function closeMenu()
+    if menuWindow then
+        menuWindow:hide()
+        menuBackdrop:hide()
+        dock:getChildById('dockMenu'):setOn(false)
+    end
+end
+
+local function toggleMenu()
+    if not active then
+        return
+    end
+    if menuWindow:isVisible() then
+        closeMenu()
+    else
+        refreshDock()
+        local hudRect, dockRect = hud:getRect(), dock:getRect()
+        local available = hudRect.y + hudRect.height - dockRect.y - 12
+        local optionsHeight = math.max(60, math.min(302, available - 64))
+        menuOptions:setHeight(optionsHeight)
+        menuWindow:setHeight(optionsHeight + 64)
+        menuBackdrop:show()
+        menuWindow:show()
+        menuWindow:raise()
+        dock:getChildById('dockMenu'):setOn(true)
+    end
+end
+
+local function rebuildMenuOptions()
+    if not menuOptions then return end
+    menuOptions:destroyChildren()
+    local entries = {}
+    for _, entry in ipairs(DOCK) do entries[#entries + 1] = entry end
+    for _, entry in pairs(registeredMenuActions) do entries[#entries + 1] = entry end
+    table.sort(entries, function(a, b)
+        if (a.order or 100) ~= (b.order or 100) then return (a.order or 100) < (b.order or 100) end
+        return a.key < b.key
+    end)
+    for _, entry in ipairs(entries) do
+        local button = g_ui.createWidget('LfDockMenuButton', menuOptions)
+        button:setId('menu' .. entry.key)
+        button:setText(tr(entry.menuLabel or entry.label))
         button:setTooltip(tr(entry.label))
         button.entry = entry
         button.onClick = function()
+            closeMenu()
             entry.run()
             addEvent(refreshDock)
         end
     end
+    refreshDock()
+end
+
+function registerMenuAction(entry)
+    if type(entry) ~= 'table' or type(entry.key) ~= 'string' or type(entry.run) ~= 'function' then return end
+    registeredMenuActions[entry.key] = entry
+    rebuildMenuOptions()
+end
+
+function unregisterMenuAction(key)
+    registeredMenuActions[key] = nil
+    rebuildMenuOptions()
+end
+
+local function buildDock()
+    local trigger = g_ui.createWidget('LfDockButton', dock)
+    trigger:setId('dockMenu')
+    trigger:setWidth(44)
+    trigger:setText('MENU')
+    trigger:setTooltip(tr('Open game menu'))
+    trigger.onClick = toggleMenu
+
+    rebuildMenuOptions()
+
+    menuBackdrop.onMousePress = function()
+        closeMenu()
+        return true
+    end
+    menuWindow:getChildById('close').onClick = closeMenu
 end
 
 -- ---------------------------------------------------------------------------------------------
@@ -313,9 +378,10 @@ local PINNED = { 'mainmappanel', 'maininventorypanel' }
 local function pinnedClose()
 end
 
--- Saved layout, per character (g_settings node 'lionfell_layout'): where the player dragged the
--- vitals card, dock, chat and action bar, and the order of the right column.
+-- Saved layout, per character (g_settings node 'lionfell_layout'): HUD panels, feature windows,
+-- and the order of the right column.
 local LAYOUT_NODE = 'lionfell_layout'
+local PRESET_NODE = 'lionfell_layout_presets'
 local CONTAINERS = '*containers*'  -- stands for the open containers in a saved column order
 
 local function loadLayout()
@@ -610,23 +676,54 @@ local function setActionBarArrows(panel, visible)
 end
 
 -- ---------------------------------------------------------------------------------------------
--- Movable HUD parts. LAY in the dock turns on edit-layout mode: each part gets a handle to drag
--- it by. A part is saved as its distance from the nearest left/right and top/bottom screen
--- edges, so it stays in the same corner when the window size changes.
+-- Movable panels. Edit layout gives each visible part a handle. Standalone feature windows also
+-- save when dragged normally. Spots use the nearest screen edges so they survive resizing.
 
 local layoutBar
 local layoutHandles = {}
+local registeredPanels = {}
+
+local function restorePanelDefault(part)
+    local widget, default = part.widget, part.default
+    if not widget or widget:isDestroyed() or not default then return end
+    widget:breakAnchors()
+    widget:setMarginLeft(0)
+    widget:setMarginRight(0)
+    widget:setMarginTop(0)
+    widget:setMarginBottom(0)
+    if default.anchor == 'center' then
+        widget:addAnchor(AnchorHorizontalCenter, 'parent', AnchorHorizontalCenter)
+        widget:addAnchor(AnchorVerticalCenter, 'parent', AnchorVerticalCenter)
+    else
+        widget:addAnchor(AnchorTop, 'parent', AnchorTop)
+        widget:setMarginTop(default.top or 0)
+        if default.anchor == 'topRight' then
+            widget:addAnchor(AnchorRight, 'parent', AnchorRight)
+            widget:setMarginRight(default.right or 0)
+        else
+            widget:addAnchor(AnchorHorizontalCenter, 'parent', AnchorHorizontalCenter)
+        end
+    end
+end
 
 local function movableParts()
     local gi = modules.game_interface
-    return {
+    local parts = {
         { id = 'vitals', label = tr('VITALS'), widget = vitals },
         { id = 'dock', label = tr('DOCK'), widget = dock },
-        { id = 'chat', label = tr('CHAT'), widget = gi.getBottomPanel() },
+        { id = 'chat', label = tr('CHAT'), widget = gi.getBottomPanel(), resizable = 'both' },
         { id = 'actionbar', label = tr('ACTION BAR'), widget = gi.getBottomActionPanel() },
         -- the right column is full height: it moves sideways only
-        { id = 'column', label = tr('PANEL COLUMN'), widget = gi.getRightPanel(), sideways = true },
+        { id = 'column', label = tr('PANEL COLUMN'), widget = gi.getRightPanel(), sideways = true, resizable = 'width' },
     }
+    local ids = {}
+    for id in pairs(registeredPanels) do ids[#ids + 1] = id end
+    table.sort(ids)
+    for _, id in ipairs(ids) do
+        local part = registeredPanels[id]
+        if part.widget and not part.widget:isDestroyed() then parts[#parts + 1] = part end
+    end
+    return parts
 end
 
 local function spotOf(widget)
@@ -677,9 +774,42 @@ local function placeAt(widget, spot, sideways)
     end
 end
 
+-- Feature modules register their own top-level window once. Future systems can join the saved
+-- layout without changing this HUD module.
+function registerPanel(id, label, widget, default)
+    if not id or not widget then return end
+    local part = { id = id, label = tr(label), widget = widget, default = default }
+    registeredPanels[id] = part
+    local previous = widget.onDragLeave
+    widget.onDragLeave = function(self, ...)
+        if previous then previous(self, ...) end
+        if not g_game.isOnline() then return end
+        local layout = loadLayout()
+        layout.parts = layout.parts or {}
+        layout.parts[id] = spotOf(self)
+        saveLayout(layout)
+    end
+    if g_game.isOnline() then
+        local saved = (loadLayout().parts or {})[id]
+        if saved then placeAt(widget, saved) end
+    end
+end
+
+function unregisterPanel(id)
+    registeredPanels[id] = nil
+end
+
 function applySavedPlacements()
-    local parts = loadLayout().parts or {}
+    local layout = loadLayout()
+    local parts, sizes = layout.parts or {}, layout.sizes or {}
     for _, part in ipairs(movableParts()) do
+        local size = sizes[part.id]
+        if size and part.resizable and part.widget then
+            if tonumber(size.width) then part.widget:setWidth(tonumber(size.width)) end
+            if part.resizable == 'both' and tonumber(size.height) then
+                part.widget:setHeight(tonumber(size.height))
+            end
+        end
         local spot = parts[part.id]
         if spot and part.widget then
             placeAt(part.widget, spot, part.sideways)
@@ -722,6 +852,12 @@ local function createHandle(part)
         local layout = loadLayout()
         layout.parts = layout.parts or {}
         layout.parts[self.part.id] = spot
+        if self.part.resizable then
+            layout.sizes = layout.sizes or {}
+            layout.sizes[self.part.id] = {
+                width = widget:getWidth(), height = widget:getHeight(),
+            }
+        end
         saveLayout(layout)
         addEvent(syncHandles)
         return true
@@ -762,9 +898,172 @@ end
 local function resetLayout()
     saveLayout({})
     setLayoutEditing(false)
+    for _, part in pairs(registeredPanels) do restorePanelDefault(part) end
     if active then
         applyActiveLayout()
     end
+end
+
+local SLOT_NAMES = { 'Solo', 'Party', 'Raid' }
+
+local function copyLayout(value)
+    if type(value) ~= 'table' then return value end
+    local copy = {}
+    for key, item in pairs(value) do copy[key] = copyLayout(item) end
+    return copy
+end
+
+local function snapshotLayout()
+    local snapshot = { parts = {}, sizes = {}, column = columnKey(), open = {}, miniWindows = {} }
+    for _, part in ipairs(movableParts()) do
+        if part.widget and not part.widget:isDestroyed() then
+            snapshot.parts[part.id] = spotOf(part.widget)
+            if part.resizable then
+                snapshot.sizes[part.id] = {
+                    width = part.widget:getWidth(), height = part.widget:getHeight(),
+                }
+            end
+        end
+    end
+    for id, part in pairs(registeredPanels) do
+        snapshot.open[id] = part.widget:isVisible()
+    end
+    local gi = modules.game_interface
+    local panels = { gi.getRootPanel() }
+    for _, getter in ipairs(DOCK_PANELS) do panels[#panels + 1] = gi[getter]() end
+    for _, panel in ipairs(panels) do
+        for index, widget in ipairs(panel:getChildren()) do
+            local id = widget:getId()
+            if id and id ~= '' and type(widget.minimize) == 'function' then
+                local canMinimize = widget:getChildById('contentsPanel')
+                    and widget:getChildById('miniwindowScrollBar')
+                    and widget:getChildById('bottomResizeBorder')
+                    and widget:getChildById('minimizeButton')
+                snapshot.miniWindows[id] = {
+                    parent = panel:getId(), index = index, visible = widget:isVisible(),
+                    minimized = canMinimize and widget:isOn() or false,
+                    height = canMinimize and widget:isOn() and widget.maximizedHeight or widget:getHeight(),
+                    spot = panel == gi.getRootPanel() and spotOf(widget) or nil,
+                }
+            end
+        end
+    end
+    return snapshot
+end
+
+local function restoreMiniWindows(saved)
+    if type(saved) ~= 'table' then return end
+    local gi = modules.game_interface
+    local root = gi.getRootPanel()
+    local panels, windows = { [root:getId()] = root }, {}
+    for _, widget in ipairs(root:getChildren()) do
+        if type(widget.minimize) == 'function' then windows[widget:getId()] = widget end
+    end
+    for _, getter in ipairs(DOCK_PANELS) do
+        local panel = gi[getter]()
+        panels[panel:getId()] = panel
+        for _, widget in ipairs(panel:getChildren()) do windows[widget:getId()] = widget end
+    end
+    local entries = {}
+    for id, state in pairs(saved) do
+        if windows[id] and type(state) == 'table' then
+            entries[#entries + 1] = { widget = windows[id], state = state }
+        end
+    end
+    table.sort(entries, function(a, b)
+        if a.state.parent ~= b.state.parent then return a.state.parent < b.state.parent end
+        return (tonumber(a.state.index) or 0) < (tonumber(b.state.index) or 0)
+    end)
+    for _, entry in ipairs(entries) do
+        local widget, state = entry.widget, entry.state
+        local panel = panels[state.parent]
+        if panel and widget:getParent() ~= panel and not widget.moveOnlyToMain then
+            widget:setParent(panel)
+        end
+        if panel == root and widget:getParent() == root and state.spot then
+            placeAt(widget, state.spot)
+            widget:saveParent()
+        end
+        local canMinimize = widget:getChildById('contentsPanel')
+            and widget:getChildById('miniwindowScrollBar')
+            and widget:getChildById('bottomResizeBorder')
+            and widget:getChildById('minimizeButton')
+        if canMinimize and widget:isOn() then widget:maximize() end
+        if tonumber(state.height) and tonumber(state.height) > 0 then
+            widget:setHeight(tonumber(state.height))
+        end
+        if canMinimize and state.minimized then widget:minimize() end
+        if state.visible then widget:open() else widget:close() end
+        panel = widget:getParent()
+        if panel and panel ~= root and panels[panel:getId()] and tonumber(state.index) then
+            panel:moveChildToIndex(widget, math.min(tonumber(state.index), panel:getChildCount()))
+        end
+    end
+    for _, panel in pairs(panels) do
+        if panel ~= root and panel.saveChildren then panel:saveChildren() end
+    end
+end
+
+local function savedSlots()
+    local node = g_settings.getNode(PRESET_NODE) or {}
+    return node[g_game.getCharacterName()] or {}
+end
+
+local function refreshSlotButtons()
+    local slots = savedSlots()
+    local rows = layoutSlots:getChildById('slots')
+    for _, name in ipairs(SLOT_NAMES) do
+        rows:getChildById('slot' .. name):getChildById('load'):setEnabled(slots[name] ~= nil)
+    end
+end
+
+local function saveSlot(name)
+    local node = g_settings.getNode(PRESET_NODE) or {}
+    local character = g_game.getCharacterName()
+    node[character] = node[character] or {}
+    node[character][name] = snapshotLayout()
+    g_settings.setNode(PRESET_NODE, node)
+    g_settings.save()
+    refreshSlotButtons()
+end
+
+local function loadSlot(name)
+    local saved = savedSlots()[name]
+    if not saved then return end
+    saveLayout(copyLayout(saved))
+    setLayoutEditing(false)
+    applyActiveLayout()
+    restoreMiniWindows(saved.miniWindows)
+    orderColumn(modules.game_interface.getRightPanel())
+    lastColumnKey = columnKey()
+    for id, visible in pairs(saved.open or {}) do
+        local part = registeredPanels[id]
+        if part and part.default then
+            local action = visible and part.default.show or part.default.hide
+            if action then action() end
+        end
+    end
+    layoutSlots:hide()
+end
+
+openLayoutSlots = function()
+    if not active then return end
+    refreshSlotButtons()
+    layoutSlots:show()
+    layoutSlots:raise()
+end
+
+local function buildLayoutSlots()
+    local rows = layoutSlots:getChildById('slots')
+    for _, name in ipairs(SLOT_NAMES) do
+        local row = g_ui.createWidget('LfLayoutSlot', rows)
+        row:setId('slot' .. name)
+        row:getChildById('name'):setText(tr(name))
+        row:getChildById('save').onClick = function() saveSlot(name) end
+        row:getChildById('load').onClick = function() loadSlot(name) end
+    end
+    layoutSlots:getChildById('close').onClick = function() layoutSlots:hide() end
+    layoutSlots.onEscape = function() layoutSlots:hide() end
 end
 
 function applyActiveLayout()
@@ -931,6 +1230,8 @@ local function applyInactiveLayout()
     local gi = modules.game_interface
     local root = gi.getRootPanel()
     setLayoutEditing(false)
+    closeMenu()
+    layoutSlots:hide()
     hud:hide()
     vignette:hide()
     gi.getMapPanel():setMaxZoomIn(STOCK_MAX_ZOOM_IN)
@@ -1063,6 +1364,10 @@ function init()
     hud:hide()
     vitals = hud:getChildById('vitals')
     dock = hud:getChildById('dock')
+    menuBackdrop = hud:getChildById('menuBackdrop')
+    menuWindow = hud:getChildById('menuWindow')
+    menuOptions = menuWindow:getChildById('menuOptions')
+    layoutSlots = hud:getChildById('layoutSlots')
     vignette = hud:getChildById('vignette')
     layoutBar = hud:getChildById('layoutBar')
     layoutBar:getChildById('done').onClick = function() setLayoutEditing(false) end
@@ -1076,6 +1381,7 @@ function init()
     end
 
     buildDock()
+    buildLayoutSlots()
 
     connect(g_game, {
         onGameStart = onGameStart,
@@ -1135,5 +1441,5 @@ function terminate()
     end
 
     hud:destroy()
-    hud, vitals, dock, vignette, layoutBar = nil, nil, nil, nil, nil
+    hud, vitals, dock, menuBackdrop, menuWindow, menuOptions, layoutSlots, vignette, layoutBar = nil, nil, nil, nil, nil, nil, nil, nil, nil
 end

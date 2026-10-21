@@ -510,6 +510,11 @@ end
 
 function init()
     window = g_ui.loadUI('auction', modules.game_interface.getRootPanel())
+    modules.game_lionfell_hud.registerPanel('auction', 'AUCTION', window,
+        { anchor = 'center', show = show, hide = hide })
+    modules.game_lionfell_hud.registerMenuAction({
+        key = 'AH', order = 11, label = 'Auction house', run = toggle, isOn = isVisible,
+    })
     window:hide()
     local browsePanel = window:recursiveGetChildById('browsePanel')
     fillCombo(browsePanel:getChildById('category'), CATEGORIES)
@@ -551,6 +556,8 @@ function init()
 end
 
 function terminate()
+    modules.game_lionfell_hud.unregisterMenuAction('AH')
+    modules.game_lionfell_hud.unregisterPanel('auction')
     disconnect(g_game, { onGameEnd = hide })
     ProtocolGame.unregisterExtendedOpcode(OPCODE)
     if window then

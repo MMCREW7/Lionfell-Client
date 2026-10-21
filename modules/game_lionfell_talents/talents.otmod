@@ -4,6 +4,6 @@ Module
   author: Lionfell
   sandboxed: true
   scripts: [ talents ]
-  dependencies: [ game_interface, client_lionfell ]
+  dependencies: [ game_interface, client_lionfell, game_lionfell_hud ]
   @onLoad: init()
   @onUnload: terminate()

@@ -1,0 +1,112 @@
+LfHealingRow < UIWidget
+  size: 60 24
+  image-source: /images/lionfell/chip
+  image-border: 3
+  image-color: #263d32
+  change-cursor-image: true
+  cursor: pointer
+
+  $hover:
+    image-color: #3b5145
+
+  LfLabel
+    id: name
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: 3
+    margin-left: 4
+    width: 52
+    text-auto-resize: false
+    text-wrap: false
+    ttf-font-size: 10
+    color: #e7e5e2
+
+  LfBar
+    id: health
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-left: 4
+    margin-right: 4
+    margin-bottom: 2
+    height: 3
+
+LfWindow
+  id: healingWindow
+  width: 288
+  height: 166
+  anchors.top: parent.top
+  anchors.horizontalCenter: parent.horizontalCenter
+  margin-top: 96
+  padding: 12
+  draggable: true
+  visible: false
+
+  LfCaps
+    id: eyebrow
+    !text: tr('PARTY HEALING')
+    anchors.top: parent.top
+    anchors.left: parent.left
+
+  LfPillButton
+    id: close
+    !text: tr('Close')
+    anchors.top: parent.top
+    anchors.right: parent.right
+    height: 24
+    padding: 0 8 0 8
+    ttf-font-size: 10
+    @onClick: modules.game_lionfell_healing.hide()
+
+  LfPillButton
+    id: markOfftank
+    !text: tr('2ND')
+    !tooltip: tr('Mark an off-tank: then click a player box')
+    anchors.top: close.top
+    anchors.right: close.left
+    margin-right: 4
+    height: 24
+    padding: 0 7 0 7
+    ttf-font-size: 10
+    @onClick: modules.game_lionfell_healing.selectMarker('offtank')
+
+  LfPillButton
+    id: markTank
+    !text: tr('TANK')
+    !tooltip: tr('Mark the tank: then click a player box')
+    anchors.top: close.top
+    anchors.right: markOfftank.left
+    margin-right: 4
+    height: 24
+    padding: 0 7 0 7
+    ttf-font-size: 10
+    @onClick: modules.game_lionfell_healing.selectMarker('tank')
+
+  LfMuted
+    id: bindings
+    !text: tr("Left: Heal Friend  |  Right: Nature's Embrace")
+    anchors.top: eyebrow.bottom
+    anchors.left: parent.left
+    margin-top: 7
+    ttf-font-size: 10
+
+  UIWidget
+    id: roster
+    anchors.top: bindings.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 11
+    height: 24
+    layout:
+      type: grid
+      cell-size: 60 24
+      cell-spacing: 3
+      flow: true
+
+  LfMono
+    id: hint
+    !text: tr('Loading party...')
+    anchors.top: roster.bottom
+    anchors.left: parent.left
+    margin-top: 9
+    ttf-font-size: 10
