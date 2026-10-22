@@ -1,10 +1,10 @@
 {
  "binary": {
-  "checksum": "dbf6c095",
+  "checksum": "a66ad455",
   "file": "otclient"
  },
  "binary_windows": {
-  "checksum": "4863e4f5",
+  "checksum": "40383134",
   "file": "otclient.exe"
  },
  "files": {
@@ -2969,6 +2969,6 @@
   "modules/updater/updater.otui": "517debaf",
   "otclientrc.lua": "176c66ea"
  },
- "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/3ba7befa8ff6805611834df7c9502ec74ac2a6fa/",
- "version": "2026-10-21 01:06:11"
+ "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/bbb8b896b5463eed61ed5b9602034735bdad9f31/",
+ "version": "2026-10-22 03:01:33"
 }
