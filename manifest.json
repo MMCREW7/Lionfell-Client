@@ -2493,7 +2493,7 @@
   "modules/game_lionfell_restart/restart.otui": "eb720e38",
   "modules/game_lionfell_stats/stats.lua": "602e56a6",
   "modules/game_lionfell_stats/stats.otmod": "3bb74478",
-  "modules/game_lionfell_talents/talents.lua": "e8c0efc7",
+  "modules/game_lionfell_talents/talents.lua": "84b75dcb",
   "modules/game_lionfell_talents/talents.otmod": "7054ea79",
   "modules/game_lionfell_talents/talents.otui": "5da206ae",
   "modules/game_lionfell_teleport/teleport.lua": "1a97ab86",
@@ -2969,6 +2969,6 @@
   "modules/updater/updater.otui": "517debaf",
   "otclientrc.lua": "176c66ea"
  },
- "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/bbb8b896b5463eed61ed5b9602034735bdad9f31/",
- "version": "2026-10-22 03:01:33"
+ "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/5e738da62d791e722c0aebeaca7b9c93aee1616d/",
+ "version": "2026-11-02 22:36:50"
 }
