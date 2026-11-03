@@ -7,7 +7,7 @@ local OPCODE = 122
 local window, canvas, tip, messageLabel, resetButton, menuButton, topButton
 local pointsChip, keystoneChip, ascendancyChip
 local tree = { version = -1, nodes = {}, received = 0, parts = 0, ready = false }
-local state = { allocated = {}, start = 0, points = 0, spent = 0, refundCost = 0, resetCost = 0, keystones = 0,
+local state = { allocated = {}, choices = {}, start = 0, points = 0, spent = 0, refundCost = 0, resetCost = 0, keystones = 0,
     maxKeystones = 2, maxPoints = 80, ascendancies = 0, maxAscendancies = 2 }
 local nodeWidgets, links = {}, {}
 local zoom, pan = 0.4, { x = 0, y = 0 }
@@ -16,7 +16,7 @@ local layoutEvent, messageEvent
 
 local REGION_COLOR = { knight = '#b0644f', caster = '#3f9fa8', sorcerer = '#5a78d0', paladin = '#5fae6c', battle = '#8f6cc0' }
 local LEARNED = '#d9b36a'
-local SIZE = { small = 18, path = 18, notable = 30, start = 32, keystone = 44, ascendancy = 54 }
+local SIZE = { small = 18, path = 18, notable = 30, start = 32, origin = 38, keystone = 44, ascendancy = 54 }
 local OCTAGON = { keystone = true, ascendancy = true }
 local MIN_ZOOM, MAX_ZOOM = 0.25, 1.4
 
@@ -34,6 +34,12 @@ end
 local function canLearn(id)
     local node = tree.nodes[id]
     if not node or isLearned(id) then
+        return false
+    end
+    if node.k == 'origin' then
+        return state.start == 0 and state.choices[id] == true
+    end
+    if state.start == 0 then
         return false
     end
     for _, other in ipairs(node.c) do
@@ -171,7 +177,7 @@ end
 local function showTip(id)
     local node = tree.nodes[id]
     tip:destroyChildren()
-    local kind = node.k == 'keystone' and tr('Keystone') or node.k == 'notable' and tr('Notable')
+    local kind = node.k == 'origin' and tr('Starting path') or node.k == 'keystone' and tr('Keystone') or node.k == 'notable' and tr('Notable')
         or node.k == 'ascendancy' and tr('Ascendancy') or nil
     if node.n ~= '' then
         addTipLine(node.n, 'LfTitle', OCTAGON[node.k] and '#e2c14a' or nil)
@@ -187,7 +193,11 @@ local function showTip(id)
     for _, line in ipairs(node.l) do
         addTipLine(line, 'LfLabel', '#cfccc7')
     end
-    if id == state.start then
+    if node.k == 'origin' and canLearn(id) then
+        addTipLine(tr('Choose this Druid path for free. Reset the tree to choose the other path later.'), 'LfMuted', '#8fb08a')
+    elseif node.k == 'origin' and state.choices[id] and id ~= state.start then
+        addTipLine(tr('Reset your tree to choose this Druid path.'), 'LfMuted')
+    elseif id == state.start then
         addTipLine(tr('Your starting point'), 'LfMuted')
     elseif isLearned(id) then
         addTipLine(tr('Learned. Right-click to unlearn (%d gold).', state.refundCost), 'LfMuted')
@@ -289,6 +299,10 @@ local function onMessage(protocol, opcode, buffer)
             state.allocated[tonumber(id)] = true
         end
         state.start = message.start or 0
+        state.choices = {}
+        for _, id in ipairs(message.choices or {}) do
+            state.choices[tonumber(id)] = true
+        end
         state.points, state.spent = message.points or 0, message.spent or 0
         state.refundCost, state.resetCost = message.refundCost or 0, message.resetCost or 0
         state.keystones, state.maxKeystones = message.keystones or 0, message.maxKeystones or 2
@@ -343,12 +357,14 @@ local function onCanvasRelease(self, mousePos, button)
         return true
     end
     if button == MouseLeftButton and canLearn(id) then
-        if state.spent >= state.points then
+        if tree.nodes[id].k == 'origin' then
+            send('choose|' .. id)
+        elseif state.spent >= state.points then
             showMessage(tr('You have no talent points left.'))
         else
             send('alloc|' .. id)
         end
-    elseif button == MouseRightButton and state.allocated[id] then
+    elseif button == MouseRightButton and state.allocated[id] and tree.nodes[id].k ~= 'origin' then
         send('refund|' .. id)
     end
     return true
@@ -402,6 +418,12 @@ end
 
 function centerOnStart()
     local node = tree.ready and tree.nodes[state.start]
+    if not node and tree.ready then
+        for id in pairs(state.choices) do
+            node = tree.nodes[id]
+            if node then break end
+        end
+    end
     if not node then
         return
     end
