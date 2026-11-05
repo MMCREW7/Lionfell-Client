@@ -2953,7 +2953,7 @@
   "modules/gamelib/protocol.lua": "e7eafe6e",
   "modules/gamelib/protocolgame.lua": "c9c48de9",
   "modules/gamelib/protocollogin.lua": "36585b3e",
-  "modules/gamelib/spells.lua": "a3941a56",
+  "modules/gamelib/spells.lua": "6b68a546",
   "modules/gamelib/textmessages.lua": "b5575b39",
   "modules/gamelib/thing.lua": "7a008de5",
   "modules/gamelib/tile.lua": "a9acd2fb",
@@ -2971,6 +2971,6 @@
   "modules/updater/updater.otui": "517debaf",
   "otclientrc.lua": "176c66ea"
  },
- "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/0258517d45e0ec1a4396676adbf9500408c75d5f/",
- "version": "2026-11-05 17:02:40"
+ "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/0500399f1ce1226ccb895a5b4c608a0a3fef381c/",
+ "version": "2026-11-05 17:56:07"
 }
