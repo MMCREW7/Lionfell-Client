@@ -1972,7 +1972,7 @@
   "modules/corelib/ui/uiinputbox.lua": "4aa7a8e3",
   "modules/corelib/ui/uilabel.lua": "d5051b22",
   "modules/corelib/ui/uimessagebox.lua": "e4e22dcc",
-  "modules/corelib/ui/uiminiwindow.lua": "41c21ae5",
+  "modules/corelib/ui/uiminiwindow.lua": "443ca0a5",
   "modules/corelib/ui/uiminiwindowcontainer.lua": "7057530d",
   "modules/corelib/ui/uimovabletabbar.lua": "a694fc33",
   "modules/corelib/ui/uipathresolver.lua": "1a1f5c4c",
@@ -2052,7 +2052,7 @@
   "modules/game_attachedeffects/configs/outfit_618.lua": "d342f36f",
   "modules/game_attachedeffects/effects.lua": "965b5933",
   "modules/game_attachedeffects/lib.lua": "a2f4f679",
-  "modules/game_battle/battle.lua": "1c22559",
+  "modules/game_battle/battle.lua": "5bfc350d",
   "modules/game_battle/battle.otmod": "d257f879",
   "modules/game_battle/battle.otui": "1399305d",
   "modules/game_battle/battlebutton.otui": "18481493",
@@ -2470,9 +2470,9 @@
   "modules/game_lionfell_healing/healing.lua": "5ca13788",
   "modules/game_lionfell_healing/healing.otmod": "182437ad",
   "modules/game_lionfell_healing/healing.otui": "6fb29be5",
-  "modules/game_lionfell_hud/hud.lua": "7d7ab756",
+  "modules/game_lionfell_hud/hud.lua": "9bdbe447",
   "modules/game_lionfell_hud/hud.otmod": "4902fbde",
-  "modules/game_lionfell_hud/hud.otui": "f85d7cd",
+  "modules/game_lionfell_hud/hud.otui": "1657ac01",
   "modules/game_lionfell_items/items.lua": "55a0ccc9",
   "modules/game_lionfell_items/items.otmod": "5a8042f6",
   "modules/game_lionfell_items/items.otui": "c13c31ce",
@@ -2797,7 +2797,7 @@
   "modules/game_soundDebug/sounddebug.lua": "502c125",
   "modules/game_soundDebug/sounddebug.otmod": "4751bb7f",
   "modules/game_soundDebug/sounddebug.otui": "14fad8b1",
-  "modules/game_spelllist/spelllist.lua": "373c0b67",
+  "modules/game_spelllist/spelllist.lua": "75069129",
   "modules/game_spelllist/spelllist.otmod": "37dd0568",
   "modules/game_spelllist/spelllist.otui": "55e2651",
   "modules/game_stash/game_stash.lua": "2ca55eeb",
@@ -2969,6 +2969,6 @@
   "modules/updater/updater.otui": "517debaf",
   "otclientrc.lua": "176c66ea"
  },
- "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/46688491c935ddf85e8cc333435dd3484bee0bc4/",
- "version": "2026-11-04 20:00:45"
+ "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/037f0c3cd1c9f0b38c5f91394ec8bf284ce2c75d/",
+ "version": "2026-11-05 14:56:35"
 }
