@@ -106,6 +106,14 @@ local GEM_OPCODE = 130
 local gemWords = nil
 
 local function onGemSpells(protocol, opcode, buffer)
+    -- "class|<name>": the class name from the talent keystones, for the vitals card
+    local className = buffer:match('^class|(.*)$')
+    if className then
+        if modules.game_lionfell_hud and modules.game_lionfell_hud.setClassName then
+            modules.game_lionfell_hud.setClassName(className)
+        end
+        return
+    end
     local wasGemMode = gemWords ~= nil
     if buffer == 'off' then
         gemWords = nil

@@ -165,6 +165,10 @@ local function updateExperience(player)
     end
 end
 
+-- the class name from the talent keystones (server opcode 130 "class|<name>", via game_spelllist);
+-- empty = show the vocation
+local className = ''
+
 local function updateIdentity(player)
     local header = vitals:getChildById('header')
     header:getChildById('name'):setText(player:getName())
@@ -172,6 +176,9 @@ local function updateIdentity(player)
     local vocation = player.getVocationNameByClientId and player:getVocationNameByClientId() or ''
     if vocation == 'Unknown Vocation' or vocation == 'None' or vocation == 'No Vocation' then
         vocation = ''
+    end
+    if className ~= '' then
+        vocation = className
     end
     local level = tr('Level %d', player:getLevel())
     header:getChildById('subtitle'):setText(vocation ~= '' and (vocation .. '  \183  ' .. level) or level)
@@ -606,6 +613,14 @@ end
 
 function isActive()
     return active
+end
+
+function setClassName(name)
+    className = name or ''
+    local player = g_game.getLocalPlayer()
+    if player and vitals then
+        updateIdentity(player)
+    end
 end
 
 function styleChatNow()
@@ -1456,6 +1471,7 @@ local function onGameStart()
 end
 
 local function onGameEnd()
+    className = ''
     if active then
         applyInactiveLayout()
     end

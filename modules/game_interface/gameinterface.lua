@@ -773,6 +773,18 @@ function createThingMenu(menuPosition, lookThing, useThing, creatureThing)
             end)
         end
 
+        -- Lionfell skill gems: worn gear gives its skill and support gems back (server opcode 130)
+        local gearPos = useThing:getPosition()
+        if gearPos and gearPos.x == 65535 and gearPos.y >= 1 and gearPos.y <= 10 and modules.game_spelllist
+            and modules.game_spelllist.isGemMode and modules.game_spelllist.isGemMode() then
+            menu:addOption(tr('Take out gems'), function()
+                local protocol = g_game.getProtocolGame()
+                if protocol then
+                    protocol:sendExtendedOpcode(130, 'out|' .. gearPos.y)
+                end
+            end)
+        end
+
         local onWrapItem = function()
             g_game.wrap(useThing)
         end

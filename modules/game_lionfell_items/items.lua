@@ -4,14 +4,16 @@
 local OPCODE = 121
 local QUALITY_NAMES = { 'UNCOMMON', 'RARE', 'EPIC', 'LEGENDARY' }
 local QUALITY_COLORS = { '#4cc94c', '#4a90ff', '#b65cff', '#ff8c1a' }
-local LINE_COLORS = { prefix = '#e7e5e2', suffix = '#cfccc7', legendary = '#ff8c1a', open = '#6f6c68', socket = '#8d8a86' }
--- open line slots, sockets and gems (the server sends them after the lines; gems bring a colour)
-local EXTRA_KINDS = { open = true, socket = true, gem = true }
+local LINE_COLORS = { prefix = '#e7e5e2', suffix = '#cfccc7', legendary = '#ff8c1a', open = '#6f6c68', socket = '#8d8a86',
+    skill = '#a8c8f0', support = '#c9a56b' }
+-- open line slots, sockets and gems (the server sends them after the lines; gems bring a colour);
+-- skill and support gems (Lionfell skill gems) too
+local EXTRA_KINDS = { open = true, socket = true, gem = true, skill = true, support = true }
 local function lineColor(line, default)
     if line.kind == 'gem' then
         return line.color or '#cfccc7'
     end
-    if line.kind == 'open' or line.kind == 'socket' then
+    if LINE_COLORS[line.kind] and line.kind ~= 'prefix' and line.kind ~= 'suffix' and line.kind ~= 'legendary' then
         return LINE_COLORS[line.kind]
     end
     return default
@@ -220,7 +222,12 @@ local function hoveredItem()
             item = thing
         end
     end
-    if not item or not item.getTier or item:getTier() <= 0 then
+    -- quality items always; with skill gems on, plain gear and gems too (they show their sockets)
+    local gemMode = modules.game_spelllist and modules.game_spelllist.isGemMode and modules.game_spelllist.isGemMode()
+    if not item or not item.getTier then
+        return nil
+    end
+    if item:getTier() <= 0 and not (gemMode and item:isPickupable() and not item:isStackable()) then
         return nil
     end
     local pos = item:getPosition()
