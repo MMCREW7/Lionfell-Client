@@ -511,6 +511,14 @@ local function styleWindow(window)
         title:setText(text:upper())
     end
     window:setBorderWidth(0)  -- extended view adds a black frame to docked panels
+    -- floating windows are as wide as the column (the stock classic widths, 176/192, cut the
+    -- header chips and buttons off)
+    if window:getParent() == modules.game_interface.getRootPanel() and window:getWidth() < COLUMN_WIDTH
+        and type(window.saveParent) == 'function' then
+        window:setWidth(COLUMN_WIDTH)
+        window:bindRectToParent()
+        window:saveParent(window:getParent())
+    end
 end
 
 local function styleWindowTitles()
@@ -944,6 +952,7 @@ local function snapshotLayout()
                     minimized = canMinimize and widget:isOn() or false,
                     height = canMinimize and widget:isOn() and widget.maximizedHeight or widget:getHeight(),
                     spot = panel == gi.getRootPanel() and spotOf(widget) or nil,
+                    width = panel == gi.getRootPanel() and widget:getWidth() or nil,
                 }
             end
         end
@@ -951,10 +960,34 @@ local function snapshotLayout()
     return snapshot
 end
 
+-- settings files can bring booleans back as text
+local function toBool(value)
+    return value == true or value == 'true'
+end
+
+-- a floating stock window goes to an absolute position (no anchors: its own drag code moves it
+-- with setPosition, and anchors would pull it back)
+local function placeFloating(widget, spot)
+    local area = widget:getParent():getRect()
+    local w, h = widget:getWidth(), widget:getHeight()
+    local x = tonumber(spot.left) and area.x + tonumber(spot.left) or area.x + area.width - w - (tonumber(spot.right) or 0)
+    local y = tonumber(spot.top) and area.y + tonumber(spot.top) or area.y + area.height - h - (tonumber(spot.bottom) or 0)
+    widget:breakAnchors()
+    widget:setPosition({ x = x, y = y })
+    widget:bindRectToParent()
+end
+
 local function restoreMiniWindows(saved)
     if type(saved) ~= 'table' then return end
     local gi = modules.game_interface
     local root = gi.getRootPanel()
+    -- extra battle lists in the layout are opened first, so they can be placed like the rest
+    for id, state in pairs(saved) do
+        local number = type(id) == 'string' and id:match('^battleWindow_(%d+)$')
+        if number and type(state) == 'table' and toBool(state.visible) and not rootWidget:recursiveGetChildById(id) then
+            callModule('game_battle', 'ensureBattleListInstance', number)
+        end
+    end
     local panels, windows = { [root:getId()] = root }, {}
     for _, widget in ipairs(root:getChildren()) do
         if type(widget.minimize) == 'function' then windows[widget:getId()] = widget end
@@ -980,10 +1013,6 @@ local function restoreMiniWindows(saved)
         if panel and widget:getParent() ~= panel and not widget.moveOnlyToMain then
             widget:setParent(panel)
         end
-        if panel == root and widget:getParent() == root and state.spot then
-            placeAt(widget, state.spot)
-            widget:saveParent()
-        end
         local canMinimize = widget:getChildById('contentsPanel')
             and widget:getChildById('miniwindowScrollBar')
             and widget:getChildById('bottomResizeBorder')
@@ -992,8 +1021,13 @@ local function restoreMiniWindows(saved)
         if tonumber(state.height) and tonumber(state.height) > 0 then
             widget:setHeight(tonumber(state.height))
         end
-        if canMinimize and state.minimized then widget:minimize() end
-        if state.visible then widget:open() else widget:close() end
+        if canMinimize and toBool(state.minimized) then widget:minimize() end
+        if panel == root and widget:getParent() == root and type(state.spot) == 'table' then
+            if tonumber(state.width) then widget:setWidth(tonumber(state.width)) end
+            placeFloating(widget, state.spot)
+            widget:saveParent()
+        end
+        if toBool(state.visible) then widget:open() else widget:close() end
         panel = widget:getParent()
         if panel and panel ~= root and panels[panel:getId()] and tonumber(state.index) then
             panel:moveChildToIndex(widget, math.min(tonumber(state.index), panel:getChildCount()))
@@ -1039,7 +1073,7 @@ local function loadSlot(name)
     for id, visible in pairs(saved.open or {}) do
         local part = registeredPanels[id]
         if part and part.default then
-            local action = visible and part.default.show or part.default.hide
+            local action = toBool(visible) and part.default.show or part.default.hide
             if action then action() end
         end
     end
@@ -1064,6 +1098,74 @@ local function buildLayoutSlots()
     end
     layoutSlots:getChildById('close').onClick = function() layoutSlots:hide() end
     layoutSlots.onEscape = function() layoutSlots:hide() end
+end
+
+-- The action bar sits right of the chat. If it would collide with the chat or the right column
+-- (narrow windows, a wide chat, a spot saved on a bigger screen), it goes above the chat
+-- instead, pulled left of the column if needed. A spot the player saved is kept in the settings
+-- and used again whenever it fits. Rects are read after layout, so this runs late.
+local function intersects(a, b)
+    return a.x < b.x + b.width and b.x < a.x + a.width and a.y < b.y + b.height and b.y < a.y + a.height
+end
+
+local function placeDefaultActionBar()
+    if not active then return end
+    local gi = modules.game_interface
+    local root, chat = gi.getRootPanel(), gi.getBottomPanel()
+    local actionBar, column = gi.getBottomActionPanel(), gi.getRightPanel()
+    local area, chatRect, columnRect = root:getRect(), chat:getRect(), column:getRect()
+    local saved = (loadLayout().parts or {}).actionbar
+    local barRect = actionBar:getRect()
+    if not saved then
+        barRect = { x = chatRect.x + chatRect.width + ACTIONBAR_GAP, y = area.y + area.height - MARGIN - barRect.height,
+            width = ACTIONBAR_WIDTH, height = barRect.height }
+    end
+    local chatShown = chat:isVisible() and not chat:isPhantom()
+    local blocked = (chatShown and intersects(barRect, chatRect)) or (column:isVisible() and intersects(barRect, columnRect))
+        or barRect.x + barRect.width > area.x + area.width
+    if saved and not blocked then return end
+    actionBar:breakAnchors()
+    actionBar:addAnchor(AnchorBottom, 'parent', AnchorBottom)
+    actionBar:addAnchor(AnchorLeft, 'parent', AnchorLeft)
+    if not blocked then
+        actionBar:setMarginLeft(barRect.x - area.x)
+        actionBar:setMarginBottom(MARGIN)
+        return
+    end
+    local left = chatRect.x - area.x
+    if column:isVisible() and left + ACTIONBAR_WIDTH > columnRect.x - area.x - 12 and columnRect.x > chatRect.x then
+        left = math.max(0, columnRect.x - area.x - 12 - ACTIONBAR_WIDTH)
+    end
+    actionBar:setMarginLeft(left)
+    actionBar:setMarginBottom(chatShown and (area.y + area.height - chatRect.y + 12) or MARGIN)
+end
+
+-- Window resized (or moved to another monitor): put saved spots back from their saved values
+-- (they were clamped to the old size), re-place the action bar, and keep floating windows on
+-- screen.
+local reflowEvent
+local function reflow()
+    reflowEvent = nil
+    if not active or layoutEditing then return end
+    applySavedPlacements()
+    addEvent(function()
+        placeDefaultActionBar()
+        for _, widget in ipairs(modules.game_interface.getRootPanel():getChildren()) do
+            if widget:getClassName() == 'UIMiniWindow' and widget:isVisible() then
+                -- back to the saved spot (it was pushed in on a smaller window), then on screen
+                local saved = type(widget.getSettings) == 'function' and widget:getSettings('position')
+                if type(saved) == 'string' then
+                    widget:setPosition(topoint(saved))
+                end
+                widget:bindRectToParent()
+            end
+        end
+    end)
+end
+
+local function onRootGeometryChange()
+    if reflowEvent then removeEvent(reflowEvent) end
+    reflowEvent = scheduleEvent(reflow, 150)
 end
 
 function applyActiveLayout()
@@ -1224,6 +1326,7 @@ function applyActiveLayout()
         end
     end, 500)
     applySavedPlacements()
+    addEvent(placeDefaultActionBar)
 end
 
 local function applyInactiveLayout()
@@ -1399,6 +1502,7 @@ function init()
         onZoomChange = updateMapView,
         onMouseWheel = onMapMouseWheel
     })
+    connect(modules.game_interface.getRootPanel(), { onGeometryChange = onRootGeometryChange })
     local minimapUi = modules.game_minimap and modules.game_minimap.mapController and modules.game_minimap.mapController.ui
     if minimapUi then
         connect(minimapUi.minimapBorder.minimap, { onCameraPositionChange = updateMinimapFooter })
@@ -1435,6 +1539,11 @@ function terminate()
         onZoomChange = updateMapView,
         onMouseWheel = onMapMouseWheel
     })
+    disconnect(modules.game_interface.getRootPanel(), { onGeometryChange = onRootGeometryChange })
+    if reflowEvent then
+        removeEvent(reflowEvent)
+        reflowEvent = nil
+    end
     local minimapUi = modules.game_minimap and modules.game_minimap.mapController and modules.game_minimap.mapController.ui
     if minimapUi then
         disconnect(minimapUi.minimapBorder.minimap, { onCameraPositionChange = updateMinimapFooter })

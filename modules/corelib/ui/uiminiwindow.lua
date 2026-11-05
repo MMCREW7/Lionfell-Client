@@ -151,7 +151,12 @@ function UIMiniWindow:setupOnStart()
                     newParentSet = true
                 elseif selfSettings.position then
                     self:setParent(parent, true)
+                    -- Lionfell: floating windows keep their width, and come back on screen
+                    if tonumber(selfSettings.width) then
+                        self:setWidth(tonumber(selfSettings.width))
+                    end
                     self:setPosition(topoint(selfSettings.position))
+                    self:bindRectToParent()
                     newParentSet = true
                 end
             end
@@ -440,6 +445,7 @@ function UIMiniWindow:saveParentPosition(parentId, position)
     local selfSettings = {}
     selfSettings.parentId = parentId
     selfSettings.position = pointtostring(position)
+    selfSettings.width = self:getWidth()
     self:setSettings(selfSettings)
 end
 

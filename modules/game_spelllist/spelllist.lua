@@ -95,10 +95,45 @@ function online()
 end
 
 function offline()
+    gemWords = nil
     resetWindow()
 end
 
+-- Lionfell skill gems (server opcode 130): with the gem system on, the server sends the words of the
+-- spells socketed in the player's worn gear and the list shows only those. nil = gems off (the
+-- normal list). Message: "off" or "on|words|words|...".
+local GEM_OPCODE = 130
+local gemWords = nil
+
+local function onGemSpells(protocol, opcode, buffer)
+    local wasGemMode = gemWords ~= nil
+    if buffer == 'off' then
+        gemWords = nil
+    else
+        gemWords = {}
+        for words in (buffer:match('^on|(.*)$') or ''):gmatch('[^|]+') do
+            gemWords[words] = true
+        end
+    end
+    -- the class filter follows the mode: any class with gems, the player's class without
+    if vocationRadioGroup and wasGemMode ~= (gemWords ~= nil) then
+        if gemWords then
+            vocationRadioGroup:selectWidget(vocationBoxAny)
+        else
+            selectDefaultVocation()
+        end
+    end
+    if spellList then
+        updateSpelllist()
+    end
+end
+
+function isGemMode()
+    return gemWords ~= nil
+end
+
 function init()
+    ProtocolGame.registerExtendedOpcode(GEM_OPCODE, onGemSpells)
     connect(g_game, {
         onGameStart = online,
         onGameEnd = offline
@@ -186,6 +221,7 @@ function init()
 end
 
 function terminate()
+    ProtocolGame.unregisterExtendedOpcode(GEM_OPCODE)
     disconnect(g_game, {
         onGameStart = online,
         onGameEnd = offline
@@ -270,9 +306,11 @@ function updateSpelllist()
     for spellName, info in pairs(SpellInfo[SpelllistProfile]) do
         local tmpLabel = spellList:getChildById(spellName)
         local localPlayer = g_game.getLocalPlayer()
-        if (not (filters.level) or info.level <= localPlayer:getLevel()) and
-            (not (filters.vocation) or table.find(info.vocations, localPlayer:getVocation())) and
-            (filters.vocationId == FILTER_VOCATION_ANY or vocationMatches(info.vocations, filters.vocationId)) and
+        -- with skill gems the socketed spells decide, not the class
+        local socketed = not gemWords or gemWords[(info.words or ''):lower()]
+        if socketed and (not (filters.level) or info.level <= localPlayer:getLevel()) and
+            (gemWords or not (filters.vocation) or table.find(info.vocations, localPlayer:getVocation())) and
+            (gemWords or filters.vocationId == FILTER_VOCATION_ANY or vocationMatches(info.vocations, filters.vocationId)) and
             (filters.groupId == FILTER_GROUP_ANY or info.group[filters.groupId]) and
             (filters.premium == FILTER_PREMIUM_ANY or (info.premium and filters.premium == FILTER_PREMIUM_YES) or
                 (not (info.premium) and filters.premium == FILTER_PREMIUM_NO)) then
@@ -364,7 +402,17 @@ function toggle()
         spelllistWindow:hide()
     else
         spelllistButton:setOn(true)
-        selectDefaultVocation()
+        if gemWords then
+            vocationRadioGroup:selectWidget(vocationBoxAny)
+        else
+            selectDefaultVocation()
+        end
+        -- fresh socketed list from the server (it also comes on every gear change)
+        local protocol = g_game.getProtocolGame()
+        if protocol then
+            protocol:sendExtendedOpcode(GEM_OPCODE, 'get')
+        end
+        updateSpelllist()
         spelllistWindow:show()
         spelllistWindow:raise()
         spelllistWindow:focus()

@@ -44,10 +44,20 @@ local BattleListManager = {
     isRestoring = false
 }
 
+-- Lionfell layout: the filter chips sit in the window's header row, so the list always starts
+-- right under the header (hiding the filters only hides the chips) and the scrollbar starts there.
+local LF_CONTENT_SCROLL_TOP = 24
+local LF_MIN_HEIGHT = 80
+
 function BattleListManager:saveInstancesState()
     local instancesData = {}
+    local previous = g_settings.getNode('BattleListInstances') or {}
     for id, instance in pairs(self.instances) do
-        if id ~= 0 then
+        local parent = id ~= 0 and instance.window and instance.window:getParent()
+        if id ~= 0 and not parent then
+            -- logged out: the window is detached, keep what was saved while it was placed
+            instancesData[tostring(id)] = previous[tostring(id)] or previous[id]
+        elseif id ~= 0 then
             local windowPos = instance.window and instance.window:getPosition()
             local windowSize = instance.window and instance.window:getSize()
             local isLocked = false
@@ -63,8 +73,9 @@ function BattleListManager:saveInstancesState()
                     isMinimized = instance.window:isOn()
                 end
             end
-            instancesData[id] = {
+            instancesData[tostring(id)] = {
                 id = instance.id,
+                parentId = parent:getId(),
                 name = instance:getName(),
                 isOpen = instance.window and instance.window:isVisible(),
                 isMinimized = isMinimized,
@@ -86,118 +97,95 @@ function BattleListManager:saveInstancesState()
         mainInstance:saveHideButtonStates()
     end
     
-    g_settings.mergeNode('BattleListInstances', instancesData)
+    g_settings.setNode('BattleListInstances', instancesData)
+    -- Lionfell: write it to disk soon (a crash or a killed client would otherwise lose it)
+    if self.flushEvent then removeEvent(self.flushEvent) end
+    self.flushEvent = scheduleEvent(function()
+        self.flushEvent = nil
+        g_settings.save()
+    end, 1000)
 end
 
 function BattleListManager:restoreInstancesState()
+    -- Lionfell: each saved list comes back with its own id (so its filters, name and lock under
+    -- BattleList_<id> still apply) and where it was: floating on the map or docked in a column.
     local instancesData = g_settings.getNode('BattleListInstances')
-    if not instancesData then return end
-    
-    local hasExistingInstances = false
-    for id, instance in pairs(self.instances) do
-        if id ~= 0 then
-            hasExistingInstances = true
-            break
+    if type(instancesData) ~= 'table' then return end
+
+    local entries = {}
+    for key, data in pairs(instancesData) do
+        local id = type(data) == 'table' and (tonumber(key) or tonumber(data.id))
+        if id and id > 0 and data.isOpen and data.isOpen ~= 'false' then
+            entries[#entries + 1] = { id = id, data = data }
         end
     end
-    
-    if hasExistingInstances then
-        g_settings.mergeNode('BattleListInstances', {})
-        return
-    end
-    
+    table.sort(entries, function(a, b) return a.id < b.id end)
+
     self.isRestoring = true
-    for id, data in pairs(instancesData) do
-        if tonumber(id) and tonumber(id) > 0 then
-            if data.isOpen then
-                local oldSettingsKey = 'BattleList_' .. id
-                local oldSettings = g_settings.getNode(oldSettingsKey)
-                local shouldRestoreSettings = oldSettings ~= nil
-                
-                local customName = data.name and data.name ~= tr('Battle') and data.name or nil
-                local instance = self:createNewInstance(customName)
-                
-                if instance and instance.window then
-                    if shouldRestoreSettings and oldSettings then
-                        local newSettingsKey = instance:getSettingsKey()
-                        local settingsToRestore = tableCopy(oldSettings)
-                        settingsToRestore.customName = data.name
-                        
-                        g_settings.mergeNode(newSettingsKey, settingsToRestore)
-                        
-                        instance.name = data.name
-                        instance:updateTitle()
-                        
-                        scheduleEvent(function()
-                            instance:loadHideButtonStates()
-                            instance:loadFilters()
-                            instance:loadLockState()
-                        end, 50)
-                    end
-                    
-                    if data.windowPos then
-                        instance.window:setPosition(data.windowPos)
-                    end
-                    if data.windowSize then
-                        instance.window:setSize(data.windowSize)
-                    end
-                    
-                    if data.isLocked then
-                        instance.window:lock(true)
-                    else
-                        instance.window:unlock(true)
-                    end
-                    
-                    -- Restore minimized state if window was minimized
-                    if data.isMinimized then
-                        scheduleEvent(function()
-                            instance.window:minimize(true)
-                        end, 150)
-                    end
-                    
-                    scheduleEvent(function()
-                        if not instance.filterPanel.originalHeight then
-                            instance.filterPanel.originalHeight = instance.filterPanel:getHeight()
-                        end
-                        
-                        if data.isHidingFilters then
-                            instance:hideFilterPanel()
-                        else
-                            instance:showFilterPanel()
-                        end
-                    end, 200)
-                    
-                    g_settings.set(oldSettingsKey, nil)
-                end
-            else
-                local oldSettingsKey = 'BattleList_' .. id
-                g_settings.set(oldSettingsKey, nil)
+    for _, entry in ipairs(entries) do
+        local id, data = entry.id, entry.data
+        local instance = self.instances[id]
+        if not instance then
+            local customName = data.name and data.name ~= tr('Battle') and data.name or nil
+            instance = self:createNewInstance(customName, id)
+            if instance and instance.window then
+                self:placeRestoredWindow(instance, data)
             end
         end
     end
-    
-    local allSettings = g_settings.getNode() or {}
-    for key, _ in pairs(allSettings) do
-        if type(key) == 'string' and key:match('^BattleList_%d+$') then
-            local instanceId = tonumber(key:match('%d+'))
-            if instanceId and instanceId > 0 then
-                g_settings.set(key, nil)
-            end
-        end
-    end
-    
-    g_settings.mergeNode('BattleListInstances', {})
     self.isRestoring = false
+    self:saveInstancesState()
+end
+
+local function toBool(value)
+    return value == true or value == 'true'
+end
+
+function BattleListManager:placeRestoredWindow(instance, data)
+    local window = instance.window
+    local root = modules.game_interface.getRootPanel()
+    local parent = data.parentId and rootWidget:recursiveGetChildById(data.parentId)
+    local size = type(data.windowSize) == 'table' and data.windowSize or {}
+    if parent == root or (not parent and data.windowPos) then
+        window:setParent(root, true)
+        if type(data.windowPos) == 'table' then
+            window:setPosition({ x = tonumber(data.windowPos.x) or 0, y = tonumber(data.windowPos.y) or 0 })
+        end
+        if tonumber(size.width) then window:setWidth(tonumber(size.width)) end
+        window:bindRectToParent()
+    elseif parent and parent ~= window:getParent() and parent:getClassName() == 'UIMiniWindowContainer' then
+        window:setParent(parent, true)
+    end
+    if tonumber(size.height) then window:setHeight(math.max(LF_MIN_HEIGHT, tonumber(size.height))) end
+    window:saveParent(window:getParent())
+
+    if toBool(data.isLocked) then window:lock(true) else window:unlock(true) end
+    if toBool(data.isMinimized) then
+        scheduleEvent(function() if not window:isDestroyed() then window:minimize(true) end end, 150)
+    end
+    if toBool(data.isHidingFilters) then instance:hideFilterPanel() else instance:showFilterPanel() end
+end
+
+-- Used by the Lionfell saved layouts: the secondary battle list with this id, opened if needed.
+function ensureBattleListInstance(id)
+    id = tonumber(id)
+    if not id or id <= 0 then return nil end
+    local instance = BattleListManager.instances[id] or BattleListManager:createNewInstance(nil, id)
+    return instance and instance.window
 end
 
 function BattleListManager:getMainInstance()
     return self.instances[0]
 end
 
-function BattleListManager:createNewInstance(customName)
-    local instance = BattleListInstance:new(self.nextId, customName)
-    self.instances[self.nextId] = instance
-    self.nextId = self.nextId + 1
+function BattleListManager:createNewInstance(customName, forcedId)
+    local id = tonumber(forcedId)
+    if not id or id <= 0 or self.instances[id] then
+        id = self.nextId
+    end
+    local instance = BattleListInstance:new(id, customName)
+    self.instances[id] = instance
+    self.nextId = math.max(self.nextId, id + 1)
     self:createWindowForInstance(instance)
     return instance
 end
@@ -217,7 +205,7 @@ function BattleListManager:createWindowForInstance(instance)
             
             local minHeight = 80
             if not instance:isHidingFilters() then
-                minHeight = minHeight + 60
+                minHeight = minHeight + 0 -- Lionfell: chips in the header, no filter rows
             end
             if newWindow:getHeight() < minHeight then
                 newWindow:setHeight(minHeight)
@@ -284,7 +272,7 @@ function BattleListManager:createWindowForInstance(instance)
             
             local minHeight = 80
             if not instance:isHidingFilters() then
-                minHeight = minHeight + 60
+                minHeight = minHeight + 0 -- Lionfell: chips in the header, no filter rows
             end
             if newWindow:getHeight() < minHeight then
                 newWindow:setHeight(minHeight)
@@ -371,7 +359,7 @@ function BattleListManager:createWindowForInstance(instance)
     local scrollbar = newWindow:getChildById('miniwindowScrollBar')
     if scrollbar then
         -- Header (16px) + filterPanel height (46px) + spacing panel (18px) + separator (2px)
-        scrollbar:setMarginTop(82) -- 16 + 46 + 18 + 2 = 82
+        scrollbar:setMarginTop(LF_CONTENT_SCROLL_TOP)
     end
     
     if g_game.isOnline() then
@@ -401,9 +389,10 @@ end
 
 function BattleListManager:removeSavedInstanceState(id)
     local instancesData = g_settings.getNode('BattleListInstances') or {}
-    if instancesData[tostring(id)] then
+    if instancesData[tostring(id)] or instancesData[id] then
         instancesData[tostring(id)] = nil
-        g_settings.mergeNode('BattleListInstances', instancesData)
+        instancesData[id] = nil
+        g_settings.setNode('BattleListInstances', instancesData)
     end
 end
 
@@ -854,7 +843,9 @@ function BattleListInstance:toggleFilterPanel()
 end
 
 function BattleListInstance:hideFilterPanel()
-    self.filterPanel.originalHeight = self.filterPanel:getHeight()
+    if self.filterPanel:getHeight() > 0 then
+        self.filterPanel.originalHeight = self.filterPanel:getHeight()
+    end
     self.filterPanel:setHeight(0)
     if self.toggleFilterButton then
         self.toggleFilterButton:getParent():setMarginTop(0)
@@ -866,12 +857,12 @@ function BattleListInstance:hideFilterPanel()
     self.filterPanel:setVisible(false)
     local contentsPanel = self.window:recursiveGetChildById('contentsPanel')
     -- Reduce margin by the full filter panel space: 46px (filter) + 18px (spacing) + 2px (separator) + 6px (margin) = 72px
-    if contentsPanel then contentsPanel:setMarginTop(-23) end
+    if contentsPanel then contentsPanel:setMarginTop(0) end -- Lionfell: the chips live in the header row
     
     -- Adjust scrollbar to start at header bottom when filter is hidden
     local scrollbar = self.window:getChildById('miniwindowScrollBar')
     if scrollbar then
-        scrollbar:setMarginTop(16) -- Default header height
+        scrollbar:setMarginTop(LF_CONTENT_SCROLL_TOP)
     end
     
     -- Update resize restrictions
@@ -880,7 +871,7 @@ function BattleListInstance:hideFilterPanel()
             self.window.onResize = function()
                 local minHeight = 80 -- Base minimum height
                 if not self:isHidingFilters() then
-                    minHeight = minHeight + 60 -- Add extra height for visible filters
+                    minHeight = minHeight + 0 -- Lionfell: chips in the header, no filter rows -- Add extra height for visible filters
                 end
                 if self.window:getHeight() < minHeight then
                     self.window:setHeight(minHeight)
@@ -897,8 +888,8 @@ function BattleListInstance:showFilterPanel()
         self.toggleFilterButton:setOn(true)
     end
     -- Ensure originalHeight is set, fallback to a default height
-    if not self.filterPanel.originalHeight then
-        self.filterPanel.originalHeight = 40  -- Default filter panel height
+    if not self.filterPanel.originalHeight or self.filterPanel.originalHeight <= 0 then
+        self.filterPanel.originalHeight = 18  -- Lionfell: the chip row in the header
     end
     self.filterPanel:setHeight(self.filterPanel.originalHeight)
     self:setHidingFilters(false)
@@ -911,9 +902,7 @@ function BattleListInstance:showFilterPanel()
     -- Adjust scrollbar to start at filter panel bottom when filter is visible
     local scrollbar = self.window:getChildById('miniwindowScrollBar')
     if scrollbar then
-        -- Header (16px) + filterPanel height + spacing panel (18px) + separator (2px)
-        local totalMargin = 16 + self.filterPanel.originalHeight + 18 + 2
-        scrollbar:setMarginTop(totalMargin)
+        scrollbar:setMarginTop(LF_CONTENT_SCROLL_TOP)
     end
     
     -- Update resize restrictions
@@ -922,7 +911,7 @@ function BattleListInstance:showFilterPanel()
             self.window.onResize = function()
                 local minHeight = 80 -- Base minimum height
                 if not self:isHidingFilters() then
-                    minHeight = minHeight + 60 -- Add extra height for visible filters
+                    minHeight = minHeight + 0 -- Lionfell: chips in the header, no filter rows -- Add extra height for visible filters
                 end
                 if self.window:getHeight() < minHeight then
                     self.window:setHeight(minHeight)
@@ -1500,7 +1489,7 @@ function init()
         local scrollbar = battleWindow:getChildById('miniwindowScrollBar')
         if scrollbar then
             -- Header (16px) + filterPanel height (46px) + spacing panel (18px) + separator (2px) + margin (6px)
-            scrollbar:setMarginTop(88) -- 16 + 46 + 18 + 2 + 6 = 88
+            scrollbar:setMarginTop(LF_CONTENT_SCROLL_TOP)
         end
     end
 
@@ -1564,7 +1553,7 @@ function init()
             
             local minHeight = 80
             if not mainInstance:isHidingFilters() then
-                minHeight = minHeight + 60
+                minHeight = minHeight + 0 -- Lionfell: chips in the header, no filter rows
             end
             if battleWindow:getHeight() < minHeight then
                 battleWindow:setHeight(minHeight)
@@ -1580,7 +1569,7 @@ function init()
             
             local minHeight = 80
             if not mainInstance:isHidingFilters() then
-                minHeight = minHeight + 60
+                minHeight = minHeight + 0 -- Lionfell: chips in the header, no filter rows
             end
             if battleWindow:getHeight() < minHeight then
                 battleWindow:setHeight(minHeight)

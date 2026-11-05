@@ -231,9 +231,10 @@ UIWidget
 
     LfScrollBar
       id: menuScroll
-      anchors.top: menuOptions.top
+      anchors.top: close.bottom
       anchors.right: parent.right
-      anchors.bottom: menuOptions.bottom
+      anchors.bottom: parent.bottom
+      margin-top: 8
       step: 34
       pixels-scroll: true
 
