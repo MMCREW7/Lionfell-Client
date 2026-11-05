@@ -13,6 +13,7 @@ UIWidget
   LfWindow
     id: newCharacterWindow
     size: 460 432
+    focusable: true
     anchors.centerIn: parent
     padding: 28
     draggable: false
@@ -26,7 +27,7 @@ UIWidget
 
     LfMuted
       id: subtitle
-      !text: tr('It starts in Rhyves at level 8 with its vocation\'s gear.')
+      !text: tr('It starts in Varbosa at level 8 with its vocation\'s gear.')
       anchors.top: title.bottom
       anchors.left: parent.left
       margin-top: 6

@@ -199,7 +199,10 @@ function NewCharacter.show()
     setMessage('')
     window:getChildById('name'):setText('')
     window:getParent():raise()
+    -- focus the whole chain (scrim > window > name box): focusing only the name box left the
+    -- window unfocused inside the scrim, so typed keys never reached the box
     window:getParent():focus()
+    window:focus()
     window:getChildById('name'):focus()
 end
 
