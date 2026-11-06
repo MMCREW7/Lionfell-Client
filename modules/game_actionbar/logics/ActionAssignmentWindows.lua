@@ -22,7 +22,13 @@ function ActionBarController:onClearSearchText()
 end
 
 function assignSpell(button, multiSlotIndex)
-    local dev = true
+    local spelllist = modules.game_spelllist
+    -- Lionfell skill gems: only the spells socketed in worn gear can be assigned
+    local gemMode = spelllist and spelllist.isGemMode and spelllist.isGemMode()
+    local function socketed(spellData)
+        return not gemMode or spelllist.isGemSocketed(spellData.words)
+    end
+    local dev = not gemMode
     local actionbar = button:getParent():getParent()
     if actionbar.locked then
         alert('Action bar is locked')
@@ -47,9 +53,9 @@ function assignSpell(button, multiSlotIndex)
     local playerLevel = player:getLevel()
     local spells = modules.gamelib.SpellInfo['Default']
     local defaultIconsFolder = SpelllistSettings['Default'].iconFile
-    local showAllSpells = (playerVocation == 0)
+    local showAllSpells = (playerVocation == 0) or gemMode
     for spellName, spellData in pairs(spells) do
-        if showAllSpells or table.contains(spellData.vocations, playerVocation) then
+        if socketed(spellData) and (showAllSpells or table.contains(spellData.vocations, playerVocation)) then
             local widget = g_ui.createWidget('SpellPreview', spellList)
             local spellId = spellData.clientId
             local clip = Spells.getImageClip(spellId)
@@ -190,6 +196,7 @@ function assignSpell(button, multiSlotIndex)
     ActionBarController:findWidget("#dev").onClick = function()
         spellList:destroyChildren()
         for spellName, spellData in pairs(spells) do
+          if socketed(spellData) then
             local widget = g_ui.createWidget('SpellPreview', spellList)
             local spellId = spellData.clientId
             local clip = Spells.getImageClip(spellId)
@@ -213,6 +220,7 @@ function assignSpell(button, multiSlotIndex)
                 widget.imageGroup:setImageClip(offSet .. " 0 20 20")
                 widget.imageGroup:setVisible(true)
             end
+          end
         end
         local newWidgets = spellList:getChildren()
         table.sort(newWidgets, function(a, b)

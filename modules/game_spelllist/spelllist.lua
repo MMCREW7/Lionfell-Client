@@ -140,6 +140,11 @@ function isGemMode()
     return gemWords ~= nil
 end
 
+-- true when the spell may be shown: gems off, or its words are socketed in worn gear
+function isGemSocketed(words)
+    return not gemWords or gemWords[(words or ''):lower()] == true
+end
+
 function init()
     ProtocolGame.registerExtendedOpcode(GEM_OPCODE, onGemSpells)
     connect(g_game, {
