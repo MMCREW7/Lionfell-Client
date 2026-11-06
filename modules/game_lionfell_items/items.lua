@@ -160,6 +160,15 @@ local function place()
         y = screen.height - size.height - 4
     end
     tip:setPosition({ x = math.max(4, x), y = math.max(4, y) })
+    -- windows raise themselves when focused (UIWindow:onFocusChange, e.g. the NPC trade window):
+    -- keep the tooltip and the socket overlay above them
+    local top = rootWidget:getChildCount() - ((overlay and not overlay:isDestroyed()) and 1 or 0)
+    if rootWidget:getChildIndex(tip) < top then
+        tip:raise()
+        if overlay then
+            overlay:raise()
+        end
+    end
 end
 
 local function hexAlpha(color, alpha)
@@ -275,6 +284,7 @@ local function show(key, data)
     tip.name:setText(data.name or '')
     tip.name:setColor(QUALITY_COLORS[quality] or '#cfccc7')
     tip.quality:setText((QUALITY_NAMES[quality] or '') .. (data.identified and '' or '  -  UNIDENTIFIED'))
+    tip.quality:setVisible(tip.quality:getText() ~= '') -- plain items (shop offers, gems) have no quality line
     tip.stats:setText(data.stats or '')
     tip.stats:setVisible((data.stats or '') ~= '')
     tip.lines:destroyChildren()
@@ -333,10 +343,32 @@ end
 local function hoveredItem()
     local widget = g_ui.getHoveredWidget()
     if not widget then
-        return nil
+        -- disabled widgets are never hovered (shop offers you can't afford): find what is under the mouse
+        local under = rootWidget:recursiveGetChildByPos(g_window.getMousePosition(), false)
+        if under and type(under.item) == 'table' and under.item.ptr then
+            widget = under
+        else
+            return nil
+        end
     end
     local item
     hoveredWidget = nil
+    -- an offer in an NPC shop window (game_npctrade's NPCItemBox, or its item): the server describes
+    -- the item type (base stats) or, for Iselda's gems, the gem behind the offer
+    local function isOffer(w)
+        return w and type(w.item) == 'table' and w.item.ptr and w or nil
+    end
+    -- offers you can't afford are disabled and never hovered: the panel under them is, so look up
+    -- its child at the mouse
+    local box = isOffer(widget) or isOffer(widget:getParent())
+        or (widget:getId() == 'itemsPanel' and isOffer(widget:getChildByPos(g_window.getMousePosition())))
+    if box then
+        hoveredWidget = box:getChildById('item') or box -- the socket overlay goes on the icon
+        local offer = box.item.ptr
+        local clientId, subType = offer:getId(), math.max(0, offer:getCountOrSubType())
+        local key = string.format('shop,%d,%d', clientId, subType)
+        return key, string.format('shop|%d|%d', clientId, subType)
+    end
     if widget:getClassName() == 'UIItem' then
         hoveredWidget = widget
         item = widget:getItem()

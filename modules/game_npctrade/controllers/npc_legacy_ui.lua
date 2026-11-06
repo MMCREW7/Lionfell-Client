@@ -336,8 +336,8 @@ function refreshTradeItems()
         local itemBox = g_ui.createWidget('NPCItemBox', itemsPanel)
         itemBox.item = item
 
-        -- long names ("Fireball gem - Attack, fire damage - lvl 15") get a line per part; the full
-        -- name is also the tooltip
+        -- long names ("Fireball gem - Attack, fire damage - lvl 15") get a line per part; hovering
+        -- the box shows the item's details (game_lionfell_items asks the server)
         local parts = {}
         for part in (item.name .. ' - '):gmatch('(.-) %- ') do
             -- a part wider than the box wraps at the last space that fits
@@ -349,7 +349,6 @@ function refreshTradeItems()
             parts[#parts + 1] = part
         end
         local text = table.concat(parts, '\n')
-        itemBox:setTooltip(item.name)
         if showWeight then
             local weight = string.format('%.2f', item.weight) .. ' ' .. WEIGHT_UNIT
             text = text .. '\n' .. weight
