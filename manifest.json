@@ -2565,13 +2565,13 @@
   "modules/game_npctrade/assets/images/icons-npcdialog.png": "796d7628",
   "modules/game_npctrade/constants/trader_const.lua": "efa9ebee",
   "modules/game_npctrade/controllers/npc_dialog.lua": "7a42aac3",
-  "modules/game_npctrade/controllers/npc_legacy_ui.lua": "92a598d2",
+  "modules/game_npctrade/controllers/npc_legacy_ui.lua": "67d74e81",
   "modules/game_npctrade/controllers/npc_options.lua": "691f581e",
   "modules/game_npctrade/controllers/npc_trader.lua": "3c835fca",
   "modules/game_npctrade/game_npctrader.lua": "5b800ce6",
   "modules/game_npctrade/game_npctrader.otmod": "6a926681",
   "modules/game_npctrade/templates/game_npctrader.html": "b1556857",
-  "modules/game_npctrade/templates/npctrade_legacy.otui": "5b85ae4f",
+  "modules/game_npctrade/templates/npctrade_legacy.otui": "2e9b672a",
   "modules/game_outfit/outfit.lua": "7faf9f99",
   "modules/game_outfit/outfit.otmod": "f1a08030",
   "modules/game_outfit/outfitwindow.otui": "33cd08a8",
@@ -2971,6 +2971,6 @@
   "modules/updater/updater.otui": "517debaf",
   "otclientrc.lua": "176c66ea"
  },
- "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/bdc49473001d64191a544928a1a20c4cb715162b/",
- "version": "2026-11-05 22:36:09"
+ "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/3c109399168bfb9bb10b277fc1bb63107a14cc8f/",
+ "version": "2026-11-05 22:44:23"
 }
