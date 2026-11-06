@@ -1881,7 +1881,7 @@
   "modules/client_debug_info/debug_info.lua": "f5c60224",
   "modules/client_debug_info/debug_info.otmod": "51989b71",
   "modules/client_debug_info/debug_info.otui": "bca5c619",
-  "modules/client_entergame/characterlist.lua": "34af72db",
+  "modules/client_entergame/characterlist.lua": "6daf21ed",
   "modules/client_entergame/characterlist.otui": "6e09d7dc",
   "modules/client_entergame/characterlist_classic.otui": "2478aab",
   "modules/client_entergame/createAccount.lua": "4be18c2f",
@@ -2971,6 +2971,6 @@
   "modules/updater/updater.otui": "517debaf",
   "otclientrc.lua": "176c66ea"
  },
- "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/485028b371cf2e5f18a145d17573e4e3b875e7f4/",
- "version": "2026-11-05 22:28:58"
+ "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/bdc49473001d64191a544928a1a20c4cb715162b/",
+ "version": "2026-11-05 22:36:09"
 }
