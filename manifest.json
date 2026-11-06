@@ -2009,7 +2009,7 @@
   "modules/game_actionbar/html/spells.html": "47dc4274",
   "modules/game_actionbar/html/text.html": "741f60e1",
   "modules/game_actionbar/json/cipsoft-default-options-minimal.json": "247b59be",
-  "modules/game_actionbar/logics/ActionAssignmentWindows.lua": "f249d866",
+  "modules/game_actionbar/logics/ActionAssignmentWindows.lua": "b2782bfb",
   "modules/game_actionbar/logics/ActionBarLayout.lua": "59f58ced",
   "modules/game_actionbar/logics/ActionBarOptions.lua": "b8d64dd",
   "modules/game_actionbar/logics/ActionButtonLogic.lua": "695e88b0",
@@ -2799,7 +2799,7 @@
   "modules/game_soundDebug/sounddebug.lua": "502c125",
   "modules/game_soundDebug/sounddebug.otmod": "4751bb7f",
   "modules/game_soundDebug/sounddebug.otui": "14fad8b1",
-  "modules/game_spelllist/spelllist.lua": "bf305c1d",
+  "modules/game_spelllist/spelllist.lua": "599f3d1c",
   "modules/game_spelllist/spelllist.otmod": "37dd0568",
   "modules/game_spelllist/spelllist.otui": "55e2651",
   "modules/game_stash/game_stash.lua": "2ca55eeb",
@@ -2971,6 +2971,6 @@
   "modules/updater/updater.otui": "517debaf",
   "otclientrc.lua": "176c66ea"
  },
- "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/0500399f1ce1226ccb895a5b4c608a0a3fef381c/",
- "version": "2026-11-05 17:56:07"
+ "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/485028b371cf2e5f18a145d17573e4e3b875e7f4/",
+ "version": "2026-11-05 22:28:58"
 }
