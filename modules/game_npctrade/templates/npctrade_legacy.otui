@@ -85,7 +85,7 @@ MainWindow
       margin-right: 5
       layout:
         type: grid
-        cell-size: 160 95
+        cell-size: 160 128
         flow: true
         auto-spacing: true
 
