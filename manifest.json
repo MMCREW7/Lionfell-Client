@@ -2475,7 +2475,7 @@
   "modules/game_lionfell_hud/hud.otui": "1657ac01",
   "modules/game_lionfell_items/images/socket_gem.png": "f2dd4437",
   "modules/game_lionfell_items/images/socket_ring.png": "8cc83859",
-  "modules/game_lionfell_items/items.lua": "e7c5dee7",
+  "modules/game_lionfell_items/items.lua": "2413ca58",
   "modules/game_lionfell_items/items.otmod": "5a8042f6",
   "modules/game_lionfell_items/items.otui": "c13c31ce",
   "modules/game_lionfell_loot/loot.lua": "9ef446f2",
@@ -2565,7 +2565,7 @@
   "modules/game_npctrade/assets/images/icons-npcdialog.png": "796d7628",
   "modules/game_npctrade/constants/trader_const.lua": "efa9ebee",
   "modules/game_npctrade/controllers/npc_dialog.lua": "7a42aac3",
-  "modules/game_npctrade/controllers/npc_legacy_ui.lua": "67d74e81",
+  "modules/game_npctrade/controllers/npc_legacy_ui.lua": "39b80db5",
   "modules/game_npctrade/controllers/npc_options.lua": "691f581e",
   "modules/game_npctrade/controllers/npc_trader.lua": "3c835fca",
   "modules/game_npctrade/game_npctrader.lua": "5b800ce6",
@@ -2971,6 +2971,6 @@
   "modules/updater/updater.otui": "517debaf",
   "otclientrc.lua": "176c66ea"
  },
- "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/3c109399168bfb9bb10b277fc1bb63107a14cc8f/",
- "version": "2026-11-05 22:44:23"
+ "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/da87f5306e864c8a3355c2360a997fd26ebff9c4/",
+ "version": "2026-11-05 23:18:23"
 }
