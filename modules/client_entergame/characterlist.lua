@@ -917,6 +917,10 @@ function CharacterList.destroy()
 end
 
 function CharacterList.show()
+    -- a message box destroyed from outside (game_lionfell_restart clears the boxes left by its
+    -- reconnect attempts) never runs onOk, so its reference would block this list for good
+    if loadBox and loadBox:isDestroyed() then loadBox = nil end
+    if errorBox and errorBox:isDestroyed() then errorBox = nil end
     if loadBox or errorBox or not charactersWindow then
         return
     end
