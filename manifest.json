@@ -1846,9 +1846,9 @@
   "mobile/modules/game_joystick/joystick.lua": "f727ec9b",
   "mobile/modules/game_joystick/joystick.otmod": "d05c0fe3",
   "mobile/modules/game_joystick/joystick.otui": "664e5212",
-  "mobile/modules/game_lionfell_hud/hud.lua": "33238301",
+  "mobile/modules/game_lionfell_hud/hud.lua": "82539ae8",
   "mobile/modules/game_lionfell_hud/hud.otmod": "20f2f7cf",
-  "mobile/modules/game_lionfell_hud/hud.otui": "6e406770",
+  "mobile/modules/game_lionfell_hud/hud.otui": "92cb1e96",
   "mods/README.txt": "d0847694",
   "mods/client_mods/mods.otmod": "166f143e",
   "mods/client_profiles/profiles.lua": "58f55098",
@@ -2971,6 +2971,6 @@
   "modules/updater/updater.otui": "517debaf",
   "otclientrc.lua": "176c66ea"
  },
- "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/da87f5306e864c8a3355c2360a997fd26ebff9c4/",
- "version": "2026-11-05 23:18:23"
+ "url": "https://raw.githubusercontent.com/MMCREW7/Lionfell-Client/0906233a9ccd4c0b202c223f3059ed1990e28616/",
+ "version": "2026-11-07 13:17:10"
 }
