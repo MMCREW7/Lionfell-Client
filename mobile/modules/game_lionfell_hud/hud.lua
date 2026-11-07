@@ -36,6 +36,8 @@ local function showDrawer(show)
     rightPanel:setVisible(show)
     drawerClose:setVisible(show)
     modes:setVisible(not show) -- the tap-mode buttons sit where the drawer opens
+    -- ATTACK and the skill buttons move left of the open drawer instead of covering its bottom
+    actions:setMarginRight(show and DRAWER_WIDTH + 12 or 12)
     if show then
         rightPanel:raise()
         drawerClose:raise()
@@ -65,12 +67,37 @@ local function drawerWindow(get)
             widget:open(true)
         end
         showDrawer(true)
-        -- the whole drawer height (mini windows open at their short default height)
-        if widget.setContentMaximumHeight then
+        -- the whole drawer height (mini windows open at their short default height); the
+        -- inventory and map panels have no contents panel and keep their own height (resizing
+        -- them threw, so INV and MAP opened nothing)
+        if widget:getChildById('contentsPanel') and widget:getChildById('bottomResizeBorder') then
             widget:setContentMaximumHeight(rightPanel:getHeight())
+            widget:setHeight(rightPanel:getHeight() - 8)
         end
-        widget:setHeight(rightPanel:getHeight() - 8)
     end
+end
+
+-- Containers that aren't the player's own bags (depot locker and chest, corpses, chests on the
+-- map) open as stock windows in the right column, which is the hidden drawer on phones: the
+-- depot "wouldn't open". Show the drawer with that window. The bags module hides the stock
+-- window of the player's own pack and bags (next frame), so look a little later; the bags
+-- that open by themselves right after login are skipped.
+local gameStartedAt = 0
+local function onContainerOpen(container)
+    if not active or g_clock.millis() - gameStartedAt < 4000 then
+        return
+    end
+    scheduleEvent(function()
+        local window = container.window
+        if not active or not window or window:isDestroyed() or not window:isExplicitlyVisible() then
+            return
+        end
+        local bags = modules.game_lionfell_bags
+        if bags and type(bags.isPack) == 'function' and bags.isPack(container) then
+            return
+        end
+        drawerWindow(function() return window end)()
+    end, 80)
 end
 
 local MENU = {
@@ -83,13 +110,102 @@ local MENU = {
     { key = 'TAL', label = 'Talents', run = function() callModule('game_lionfell_talents', 'toggle') end },
     { key = 'AH', label = 'Auction', run = function() callModule('game_lionfell_auction', 'toggle') end },
     { key = 'SPL', label = 'Spells', run = function() callModule('game_spelllist', 'toggle') end },
-    { key = 'QST', label = 'Quests', run = function() callModule('game_questlog', 'show') end },
+    { key = 'QST', label = 'Quests', run = function() toggleQuestLog() end },
     { key = 'VIP', label = 'Friends', run = drawerWindow(function() return modules.game_viplist.vipWindow end) },
     { key = 'CHT', label = 'Chat', run = function() toggleChat() end },
     { key = 'OPT', label = 'Options', run = function() callModule('client_options', 'toggle') end },
     { key = 'SIZ', label = 'Interface size', run = function() cycleSize() end, keepOpen = true },
     { key = 'OUT', label = 'Log out', run = function() callModule('game_interface', 'tryLogout') end },
 }
+
+-- Feature modules (bags, loot, talents, auction, party healing ...) call these on the PC HUD while
+-- loading; without them they failed to load on phones at all. Panels keep the phone's own
+-- placement (nothing saved); a menu action whose key the phone menu lacks gets its own tile.
+local registeredPanels, registeredActions = {}, {}
+
+-- PC-sized windows (bags 620 px tall 80 px down, talents, auction ...) ran past the bottom of the
+-- phone screen (520-680 UI px tall): each time one opens, it shrinks to fit and moves up if needed
+local FIT_MARGIN = 8
+local function fitOnScreen(widget)
+    if not widget or widget:isDestroyed() or not widget:isVisible() then
+        return
+    end
+    local root = modules.game_interface.getRootPanel()
+    local maxW, maxH = root:getWidth() - 2 * FIT_MARGIN, root:getHeight() - 2 * FIT_MARGIN
+    if widget:getWidth() > maxW then widget:setWidth(maxW) end
+    if widget:getHeight() > maxH then widget:setHeight(maxH) end
+    local overflow = widget:getY() + widget:getHeight() - (root:getY() + root:getHeight() - FIT_MARGIN)
+    if overflow > 0 then
+        widget:setMarginTop(math.max(FIT_MARGIN, widget:getMarginTop() - overflow))
+    end
+end
+
+function registerPanel(id, label, widget, default)
+    if id and widget then
+        registeredPanels[id] = { label = label, widget = widget, default = default }
+        local previous = widget.onVisibilityChange
+        widget.onVisibilityChange = function(self, visible, ...)
+            if previous then previous(self, visible, ...) end
+            if visible then
+                addEvent(function() fitOnScreen(self) end)
+            end
+        end
+    end
+end
+
+function unregisterPanel(id)
+    registeredPanels[id] = nil
+end
+
+local function hasMenuKey(key)
+    for _, entry in ipairs(MENU) do
+        if entry.key == key then return true end
+    end
+end
+
+local buildSheet -- below
+
+function registerMenuAction(entry)
+    if type(entry) ~= 'table' or type(entry.key) ~= 'string' or type(entry.run) ~= 'function' then return end
+    registeredActions[entry.key] = entry
+    if not hasMenuKey(entry.key) then
+        -- "Party healing (H)": the PC hotkey hint means nothing on a phone
+        local label = (entry.label or entry.key):gsub('%s*%b()$', '')
+        table.insert(MENU, #MENU - 2, { key = entry.key, label = label, run = entry.run, registered = true })
+        if tiles then buildSheet() end
+    end
+end
+
+function unregisterMenuAction(key)
+    registeredActions[key] = nil
+    for i, entry in ipairs(MENU) do
+        if entry.key == key and entry.registered then
+            table.remove(MENU, i)
+            if tiles then buildSheet() end
+            break
+        end
+    end
+end
+
+function setClassName(name)
+end
+
+-- The quest log is a fixed 790 x 619 window: taller than the phone screen, so its bottom (and
+-- the way to close it) was off screen. On phones it sits at the top, and the menu tile closes it.
+function toggleQuestLog()
+    local questlog = modules.game_questlog
+    local ui = questlog and questlog.questLogController and questlog.questLogController.ui
+    if ui and ui:isVisible() then
+        ui:hide()
+        return
+    end
+    callModule('game_questlog', 'show')
+    if ui and not ui:isDestroyed() then
+        ui:breakAnchors()
+        ui:addAnchor(AnchorTop, 'parent', AnchorTop)
+        ui:addAnchor(AnchorHorizontalCenter, 'parent', AnchorHorizontalCenter)
+    end
+end
 
 local SIZE_ORDER = { 'small', 'medium', 'large' }
 
@@ -127,7 +243,7 @@ local function showSheet(show)
     end
 end
 
-local function buildSheet()
+buildSheet = function()
     tiles:destroyChildren()
     for _, entry in ipairs(MENU) do
         local tile = g_ui.createWidget('LfMenuTile', tiles)
@@ -252,8 +368,15 @@ local function refreshSkills()
             else
                 icon:setImageSource('')
             end
+            -- the timer itself, not isVisible(): the real action bar is hidden on phones, so its
+            -- cooldown never counted as visible and the shade never showed
             local cooldown = real:getChildById('cooldown')
-            shade:setVisible(cooldown and cooldown:isVisible() or false)
+            local left = 0
+            if cooldown and cooldown.getDuration and cooldown:getPercent() < 100 then
+                left = (cooldown:getDuration() - cooldown:getTimeElapsed()) / 1000
+            end
+            shade:setVisible(left > 0)
+            shade:setText(left > 0 and tostring(math.ceil(left)) or '')
         else
             item:setItemId(0)
             icon:setImageSource('')
@@ -618,6 +741,21 @@ local function hideWidget(widget)
     end
 end
 
+-- mini windows restored as floating windows on the map (a battle list placed by its saved state,
+-- a container window dragged out) go back into the drawer, hidden until opened from the menu
+local function collectStrays()
+    local gi = modules.game_interface
+    local root, rightPanel = gi.getRootPanel(), gi.getRightPanel()
+    for _, child in ipairs(root:getChildren()) do
+        if child:getClassName() == 'UIMiniWindow' then
+            child:setParent(rightPanel)
+            if not rightPanel:isVisible() then
+                child:setVisible(false)
+            end
+        end
+    end
+end
+
 local function applyLayout()
     local gi = modules.game_interface
     local root = gi.getRootPanel()
@@ -686,6 +824,9 @@ local function applyLayout()
         g_settings.set('lionfellMobileCirclesOff', true)
     end
 
+    collectStrays()
+    scheduleEvent(collectStrays, 1500) -- the battle lists restore themselves a little later
+
     buildSkills()
     refreshStatus()
     refreshModes()
@@ -693,13 +834,14 @@ end
 
 local function onGameStart()
     active = true
+    gameStartedAt = g_clock.millis()
     -- after the stock interface has set itself up for the game
     scheduleEvent(applyLayout, 100)
     removeEvent(refreshEvent)
     refreshEvent = cycleEvent(function()
         refreshSkills()
         refreshModes()
-    end, 300)
+    end, 200)
 end
 
 local function onGameEnd()
@@ -765,6 +907,7 @@ function init()
     setupAssign()
 
     connect(g_game, { onGameStart = onGameStart, onGameEnd = onGameEnd })
+    connect(Container, { onOpen = onContainerOpen })
     connect(LocalPlayer, {
         onHealthChange = refreshStatus,
         onManaChange = refreshStatus,
@@ -781,6 +924,7 @@ function terminate()
         g_window.onSecondaryTouch = nil
     end
     disconnect(g_game, { onGameStart = onGameStart, onGameEnd = onGameEnd })
+    disconnect(Container, { onOpen = onContainerOpen })
     disconnect(LocalPlayer, {
         onHealthChange = refreshStatus,
         onManaChange = refreshStatus,

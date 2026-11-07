@@ -39,10 +39,15 @@ LfSkillSlot < UIButton
     size: 40 40
     phantom: true
 
+  // cooldown: darkened, with the seconds left
   UIWidget
     id: shade
     anchors.fill: parent
     background-color: #000000aa
+    ttf-font: Geist-SemiBold
+    ttf-font-size: 20
+    color: #f1efec
+    text-align: center
     phantom: true
     visible: false
 
